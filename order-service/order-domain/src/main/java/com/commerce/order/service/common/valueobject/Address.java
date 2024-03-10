@@ -5,5 +5,6 @@ package com.commerce.order.service.common.valueobject;
  * @Created 01.03.2024
  */
 
-public record Address(Long id, String city, String county, String neighborhood, String street, String postalCode) {
+//todo record or class
+public record Address(String city, String county, String neighborhood, String street, String postalCode) {
 }

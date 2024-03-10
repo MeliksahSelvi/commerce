@@ -6,15 +6,15 @@ package com.commerce.order.service.common.valueobject;
  */
 
 public enum StatusType {
-    ACTIVE(1), PASSIVE(0);
+    ACTIVE("Active"), PASSIVE("Passive");
 
-    private final Integer type;
+    private final String type;
 
-    StatusType(Integer type) {
+    StatusType(String type) {
         this.type = type;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 

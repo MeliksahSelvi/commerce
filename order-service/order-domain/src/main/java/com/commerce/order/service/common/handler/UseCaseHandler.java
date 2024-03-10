@@ -1,4 +1,4 @@
-package com.commerce.order.service.common.usecase;
+package com.commerce.order.service.common.handler;
 
 import com.commerce.order.service.common.model.UseCase;
 

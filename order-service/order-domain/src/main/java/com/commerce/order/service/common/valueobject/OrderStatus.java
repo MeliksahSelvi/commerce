@@ -6,5 +6,5 @@ package com.commerce.order.service.common.valueobject;
  */
 
 public enum OrderStatus {
-    PENDING,PAID,APPROVED,CANCELLING,CANCELLED
+    CHECKING,PENDING,PAID,APPROVED,CANCELLING,CANCELLED
 }
