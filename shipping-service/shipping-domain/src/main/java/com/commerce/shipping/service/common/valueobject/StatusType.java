@@ -1,8 +1,8 @@
-package com.commerce.order.service.common.valueobject;
+package com.commerce.shipping.service.common.valueobject;
 
 /**
  * @Author mselvi
- * @Created 01.03.2024
+ * @Created 09.03.2024
  */
 
 public enum StatusType {
