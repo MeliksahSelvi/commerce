@@ -10,6 +10,7 @@
         <module>notification-service</module>
         <module>shipping-service</module>
         <module>customer-service</module>
+        <module>config-server</module>
     </modules>
 
     <parent>
@@ -25,14 +26,15 @@
 
     <properties>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
-        <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
-        <spring-cloud.version>4.0.3</spring-cloud.version>
+        <spring-cloud-dependencies.version>2023.0.0</spring-cloud-dependencies.version>
+        <spring-cloud.version>4.1.0</spring-cloud.version>
 <!--        <spring-cloud-circuitbreaker-reactor-resilience4j.version>3.0.3</spring-cloud-circuitbreaker-reactor-resilience4j.version>-->
         <spring-kafka.version>3.0.12</spring-kafka.version>
 <!--        <mockito.version>5.7.0</mockito.version>-->
         <jwt.version>0.9.1</jwt.version>
 <!--        <jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>-->
         <jasypt-spring.version>3.0.5</jasypt-spring.version>
+        <apache-commons.version>3.12.0</apache-commons.version>
     </properties>
 
     <dependencyManagement>
@@ -86,6 +88,11 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache-commons.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
