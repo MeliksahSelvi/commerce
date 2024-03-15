@@ -1,0 +1,97 @@
+package com.commerce.shipping.service.adapters.shipping.jpa.entity;
+
+import com.commerce.shipping.service.common.model.AbstractEntity;
+import com.commerce.shipping.service.shipping.usecase.Address;
+import jakarta.persistence.*;
+
+/**
+ * @Author mselvi
+ * @Created 09.03.2024
+ */
+
+@Entity
+@Table(name = "ADDRESS")
+public class AddressEntity extends AbstractEntity {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SHIPPING_ID")
+    private ShippingEntity shipping;
+
+    @Column(name = "ORDER_ID")
+    private Long orderId;
+
+    @Column(name = "CITY", length = 50)
+    private String city;
+
+    @Column(name = "COUNTY", length = 50)
+    private String county;
+
+    @Column(name = "NEIGHBORHOOD", length = 50)
+    private String neighborhood;
+
+    @Column(name = "STREET", length = 100)
+    private String street;
+
+    @Column(name = "POSTAL_CODE", length = 5)
+    private String postalCode;
+
+    public Address toModel() {
+        return new Address(city, county, neighborhood, street, postalCode);
+    }
+
+    public ShippingEntity getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(ShippingEntity shipping) {
+        this.shipping = shipping;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+}
