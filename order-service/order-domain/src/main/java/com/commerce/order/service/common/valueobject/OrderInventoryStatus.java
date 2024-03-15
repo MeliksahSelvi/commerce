@@ -2,20 +2,18 @@ package com.commerce.order.service.common.valueobject;
 
 /**
  * @Author mselvi
- * @Created 01.03.2024
+ * @Created 04.03.2024
  */
 
-public enum OrderStatus {
+public enum OrderInventoryStatus {
     CHECKING("CHECKING"),
-    PENDING("PENDING"),
-    PAID("PAID"),
-    APPROVED("APPROVED"),
-    CANCELLING("CANCELLING"),
-    CANCELLED("CANCELLED");
+    CHECKING_ROLLBACK("CHECKING_ROLLBACK"),
+    PROCESSING("PROCESSING"),
+    PROCESSING_ROLLBACK("PROCESSING_ROLLBACK");
 
     private String status;
 
-    OrderStatus(String status) {
+    OrderInventoryStatus(String status) {
         this.status = status;
     }
 

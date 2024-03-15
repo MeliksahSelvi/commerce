@@ -1,16 +1,16 @@
-package com.commerce.order.service.common.outbox;
+package com.commerce.order.service.common.valueobject;
 
 /**
  * @Author mselvi
  * @Created 02.03.2024
  */
 
-public enum OutboxStatus {
-    STARTED("STARTED"),COMPLETED("COMPLETED"),FAILED("FAILED");
+public enum OrderPaymentStatus {
+    PENDING("PENDING"),CANCELLED("CANCELLED");
 
     private String status;
 
-    OutboxStatus(String status) {
+    OrderPaymentStatus(String status) {
         this.status = status;
     }
 

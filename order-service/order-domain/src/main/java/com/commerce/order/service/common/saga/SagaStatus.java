@@ -6,5 +6,21 @@ package com.commerce.order.service.common.saga;
  */
 
 public enum SagaStatus {
-    CHECKING,PAYING,PROCESSING,SUCCEEDED,CANCELLING,CANCELLED
+    CHECKING("CHECKING"),
+    PAYING("PAYING"),
+    PROCESSING("PROCESSING"),
+    SUCCEEDED("SUCCEEDED"),
+    CANCELLING("CANCELLING"),
+    CANCELLED("CANCELLED");
+
+    private String status;
+
+    SagaStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return status;
+    }
 }
