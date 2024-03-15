@@ -2,8 +2,8 @@ package com.commerce.order.service;
 
 import com.commerce.order.service.common.DomainComponent;
 import com.commerce.order.service.common.messaging.kafka.config.KafkaConfigData;
-import com.commerce.order.service.common.messaging.kafka.consumer.config.KafkaConsumerConfigData;
-import com.commerce.order.service.common.messaging.kafka.producer.config.KafkaProducerConfigData;
+import com.commerce.order.service.common.messaging.kafka.config.KafkaConsumerConfigData;
+import com.commerce.order.service.common.messaging.kafka.config.KafkaProducerConfigData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

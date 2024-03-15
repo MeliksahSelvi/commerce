@@ -2,8 +2,8 @@ package com.commerce.payment.service;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.messaging.kafka.config.KafkaConfigData;
-import com.commerce.payment.service.common.messaging.kafka.consumer.config.KafkaConsumerConfigData;
-import com.commerce.payment.service.common.messaging.kafka.producer.config.KafkaProducerConfigData;
+import com.commerce.payment.service.common.messaging.kafka.config.KafkaConsumerConfigData;
+import com.commerce.payment.service.common.messaging.kafka.config.KafkaProducerConfigData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

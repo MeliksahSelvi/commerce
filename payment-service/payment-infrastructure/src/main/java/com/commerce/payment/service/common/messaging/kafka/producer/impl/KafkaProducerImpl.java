@@ -1,7 +1,7 @@
 package com.commerce.payment.service.common.messaging.kafka.producer.impl;
 
 import com.commerce.payment.service.common.messaging.kafka.producer.KafkaProducer;
-import com.commerce.payment.service.common.messaging.kafka.producer.exception.KafkaProducerException;
+import com.commerce.payment.service.common.messaging.kafka.exception.KafkaProducerException;
 import jakarta.annotation.PreDestroy;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;

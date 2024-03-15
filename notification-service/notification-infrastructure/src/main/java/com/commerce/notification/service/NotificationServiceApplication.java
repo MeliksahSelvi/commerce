@@ -2,7 +2,7 @@ package com.commerce.notification.service;
 
 import com.commerce.notification.service.common.DomainComponent;
 import com.commerce.notification.service.common.messaging.kafka.config.KafkaConfigData;
-import com.commerce.notification.service.common.messaging.kafka.consumer.config.KafkaConsumerConfigData;
+import com.commerce.notification.service.common.messaging.kafka.config.KafkaConsumerConfigData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
