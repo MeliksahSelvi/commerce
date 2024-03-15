@@ -1,7 +1,7 @@
 package com.commerce.shipping.service.common.messaging.kafka.consumer.config;
 
 import com.commerce.shipping.service.common.messaging.kafka.config.KafkaConfigData;
-import com.commerce.shipping.service.common.messaging.kafka.model.KafkaPayload;
+import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 @Configuration
-public class KafkaConsumerConfig<K extends Serializable, V extends KafkaPayload> {
+public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
     private final KafkaConfigData kafkaConfigData;
     private final KafkaConsumerConfigData kafkaConsumerConfigData;
@@ -39,6 +39,7 @@ public class KafkaConsumerConfig<K extends Serializable, V extends KafkaPayload>
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.valueDeserializer());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, kafkaConsumerConfigData.autoOffsetReset());
         props.put(kafkaConfigData.schemaRegistryUrlKey(), kafkaConfigData.schemaRegistryUrl());
+        props.put(kafkaConsumerConfigData.specificAvroReaderKey(), kafkaConsumerConfigData.specificAvroReader());
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, kafkaConsumerConfigData.sessionTimeoutMs());
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, kafkaConsumerConfigData.heartbeatIntervalMs());
         props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, kafkaConsumerConfigData.maxPollIntervalMs());

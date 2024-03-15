@@ -1,9 +1,9 @@
 package com.commerce.shipping.service.common.messaging.kafka.producer.impl;
 
-import com.commerce.shipping.service.common.messaging.kafka.model.KafkaPayload;
 import com.commerce.shipping.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.shipping.service.common.messaging.kafka.producer.exception.KafkaProducerException;
 import jakarta.annotation.PreDestroy;
+import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.KafkaException;
@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 
 @Component
-public class KafkaProducerWithoutCallbackImpl<K extends Serializable, V extends KafkaPayload> implements KafkaProducerWithoutCallback<K, V> {
+public class KafkaProducerWithoutCallbackImpl<K extends Serializable, V extends SpecificRecordBase> implements KafkaProducerWithoutCallback<K, V> {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaProducerWithoutCallbackImpl.class);
     private final KafkaTemplate<K, V> kafkaTemplate;

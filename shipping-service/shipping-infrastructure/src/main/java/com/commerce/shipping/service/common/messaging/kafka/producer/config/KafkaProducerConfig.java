@@ -1,7 +1,7 @@
 package com.commerce.shipping.service.common.messaging.kafka.producer.config;
 
 import com.commerce.shipping.service.common.messaging.kafka.config.KafkaConfigData;
-import com.commerce.shipping.service.common.messaging.kafka.model.KafkaPayload;
+import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 
 @Configuration
-public class KafkaProducerConfig<K extends Serializable, V extends KafkaPayload> {
+public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
     private final KafkaConfigData kafkaConfigData;
     private final KafkaProducerConfigData kafkaProducerConfigData;

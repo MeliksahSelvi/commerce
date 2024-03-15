@@ -1,6 +1,6 @@
 package com.commerce.order.service.common.messaging.kafka.consumer;
 
-import com.commerce.order.service.common.messaging.kafka.model.KafkaPayload;
+import org.apache.avro.specific.SpecificRecordBase;
 
 import java.util.List;
 
@@ -9,6 +9,6 @@ import java.util.List;
  * @Created 06.03.2024
  */
 
-public interface KafkaConsumer<T extends KafkaPayload> {
+public interface KafkaConsumer<T extends SpecificRecordBase> {
     void receive(List<T> messages, List<String> keys, List<Integer> partitions, List<Long> offsets);
 }

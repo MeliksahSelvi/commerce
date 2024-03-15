@@ -1,9 +1,9 @@
 package com.commerce.payment.service.common.messaging.kafka.producer.impl;
 
-import com.commerce.payment.service.common.messaging.kafka.model.KafkaPayload;
 import com.commerce.payment.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.payment.service.common.messaging.kafka.producer.exception.KafkaProducerException;
 import jakarta.annotation.PreDestroy;
+import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.KafkaException;
@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
  */
 
 @Component
-public class KafkaProducerImpl<K extends Serializable, V extends KafkaPayload> implements KafkaProducer<K, V> {
+public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordBase> implements KafkaProducer<K, V> {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaProducerImpl.class);
     private final KafkaTemplate<K, V> kafkaTemplate;
