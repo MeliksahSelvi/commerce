@@ -1,10 +1,10 @@
-package com.commerce.order.service.common.messaging.kafka.config;
+package com.commerce.kafka.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @Author mselvi
- * @Created 07.03.2024
+ * @Created 18.03.2024
  */
 
 @ConfigurationProperties(prefix = "kafka-consumer-config")

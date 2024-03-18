@@ -1,8 +1,8 @@
-package com.commerce.order.service.common.messaging.kafka.exception;
+package com.commerce.kafka.exception;
 
 /**
  * @Author mselvi
- * @Created 06.03.2024
+ * @Created 18.03.2024
  */
 
 public class KafkaProducerException extends RuntimeException{//todo maybe handle

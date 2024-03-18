@@ -1,4 +1,4 @@
-package com.commerce.order.service.common.messaging.kafka.config;
+package com.commerce.kafka.config;
 
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @Author mselvi
- * @Created 06.03.2024
+ * @Created 18.03.2024
  */
 
 @Configuration

@@ -1,4 +1,4 @@
-package com.commerce.order.service.common.messaging.kafka.consumer;
+package com.commerce.kafka.consumer;
 
 import org.apache.avro.specific.SpecificRecordBase;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @Author mselvi
- * @Created 06.03.2024
+ * @Created 18.03.2024
  */
 
 public interface KafkaConsumer<T extends SpecificRecordBase> {
