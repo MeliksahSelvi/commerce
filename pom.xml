@@ -11,6 +11,7 @@
         <module>shipping-service</module>
         <module>customer-service</module>
         <module>config-server</module>
+        <module>infrastructure</module>
     </modules>
 
     <parent>
@@ -39,15 +40,13 @@
         <kafka-avro-serializers.version>7.4.0</kafka-avro-serializers.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>confluent</id>
-            <url>https://packages.confluent.io/maven</url>
-        </repository>
-    </repositories>
-
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.commerce</groupId>
+                <artifactId>kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
