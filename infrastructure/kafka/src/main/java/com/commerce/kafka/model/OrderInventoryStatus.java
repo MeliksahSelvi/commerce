@@ -6,8 +6,8 @@
 package com.commerce.kafka.model;
 @org.apache.avro.specific.AvroGenerated
 public enum OrderInventoryStatus implements org.apache.avro.generic.GenericEnumSymbol<OrderInventoryStatus> {
-  CHECKING, CHECKING_ROLLBACK, PROCESSING, PROCESSING_ROLLBACK  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"OrderInventoryStatus\",\"namespace\":\"com.commerce.kafka.model\",\"symbols\":[\"CHECKING\",\"CHECKING_ROLLBACK\",\"PROCESSING\",\"PROCESSING_ROLLBACK\"]}");
+  CHECKING, CHECKING_ROLLBACK, UPDATING, UPDATING_ROLLBACK  ;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"OrderInventoryStatus\",\"namespace\":\"com.commerce.kafka.model\",\"symbols\":[\"CHECKING\",\"CHECKING_ROLLBACK\",\"UPDATING\",\"UPDATING_ROLLBACK\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   @Override
