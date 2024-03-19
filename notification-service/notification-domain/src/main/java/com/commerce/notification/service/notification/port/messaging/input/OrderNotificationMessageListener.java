@@ -9,11 +9,5 @@ import com.commerce.notification.service.notification.usecase.OrderNotificationM
 
 public interface OrderNotificationMessageListener {
 
-    void approving(OrderNotificationMessage orderNotificationMessage);
-
-    void shipping(OrderNotificationMessage orderNotificationMessage);
-
-    void delivering(OrderNotificationMessage orderNotificationMessage);
-
-    void cancelling(OrderNotificationMessage orderNotificationMessage);
+    void processMessage(OrderNotificationMessage orderNotificationMessage);
 }
