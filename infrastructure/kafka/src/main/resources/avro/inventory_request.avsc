@@ -35,7 +35,7 @@
             "type": {
                   "type": "enum",
                   "name": "OrderInventoryStatus",
-                  "symbols": ["CHECKING", "CHECKING_ROLLBACK","PROCESSING","PROCESSING_ROLLBACK"]
+                  "symbols": ["CHECKING", "CHECKING_ROLLBACK","UPDATING","UPDATING_ROLLBACK"]
                }
         },
         {
