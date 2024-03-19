@@ -12,7 +12,8 @@ public enum ActivityType {
     SEND("SEND"),//para gönderme havale
     GET("GET"),//para alma havale
     SPEND("SPEND"),// para harcama
-    PAYBACK("PAYBACK");//iade
+    PAYBACK("PAYBACK"),
+    FAIL("FAIL");//iade
 
     private final String type;
 
