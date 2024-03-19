@@ -16,4 +16,6 @@ import java.util.Optional;
 public interface ShippingEntityRepository extends JpaRepository<ShippingEntity,Long> {
 
     Optional<ShippingEntity> findByOrderIdAndDeliveryStatus(Long orderId, DeliveryStatus deliveryStatus);
+
+    Optional<ShippingEntity> findByOrderId(Long orderId);
 }
