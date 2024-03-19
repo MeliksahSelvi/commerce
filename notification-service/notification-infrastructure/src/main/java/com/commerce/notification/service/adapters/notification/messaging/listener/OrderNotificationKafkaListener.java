@@ -44,25 +44,8 @@ public class OrderNotificationKafkaListener implements KafkaConsumer<Notificatio
         for (NotificationRequestAvroModel avroModel : messages) {
             OrderNotificationMessage message = buildUseCase(avroModel);
             try {
-                switch (message.notificationType()) {
-                    case APPROVING -> {
-                        logger.info("Notification sending approving action");
-                        orderNotificationMessageListener.approving(message);
-                    }
-                    case SHIPPING -> {
-                        logger.info("Notification sending shipping action");
-                        orderNotificationMessageListener.shipping(message);
-                    }
-                    case DELIVERING -> {
-                        logger.info("Notification sending delivering action");
-                        orderNotificationMessageListener.delivering(message);
-                    }
-                    case CANCELLING -> {
-                        logger.info("Notification sending cancelling action");
-                        orderNotificationMessageListener.cancelling(message);
-                    }
-                }
-
+                logger.info("Notification sending {} action for orderId: {}",message.notificationType(),message.orderId());
+                orderNotificationMessageListener.processMessage(message);
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
