@@ -1,8 +1,8 @@
-package com.commerce.inventory.service.common.rest;
+package com.commerce.customer.service.common.rest.handler;
 
-import com.commerce.inventory.service.adapters.outbox.jpa.exception.OrderOutboxNotFoundException;
-import com.commerce.inventory.service.common.exception.InventoryDomainException;
-import com.commerce.inventory.service.common.exception.ProductNotFoundException;
+import com.commerce.customer.service.common.exception.CustomerDomainException;
+import com.commerce.customer.service.common.exception.CustomerNotFoundException;
+import com.commerce.customer.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,34 +13,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @Author mselvi
- * @Created 12.03.2024
+ * @Created 10.03.2024
  */
 
 @ControllerAdvice
-public class InventoryExceptionHandler {
+public class CustomerExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(InventoryExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerExceptionHandler.class);
 
     @ResponseBody
-    @ExceptionHandler(value = InventoryDomainException.class)
+    @ExceptionHandler(value = CustomerDomainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleException(InventoryDomainException exception) {
+    public ErrorResponse handleException(CustomerDomainException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ResponseBody
-    @ExceptionHandler(value = ProductNotFoundException.class)
+    @ExceptionHandler(value = CustomerNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleException(ProductNotFoundException exception) {
-        logger.error(exception.getMessage(), exception);
-        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
-    }
-
-    @ResponseBody
-    @ExceptionHandler(value = OrderOutboxNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleException(OrderOutboxNotFoundException exception) {
+    public ErrorResponse handleException(CustomerNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }

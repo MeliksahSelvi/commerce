@@ -1,7 +1,9 @@
-package com.commerce.customer.service.common.rest;
+package com.commerce.payment.service.common.rest.handler;
 
-import com.commerce.customer.service.common.exception.CustomerDomainException;
-import com.commerce.customer.service.common.exception.CustomerNotFoundException;
+import com.commerce.payment.service.common.exception.AccountNotFoundException;
+import com.commerce.payment.service.common.exception.PaymentDomainException;
+import com.commerce.payment.service.common.exception.PaymentNotFoundException;
+import com.commerce.payment.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,29 +14,38 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @Author mselvi
- * @Created 10.03.2024
+ * @Created 12.03.2024
  */
 
 @ControllerAdvice
-public class CustomerExceptionHandler {
+public class PaymentExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(PaymentExceptionHandler.class);
 
     @ResponseBody
-    @ExceptionHandler(value = CustomerDomainException.class)
+    @ExceptionHandler(value = PaymentDomainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleException(CustomerDomainException exception) {
+    public ErrorResponse handleException(PaymentDomainException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ResponseBody
-    @ExceptionHandler(value = CustomerNotFoundException.class)
+    @ExceptionHandler(value = PaymentNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleException(CustomerNotFoundException exception) {
+    public ErrorResponse handleException(PaymentNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(value = AccountNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleException(AccountNotFoundException exception) {
+        logger.error(exception.getMessage(), exception);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

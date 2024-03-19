@@ -1,7 +1,8 @@
-package com.commerce.shipping.service.common.rest;
+package com.commerce.shipping.service.common.rest.handler;
 
 import com.commerce.shipping.service.common.exception.ShippingDomainException;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
+import com.commerce.shipping.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
