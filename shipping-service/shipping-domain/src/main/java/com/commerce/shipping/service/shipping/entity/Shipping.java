@@ -1,8 +1,8 @@
 package com.commerce.shipping.service.shipping.entity;
 
+import com.commerce.shipping.service.common.exception.ShippingDomainException;
 import com.commerce.shipping.service.common.model.BaseEntity;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.usecase.Address;
 
 import java.util.List;
 
@@ -19,8 +19,22 @@ public class Shipping extends BaseEntity {
     private final List<OrderItem> items;
     private DeliveryStatus deliveryStatus;
 
-    public void initializeShipping(){
-        deliveryStatus=DeliveryStatus.APPROVED;
+    public void cancel() {
+        if (deliveryStatus.equals(DeliveryStatus.CANCELLED)) {
+            throw new ShippingDomainException(String.format("This order cancelling has already processed by orderId: %d", orderId));
+        }
+        deliveryStatus = DeliveryStatus.CANCELLED;
+    }
+
+    public void forwardDeliveryStatus(DeliveryStatus deliveryStatus) {
+        if (this.deliveryStatus.equals(deliveryStatus)) {
+            throw new ShippingDomainException("Forward delivery status can not be same old status!");
+        }
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public void initializeShipping() {
+        deliveryStatus = DeliveryStatus.APPROVED;
         associateShippingToOrderItems();
     }
 
@@ -36,7 +50,7 @@ public class Shipping extends BaseEntity {
         this.customerId = builder.customerId;
         this.address = builder.address;
         this.items = builder.items;
-        this.deliveryStatus=builder.deliveryStatus;
+        this.deliveryStatus = builder.deliveryStatus;
     }
 
     public static Builder builder() {
@@ -61,10 +75,6 @@ public class Shipping extends BaseEntity {
 
     public DeliveryStatus getDeliveryStatus() {
         return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
     }
 
     public static class Builder {
