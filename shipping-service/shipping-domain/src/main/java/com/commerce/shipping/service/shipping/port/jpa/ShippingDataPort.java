@@ -14,5 +14,7 @@ public interface ShippingDataPort {
 
     Shipping save(Shipping shipping);
 
-    Optional<Shipping> findByOrderIdAndDeliveryStatus(Long orderId, DeliveryStatus deliveryStatus);
+    Optional<Shipping> findByOrderId(Long orderId);
+
+    Optional<Shipping> findByOrderIdAndDeliveryStatus(Long orderId,DeliveryStatus deliveryStatus);
 }
