@@ -30,7 +30,6 @@ public class OrderOutboxDataAdapter implements OrderOutboxDataPort {
         orderOutboxEntity.setId(orderOutbox.getId());
         orderOutboxEntity.setSagaId(orderOutbox.getSagaId());
         orderOutboxEntity.setPayload(orderOutbox.getPayload());
-        orderOutboxEntity.setPaymentStatus(orderOutbox.getPaymentStatus());
         orderOutboxEntity.setOutboxStatus(orderOutbox.getOutboxStatus());
         return repository.save(orderOutboxEntity).toModel();
     }
