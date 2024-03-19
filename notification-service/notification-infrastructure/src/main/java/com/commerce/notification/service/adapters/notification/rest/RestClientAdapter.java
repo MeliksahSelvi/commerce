@@ -1,9 +1,9 @@
 package com.commerce.notification.service.adapters.notification.rest;
 
+import com.commerce.notification.service.common.rest.client.CustomerHttpClient;
 import com.commerce.notification.service.notification.port.rest.RestPort;
 import com.commerce.notification.service.notification.usecase.CustomerResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 /**
  * @Author mselvi
@@ -13,19 +13,14 @@ import org.springframework.web.client.RestClient;
 @Service
 public class RestClientAdapter implements RestPort {
 
-    private final RestClient restClient;
+    private final CustomerHttpClient client;
 
-    public RestClientAdapter() {
-        this.restClient = RestClient.builder()
-//                .baseUrl("localhost:8080")//todo api gateway url and dont add this part to suburls
-                .build();
+    public RestClientAdapter(CustomerHttpClient client) {
+        this.client = client;
     }
 
     @Override
     public CustomerResponse getCustomerInfo(Long customerId) {
-        return restClient.get()
-                .uri("http://localhost:8085/customer-service/api/v1/customers/{id}",customerId)
-                .retrieve()
-                .body(CustomerResponse.class);
+        return client.findById(customerId);
     }
 }

@@ -19,7 +19,7 @@ public class RestClientAdapter implements RestPort {
     }
 
     @Override
-    public boolean isExistCustomer(Long customerId) {
+    public boolean isCustomerExist(Long customerId) {
         return client.isCustomerExist(customerId);
     }
 }
