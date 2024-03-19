@@ -6,7 +6,7 @@ package com.commerce.shipping.service.common.valueobject;
  */
 
 public enum DeliveryStatus {
-    APPROVED("APPROVED"), SHIPPED("SHIPPED"), DELIVERED("DELIVERED");
+    APPROVED("APPROVED"), SHIPPED("SHIPPED"), DELIVERED("DELIVERED"),CANCELLED("CANCELLED");
 
     private String status;
 
