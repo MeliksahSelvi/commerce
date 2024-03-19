@@ -2,7 +2,6 @@ package com.commerce.order.service.order.entity;
 
 import com.commerce.order.service.common.exception.OrderDomainException;
 import com.commerce.order.service.common.model.BaseEntity;
-import com.commerce.order.service.common.valueobject.Address;
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
 
@@ -59,7 +58,7 @@ public class Order extends BaseEntity {
         updateFailureMessages(failureMessages);
     }
 
-    private void updateFailureMessages(List<String> failureMessages) {
+    public void updateFailureMessages(List<String> failureMessages) {
         if (failureMessages.isEmpty()) {
             return;
         }
