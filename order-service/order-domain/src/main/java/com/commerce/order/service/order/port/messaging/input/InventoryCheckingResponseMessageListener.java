@@ -4,12 +4,12 @@ import com.commerce.order.service.order.usecase.InventoryResponse;
 
 /**
  * @Author mselvi
- * @Created 07.03.2024
+ * @Created 18.03.2024
  */
 
-public interface InventoryResponseMessageListener {
+public interface InventoryCheckingResponseMessageListener {
 
     void checking(InventoryResponse inventoryResponse);
 
-    void processing(InventoryResponse inventoryResponse);
+    void checkingRollback(InventoryResponse inventoryResponse);
 }
