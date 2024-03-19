@@ -1,7 +1,7 @@
 package com.commerce.order.service.adapters.order.jpa.entity;
 
 import com.commerce.order.service.common.model.AbstractEntity;
-import com.commerce.order.service.common.valueobject.Address;
+import com.commerce.order.service.order.entity.Address;
 import jakarta.persistence.*;
 
 /**
@@ -33,7 +33,14 @@ public class AddressEntity extends AbstractEntity {
     private String postalCode;
 
     public Address toModel() {
-        return new Address(city, county, neighborhood, street, postalCode);
+        return Address.builder()
+                .id(getId())
+                .city(city)
+                .county(county)
+                .neighborhood(neighborhood)
+                .street(street)
+                .postalCode(postalCode)
+                .build();
     }
 
     public OrderEntity getOrder() {

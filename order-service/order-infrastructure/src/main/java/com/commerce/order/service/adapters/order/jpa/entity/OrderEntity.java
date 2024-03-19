@@ -26,7 +26,7 @@ public class OrderEntity extends AbstractEntity {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private AddressEntity address;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
 
     @Column(name = "COST", precision = 15, scale = 2)
