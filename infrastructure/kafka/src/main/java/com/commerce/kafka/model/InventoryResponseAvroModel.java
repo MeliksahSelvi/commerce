@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class InventoryResponseAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 7782472669209900585L;
+  private static final long serialVersionUID = -6980774004390788847L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"InventoryResponseAvroModel\",\"namespace\":\"com.commerce.kafka.model\",\"fields\":[{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"customerId\",\"type\":\"long\"},{\"name\":\"orderId\",\"type\":\"long\"},{\"name\":\"inventoryStatus\",\"type\":{\"type\":\"enum\",\"name\":\"InventoryStatus\",\"symbols\":[\"AVAILABLE\",\"NON_AVAILABLE\"]}},{\"name\":\"orderInventoryStatus\",\"type\":{\"type\":\"enum\",\"name\":\"OrderInventoryStatus\",\"symbols\":[\"CHECKING\",\"CHECKING_ROLLBACK\",\"PROCESSING\",\"PROCESSING_ROLLBACK\"]}},{\"name\":\"failureMessages\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"InventoryResponseAvroModel\",\"namespace\":\"com.commerce.kafka.model\",\"fields\":[{\"name\":\"sagaId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"customerId\",\"type\":\"long\"},{\"name\":\"orderId\",\"type\":\"long\"},{\"name\":\"inventoryStatus\",\"type\":{\"type\":\"enum\",\"name\":\"InventoryStatus\",\"symbols\":[\"AVAILABLE\",\"NON_AVAILABLE\"]}},{\"name\":\"orderInventoryStatus\",\"type\":{\"type\":\"enum\",\"name\":\"OrderInventoryStatus\",\"symbols\":[\"CHECKING\",\"CHECKING_ROLLBACK\",\"UPDATING\",\"UPDATING_ROLLBACK\"]}},{\"name\":\"failureMessages\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
