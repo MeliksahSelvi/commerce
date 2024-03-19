@@ -1,7 +1,7 @@
 package com.commerce.shipping.service.adapters.shipping.jpa.entity;
 
 import com.commerce.shipping.service.common.model.AbstractEntity;
-import com.commerce.shipping.service.shipping.usecase.Address;
+import com.commerce.shipping.service.shipping.entity.Address;
 import jakarta.persistence.*;
 
 /**
@@ -36,7 +36,14 @@ public class AddressEntity extends AbstractEntity {
     private String postalCode;
 
     public Address toModel() {
-        return new Address(city, county, neighborhood, street, postalCode);
+        return Address.builder()
+                .id(getId())
+                .city(city)
+                .county(county)
+                .neighborhood(neighborhood)
+                .street(street)
+                .postalCode(postalCode)
+                .build();
     }
 
     public ShippingEntity getShipping() {

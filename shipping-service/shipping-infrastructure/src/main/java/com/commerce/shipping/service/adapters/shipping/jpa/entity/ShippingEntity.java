@@ -3,7 +3,6 @@ package com.commerce.shipping.service.adapters.shipping.jpa.entity;
 import com.commerce.shipping.service.common.model.AbstractEntity;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.shipping.entity.Shipping;
-import com.commerce.shipping.service.shipping.usecase.Address;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class ShippingEntity extends AbstractEntity {
     @OneToOne(mappedBy = "shipping", cascade = CascadeType.ALL)
     private AddressEntity address;
 
-    @OneToMany(mappedBy = "shipping", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shipping", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
 
     @Column(name = "DELIVERY_STATUS")
