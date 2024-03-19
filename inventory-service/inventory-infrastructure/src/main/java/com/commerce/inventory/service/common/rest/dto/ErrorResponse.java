@@ -1,4 +1,4 @@
-package com.commerce.inventory.service.common.rest;
+package com.commerce.inventory.service.common.rest.dto;
 
 /**
  * @Author mselvi

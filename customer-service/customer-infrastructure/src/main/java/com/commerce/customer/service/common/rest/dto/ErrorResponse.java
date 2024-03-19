@@ -1,4 +1,4 @@
-package com.commerce.customer.service.common.rest;
+package com.commerce.customer.service.common.rest.dto;
 
 /**
  * @Author mselvi
