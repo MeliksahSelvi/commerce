@@ -1,5 +1,6 @@
 package com.commerce.order.service.outbox.entity;
 
+import com.commerce.order.service.common.outbox.OutboxPayload;
 import com.commerce.order.service.common.valueobject.OrderPaymentStatus;
 import com.commerce.order.service.order.entity.Order;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
  */
 
 public record PaymentOutboxPayload(UUID sagaId, Long orderId, Long customerId, BigDecimal cost,
-                                   OrderPaymentStatus orderPaymentStatus) {
+                                   OrderPaymentStatus orderPaymentStatus) implements OutboxPayload {
 
     public PaymentOutboxPayload(UUID sagaId, Order order, OrderPaymentStatus paymentStatus) {
         this(sagaId, order.getId(), order.getCustomerId(), order.getCost().amount(), paymentStatus);

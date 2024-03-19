@@ -1,10 +1,10 @@
 package com.commerce.order.service.outbox.entity;
 
+import com.commerce.order.service.common.outbox.OutboxPayload;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.usecase.OrderItemPayload;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public record InventoryOutboxPayload(Long orderId, Long customerId, BigDecimal cost, List<OrderItemPayload> items,
-                                     OrderInventoryStatus orderInventoryStatus) implements Serializable {
+                                     OrderInventoryStatus orderInventoryStatus) implements OutboxPayload {
 
     public InventoryOutboxPayload(Order order, OrderInventoryStatus orderInventoryStatus) {
         this(order.getId(), order.getCustomerId(), order.getCost().amount(),
