@@ -20,12 +20,14 @@ public interface InventoryOutboxDataPort {
 
     Optional<List<InventoryOutbox>> findByOutboxStatusAndSagaStatuses(OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 
-    Optional<List<InventoryOutbox>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatuses(
-            OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus... orderInventoryStatuses);
+    Optional<List<InventoryOutbox>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(
+            OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
+
+    Optional<InventoryOutbox> findBySagaIdAndSagaStatusAndOrderInventoryStatus(UUID sagaId, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
 
     Optional<InventoryOutbox> findBySagaIdAndSagaStatuses(UUID sagaId, SagaStatus... sagaStatuses);
 
     void deleteByOutboxStatusAndSagaStatuses(OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 
-    void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatuses(OutboxStatus outboxStatus,SagaStatus sagaStatus,OrderInventoryStatus... orderInventoryStatuses);
+    void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
 }
