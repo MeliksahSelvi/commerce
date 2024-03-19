@@ -61,7 +61,7 @@ public class CreateOrderHelper {
     }
 
     private void checkCustomer(Long customerId) {
-        boolean existCustomer = restPort.isExistCustomer(customerId);
+        boolean existCustomer = restPort.isCustomerExist(customerId);
         if (!existCustomer) {
             throw new OrderNotFoundException(String.format("Could not find customer with id: %d", customerId));
         }
@@ -71,7 +71,7 @@ public class CreateOrderHelper {
         Order order = useCase.toModel();
         order.validateOrder();
         order.initializeOrder();
-        logger.info("Order was initiate by id: {}", order.getId());
+        logger.info("Order initiated by id: {}", order.getId());
         return order;
     }
 
