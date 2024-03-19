@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1/orders")
 public class OrderController {
 
-    private final UseCaseHandler<OrderStatus, CreateOrder> createOrderUseCaseHandler;
+    private final UseCaseHandler<Order, CreateOrder> createOrderUseCaseHandler;
     private final UseCaseHandler<Order, TrackOrder> trackOrderUseCaseHandler;
     private final VoidUseCaseHandler<CancelOrder> cancelOrderVoidUseCaseHandler;
 
-    public OrderController(UseCaseHandler<OrderStatus, CreateOrder> createOrderUseCaseHandler, UseCaseHandler<Order, TrackOrder> trackOrderUseCaseHandler,
+    public OrderController(UseCaseHandler<Order, CreateOrder> createOrderUseCaseHandler, UseCaseHandler<Order, TrackOrder> trackOrderUseCaseHandler,
                            VoidUseCaseHandler<CancelOrder> cancelOrderVoidUseCaseHandler) {
         this.createOrderUseCaseHandler = createOrderUseCaseHandler;
         this.trackOrderUseCaseHandler = trackOrderUseCaseHandler;
@@ -45,8 +45,8 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderCreateResponse> createOrder(@RequestBody @Valid OrderCreateCommand orderCreateCommand) {
-        var orderStatus = createOrderUseCaseHandler.handle(orderCreateCommand.toUseCase());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new OrderCreateResponse(orderStatus));
+        var order = createOrderUseCaseHandler.handle(orderCreateCommand.toUseCase());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new OrderCreateResponse(order));
     }
 
 
