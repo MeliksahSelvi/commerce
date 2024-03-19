@@ -1,6 +1,6 @@
 package com.commerce.order.service.adapters.order.rest.dto;
 
-import com.commerce.order.service.common.valueobject.Address;
+import com.commerce.order.service.order.entity.Address;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
@@ -11,11 +11,13 @@ import jakarta.validation.constraints.NotEmpty;
 public record AddressDto(@NotEmpty String city, @NotEmpty String county, @NotEmpty String neighborhood,
                          @NotEmpty String street, String postalCode) {
 
-    public AddressDto(Address address) {
-        this(address.city(), address.county(), address.neighborhood(), address.street(), address.postalCode());
-    }
-
     public Address toModel() {
-        return new Address(city, county, neighborhood, street, postalCode);
+        return Address.builder()
+                .city(city)
+                .county(county)
+                .neighborhood(neighborhood)
+                .street(street)
+                .postalCode(postalCode)
+                .build();
     }
 }
