@@ -33,19 +33,32 @@ public class AccountSaveUseCaseHandler implements UseCaseHandler<Account, Accoun
     @Override
     public Account handle(AccountSave useCase) {
         Long customerId = useCase.customerId();
-        boolean existCustomer = restPort.isExistCustomer(customerId);//todo eğer hata çıkarsa handle etmemiz gerek customer ayakta değilse mesela
-        if (!existCustomer){
-            throw new PaymentDomainException(String.format("Customer could not found for account save operation by customerId %d",customerId));
+        logger.info("Checking customer by id: {]", useCase.customerId());
+        checkCustomer(customerId);
+
+        Account account = buildAccount(useCase);
+        logger.info("Account initiated by customerId: {}", customerId);
+
+        Account savedAccount = accountDataPort.save(account);
+        logger.info("Account persisted by customerId {}", customerId);
+
+        return savedAccount;
+    }
+
+    private void checkCustomer(Long customerId) {
+        boolean customerExist = restPort.isCustomerExist(customerId);
+        if (!customerExist) {
+            throw new PaymentDomainException(String.format("Customer could not found for account save operation by customerId %d", customerId));
         }
-        Account account = Account.builder()
-                .customerId(customerId)
+    }
+
+    private Account buildAccount(AccountSave useCase) {
+        return Account.builder()
+                .customerId(useCase.customerId())
                 .currencyType(useCase.currencyType())
                 .currentBalance(useCase.currentBalance())
                 .ibanNo(generateIbanNo())
                 .build();
-        Account savedAccount = accountDataPort.save(account);
-        logger.info("Account saved by customerId {}", customerId);
-        return savedAccount;
     }
 
     private String generateIbanNo() {
