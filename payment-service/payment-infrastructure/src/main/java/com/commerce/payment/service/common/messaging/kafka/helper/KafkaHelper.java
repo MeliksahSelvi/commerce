@@ -30,7 +30,6 @@ public class KafkaHelper {
         try {
             return objectMapper.readValue(payload, outputType);
         } catch (JsonProcessingException e) {
-            logger.error("Could not read {} object!", outputType.getName(), e);
             throw new PaymentDomainException(String.format("Could not read %s object! %s", outputType.getName(), e.getMessage()));
         }
     }

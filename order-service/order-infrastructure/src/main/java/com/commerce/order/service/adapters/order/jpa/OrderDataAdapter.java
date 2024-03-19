@@ -4,12 +4,10 @@ import com.commerce.order.service.adapters.order.jpa.entity.AddressEntity;
 import com.commerce.order.service.adapters.order.jpa.entity.OrderEntity;
 import com.commerce.order.service.adapters.order.jpa.entity.OrderItemEntity;
 import com.commerce.order.service.adapters.order.jpa.repository.OrderEntityRepository;
-import com.commerce.order.service.common.valueobject.Address;
+import com.commerce.order.service.order.entity.Address;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.entity.OrderItem;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,7 +20,6 @@ import java.util.Optional;
 @Service
 public class OrderDataAdapter implements OrderDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderDataAdapter.class);
     private final OrderEntityRepository orderEntityRepository;
 
     public OrderDataAdapter(OrderEntityRepository orderEntityRepository) {
@@ -32,6 +29,7 @@ public class OrderDataAdapter implements OrderDataPort {
     @Override
     public Order save(Order order) {
         var orderEntity = new OrderEntity();
+        orderEntity.setId(order.getId());
         orderEntity.setCustomerId(order.getCustomerId());
         orderEntity.setAddress(buildAddressEntity(order.getDeliveryAddress()));
         orderEntity.setOrderStatus(order.getOrderStatus());
@@ -45,16 +43,18 @@ public class OrderDataAdapter implements OrderDataPort {
 
     public AddressEntity buildAddressEntity(Address address) {
         var addressEntity = new AddressEntity();
-        addressEntity.setCity(address.city());
-        addressEntity.setCounty(address.county());
-        addressEntity.setNeighborhood(address.neighborhood());
-        addressEntity.setStreet(address.street());
-        addressEntity.setPostalCode(address.postalCode());
+        addressEntity.setId(address.getId());
+        addressEntity.setCity(address.getCity());
+        addressEntity.setCounty(address.getCounty());
+        addressEntity.setNeighborhood(address.getNeighborhood());
+        addressEntity.setStreet(address.getStreet());
+        addressEntity.setPostalCode(address.getPostalCode());
         return addressEntity;
     }
 
     public OrderItemEntity buildOrderItemEntity(OrderItem orderItem) {
         var orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setId(orderItem.getId());
         orderItemEntity.setProductId(orderItem.getProductId());
         orderItemEntity.setQuantity(orderItem.getQuantity().value());
         orderItemEntity.setPrice(orderItem.getPrice().amount());
