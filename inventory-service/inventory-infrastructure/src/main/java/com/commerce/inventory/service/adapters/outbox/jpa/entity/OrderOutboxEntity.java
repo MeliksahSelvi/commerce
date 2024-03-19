@@ -24,10 +24,6 @@ public class OrderOutboxEntity extends AbstractEntity {
     @Column(name = "PAYLOAD", length = 4000)
     private String payload;
 
-    @Column(name = "ORDER_INVENTORY_STATUS")
-    @Enumerated(EnumType.STRING)
-    private OrderInventoryStatus orderInventoryStatus;
-
     @Column(name = "OUTBOX_STATUS")
     @Enumerated(EnumType.STRING)
     private OutboxStatus outboxStatus;
@@ -37,7 +33,6 @@ public class OrderOutboxEntity extends AbstractEntity {
         return OrderOutbox.builder()
                 .id(getId())
                 .sagaId(sagaId)
-                .orderInventoryStatus(orderInventoryStatus)
                 .payload(payload)
                 .outboxStatus(outboxStatus)
                 .build();
@@ -57,14 +52,6 @@ public class OrderOutboxEntity extends AbstractEntity {
 
     public void setPayload(String payload) {
         this.payload = payload;
-    }
-
-    public OrderInventoryStatus getOrderInventoryStatus() {
-        return orderInventoryStatus;
-    }
-
-    public void setOrderInventoryStatus(OrderInventoryStatus orderInventoryStatus) {
-        this.orderInventoryStatus = orderInventoryStatus;
     }
 
     public OutboxStatus getOutboxStatus() {
