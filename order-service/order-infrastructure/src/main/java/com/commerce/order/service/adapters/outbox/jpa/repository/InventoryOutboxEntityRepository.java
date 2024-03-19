@@ -21,13 +21,15 @@ public interface InventoryOutboxEntityRepository extends JpaRepository<Inventory
 
     Optional<List<InventoryOutboxEntity>> findByOutboxStatusAndSagaStatusIn(OutboxStatus outboxStatus, List<SagaStatus> sagaStatuses);
 
-    Optional<List<InventoryOutboxEntity>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatusIn(
-            OutboxStatus outboxStatus, SagaStatus sagaStatus, List<OrderInventoryStatus> orderInventoryStatuses);
+    Optional<List<InventoryOutboxEntity>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(
+            OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
 
     Optional<InventoryOutboxEntity> findBySagaIdAndSagaStatusIn(UUID sagaId, List<SagaStatus> sagaStatuses);
 
     void deleteByOutboxStatusAndSagaStatusIn(OutboxStatus outboxStatus, List<SagaStatus> sagaStatuses);
 
-    void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatusIn(
-            OutboxStatus outboxStatus, SagaStatus sagaStatus, List<OrderInventoryStatus> orderInventoryStatuses);
+    void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(
+            OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
+
+    Optional<InventoryOutboxEntity> findBySagaIdAndSagaStatusAndOrderInventoryStatus(UUID sagaId, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus);
 }
