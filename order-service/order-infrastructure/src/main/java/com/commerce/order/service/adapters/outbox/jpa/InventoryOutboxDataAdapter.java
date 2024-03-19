@@ -7,8 +7,6 @@ import com.commerce.order.service.common.saga.SagaStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +21,6 @@ import java.util.UUID;
 @Service
 public class InventoryOutboxDataAdapter implements InventoryOutboxDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(InventoryOutboxDataAdapter.class);
     private final InventoryOutboxEntityRepository inventoryOutboxEntityRepository;
 
     public InventoryOutboxDataAdapter(InventoryOutboxEntityRepository inventoryOutboxEntityRepository) {
@@ -54,13 +51,20 @@ public class InventoryOutboxDataAdapter implements InventoryOutboxDataPort {
     }
 
     @Override
-    public Optional<List<InventoryOutbox>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatuses(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus... orderInventoryStatuses) {
+    public Optional<List<InventoryOutbox>> findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
         Optional<List<InventoryOutboxEntity>> inventoryOutboxEntitiesOptional = inventoryOutboxEntityRepository
-                .findByOutboxStatusAndSagaStatusAndOrderInventoryStatusIn(outboxStatus, sagaStatus, List.of(orderInventoryStatuses));
+                .findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(outboxStatus, sagaStatus, orderInventoryStatus);
 
         return inventoryOutboxEntitiesOptional.map(inventoryOutboxEntities -> inventoryOutboxEntities.stream()
                 .map(InventoryOutboxEntity::toModel)
                 .toList());
+    }
+
+    @Override
+    public Optional<InventoryOutbox> findBySagaIdAndSagaStatusAndOrderInventoryStatus(UUID sagaId, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
+        Optional<InventoryOutboxEntity> inventoryOutboxEntityOptional = inventoryOutboxEntityRepository
+                .findBySagaIdAndSagaStatusAndOrderInventoryStatus(sagaId, sagaStatus, orderInventoryStatus);
+        return inventoryOutboxEntityOptional.map(InventoryOutboxEntity::toModel);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class InventoryOutboxDataAdapter implements InventoryOutboxDataPort {
     }
 
     @Override
-    public void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatuses(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus... orderInventoryStatuses) {
-        inventoryOutboxEntityRepository.deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatusIn(outboxStatus,sagaStatus,List.of(orderInventoryStatuses));
+    public void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
+        inventoryOutboxEntityRepository.deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(outboxStatus, sagaStatus, orderInventoryStatus);
     }
 }

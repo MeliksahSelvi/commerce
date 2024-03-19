@@ -4,8 +4,6 @@ import com.commerce.payment.service.adapters.payment.jpa.entity.AccountActivityE
 import com.commerce.payment.service.adapters.payment.jpa.repository.AccountActivityEntityRepository;
 import com.commerce.payment.service.payment.entity.AccountActivity;
 import com.commerce.payment.service.payment.port.jpa.AccountActivityDataPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountActivityDataAdapter implements AccountActivityDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountActivityDataAdapter.class);
     private final AccountActivityEntityRepository repository;
 
     public AccountActivityDataAdapter(AccountActivityEntityRepository repository) {

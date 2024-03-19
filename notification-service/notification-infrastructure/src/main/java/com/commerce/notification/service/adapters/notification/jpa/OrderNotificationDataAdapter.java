@@ -5,8 +5,6 @@ import com.commerce.notification.service.adapters.notification.jpa.repository.Or
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
 import com.commerce.notification.service.notification.entity.OrderNotification;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +17,6 @@ import java.util.Optional;
 @Service
 public class OrderNotificationDataAdapter implements OrderNotificationDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderNotificationDataAdapter.class);
     private final OrderNotificationEntityRepository repository;
 
     public OrderNotificationDataAdapter(OrderNotificationEntityRepository repository) {

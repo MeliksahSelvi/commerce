@@ -6,8 +6,6 @@ import com.commerce.payment.service.payment.entity.Account;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ public class AccountDataAdapter implements AccountDataPort {
 
     private static final Integer DEFAULT_PAGE = 0;
     private static final Integer DEFAULT_SIZE = 10;
-    private static final Logger logger = LoggerFactory.getLogger(AccountDataAdapter.class);
     private final AccountEntityRepository repository;
 
     public AccountDataAdapter(AccountEntityRepository repository) {

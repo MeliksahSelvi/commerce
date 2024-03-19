@@ -5,12 +5,10 @@ import com.commerce.shipping.service.adapters.shipping.jpa.entity.OrderItemEntit
 import com.commerce.shipping.service.adapters.shipping.jpa.entity.ShippingEntity;
 import com.commerce.shipping.service.adapters.shipping.jpa.repository.ShippingEntityRepository;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
+import com.commerce.shipping.service.shipping.entity.Address;
 import com.commerce.shipping.service.shipping.entity.OrderItem;
 import com.commerce.shipping.service.shipping.entity.Shipping;
 import com.commerce.shipping.service.shipping.port.jpa.ShippingDataPort;
-import com.commerce.shipping.service.shipping.usecase.Address;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,7 +21,6 @@ import java.util.Optional;
 @Service
 public class ShippingDataAdapter implements ShippingDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShippingDataAdapter.class);
     private final ShippingEntityRepository shippingEntityRepository;
 
     public ShippingDataAdapter(ShippingEntityRepository shippingEntityRepository) {
@@ -44,28 +41,34 @@ public class ShippingDataAdapter implements ShippingDataPort {
             orderItemEntity.setShipping(shippingEntity);
             orderItemEntity.setOrderId(shippingEntity.getOrderId());
         });
-        //todo debug for assocation between entities correctly created
         return shippingEntityRepository.save(shippingEntity).toModel();
     }
 
     public AddressEntity buildAddressEntity(Address address) {
         var addressEntity = new AddressEntity();
-        addressEntity.setCity(address.city());
-        addressEntity.setCounty(address.county());
-        addressEntity.setNeighborhood(address.neighborhood());
-        addressEntity.setStreet(address.street());
-        addressEntity.setPostalCode(address.postalCode());
+        addressEntity.setId(address.getId());
+        addressEntity.setCity(address.getCity());
+        addressEntity.setCounty(address.getCounty());
+        addressEntity.setNeighborhood(address.getNeighborhood());
+        addressEntity.setStreet(address.getStreet());
+        addressEntity.setPostalCode(address.getPostalCode());
         return addressEntity;
     }
 
     public OrderItemEntity buildOrderItemEntity(OrderItem orderItem) {
         var orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setId(orderItem.getId());
         orderItemEntity.setOrderId(orderItem.getOrderId());
         orderItemEntity.setProductId(orderItem.getProductId());
         orderItemEntity.setQuantity(orderItem.getQuantity().value());
         orderItemEntity.setPrice(orderItem.getPrice().amount());
         orderItemEntity.setTotalPrice(orderItem.getTotalPrice().amount());
         return orderItemEntity;
+    }
+
+    @Override
+    public Optional<Shipping> findByOrderId(Long orderId) {
+        return shippingEntityRepository.findByOrderId(orderId).map(ShippingEntity::toModel);
     }
 
     @Override

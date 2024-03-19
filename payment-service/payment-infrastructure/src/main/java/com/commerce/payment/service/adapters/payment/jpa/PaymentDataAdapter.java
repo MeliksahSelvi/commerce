@@ -4,8 +4,6 @@ import com.commerce.payment.service.adapters.payment.jpa.entity.PaymentEntity;
 import com.commerce.payment.service.adapters.payment.jpa.repository.PaymentEntityRepository;
 import com.commerce.payment.service.payment.entity.Payment;
 import com.commerce.payment.service.payment.port.jpa.PaymentDataPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +16,6 @@ import java.util.Optional;
 @Service
 public class PaymentDataAdapter implements PaymentDataPort {
 
-    private static final Logger logger = LoggerFactory.getLogger(PaymentDataAdapter.class);
     private final PaymentEntityRepository repository;
 
     public PaymentDataAdapter(PaymentEntityRepository repository) {

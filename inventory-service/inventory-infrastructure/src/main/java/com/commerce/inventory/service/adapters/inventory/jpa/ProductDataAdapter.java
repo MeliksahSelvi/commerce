@@ -5,8 +5,6 @@ import com.commerce.inventory.service.adapters.inventory.jpa.repository.ProductE
 import com.commerce.inventory.service.inventory.entity.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class ProductDataAdapter implements ProductDataPort {
 
     private static final Integer DEFAULT_PAGE = 0;
     private static final Integer DEFAULT_SIZE = 10;
-    private static final Logger logger = LoggerFactory.getLogger(ProductDataAdapter.class);
     private final ProductEntityRepository productEntityRepository;
 
     public ProductDataAdapter(ProductEntityRepository productEntityRepository) {

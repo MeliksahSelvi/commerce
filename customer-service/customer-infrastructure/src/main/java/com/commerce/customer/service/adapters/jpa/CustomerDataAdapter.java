@@ -6,8 +6,6 @@ import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ public class CustomerDataAdapter implements CustomerDataPort {
 
     private static final Integer DEFAULT_PAGE = 0;
     private static final Integer DEFAULT_SIZE = 10;
-    private static final Logger logger = LoggerFactory.getLogger(CustomerDataAdapter.class);
     private final CustomerEntityRepository customerEntityRepository;
 
     public CustomerDataAdapter(CustomerEntityRepository customerEntityRepository) {
