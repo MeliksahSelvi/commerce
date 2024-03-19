@@ -7,5 +7,5 @@ package com.commerce.order.service.order.port.rest;
 
 public interface RestPort {
 
-    boolean isExistCustomer(Long customerId);
+    boolean isCustomerExist(Long customerId);
 }

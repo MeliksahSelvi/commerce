@@ -7,5 +7,5 @@ package com.commerce.payment.service.payment.port.rest;
 
 public interface RestPort {
 
-    boolean isExistCustomer(Long customerId);
+    boolean isCustomerExist(Long customerId);
 }
