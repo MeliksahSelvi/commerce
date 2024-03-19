@@ -20,9 +20,11 @@ public class Account extends BaseEntity {
     private final String ibanNo;
     private LocalDateTime cancelDate;
 
-    public void increaseCurrentBalance(Money difference) {
-        Money newBalance = currentBalance.add(difference);
-        currentBalance = newBalance;
+    public void increaseCurrentBalance(Money difference, List<String> failureMessages) {
+        if (failureMessages.isEmpty()) {
+            Money newBalance = currentBalance.add(difference);
+            currentBalance = newBalance;
+        }
     }
 
     public void decreaseCurrentBalance(Money difference, List<String> failureMessages) {
@@ -34,12 +36,14 @@ public class Account extends BaseEntity {
         if (!newPrice.isGreaterThanZero()) {
             failureMessages.add("Price that you want making decrease mustn't be greater than old price!");
         }
-        currentBalance = newPrice;
+        if (failureMessages.isEmpty()){
+            currentBalance = newPrice;
+        }
     }
 
-    public void validateCurrentBalance(Payment payment, List<String> failureMessages) {
-        if (payment.getCost().isGreaterThan(currentBalance)) {
-            failureMessages.add(String.format("Customer with id: %d doesn't have enough balance for payment!", payment.getCustomerId()));
+    public void validateCurrentBalance(Money cost, Long customerId, List<String> failureMessages) {
+        if (cost.isGreaterThan(currentBalance)) {
+            failureMessages.add(String.format("Customer with id: %d doesn't have enough balance for payment!", customerId));
         }
     }
 

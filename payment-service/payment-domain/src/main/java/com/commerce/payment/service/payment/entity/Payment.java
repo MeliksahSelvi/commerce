@@ -24,6 +24,14 @@ public class Payment extends BaseEntity {
         }
     }
 
+    public void cancelPayment(List<String> failureMessages) {
+        paymentStatus = failureMessages.isEmpty() ? PaymentStatus.CANCELLED : PaymentStatus.FAILED;
+    }
+
+    public void initializeStatus(List<String> failureMessages) {
+        paymentStatus = failureMessages.isEmpty() ? PaymentStatus.COMPLETED : PaymentStatus.FAILED;
+    }
+
     private Payment(Builder builder) {
         setId(builder.id);
         this.orderId = builder.orderId;
@@ -50,10 +58,6 @@ public class Payment extends BaseEntity {
 
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
     }
 
     public static final class Builder {

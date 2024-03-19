@@ -5,6 +5,7 @@ import com.commerce.payment.service.common.valueobject.ActivityType;
 import com.commerce.payment.service.common.valueobject.Money;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author mselvi
@@ -17,9 +18,13 @@ public class AccountActivity extends BaseEntity {
     private final Money cost;
     private final LocalDateTime transactionDate;
     private final Money currentBalance;
-    private final ActivityType activityType;
+    private ActivityType activityType;
 
-    AccountActivity(Builder builder) {
+    public void initializeActivityType(ActivityType activityType, List<String> failureMessages) {
+        this.activityType = failureMessages.isEmpty() ? activityType : ActivityType.FAIL;
+    }
+
+    private AccountActivity(Builder builder) {
         setId(builder.id);
         accountId = builder.accountId;
         cost = builder.cost;
