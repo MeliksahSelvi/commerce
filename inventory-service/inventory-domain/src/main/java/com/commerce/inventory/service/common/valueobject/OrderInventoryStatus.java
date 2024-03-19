@@ -8,8 +8,8 @@ package com.commerce.inventory.service.common.valueobject;
 public enum OrderInventoryStatus {
     CHECKING("CHECKING"),
     CHECKING_ROLLBACK("CHECKING_ROLLBACK"),
-    PROCESSING("PROCESSING"),
-    PROCESSING_ROLLBACK("PROCESSING_ROLLBACK");
+    UPDATING("PROCESSING"),
+    UPDATING_ROLLBACK("PROCESSING_ROLLBACK");
 
     private String status;
 
