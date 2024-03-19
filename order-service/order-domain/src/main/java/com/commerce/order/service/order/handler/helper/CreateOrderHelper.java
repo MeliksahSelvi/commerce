@@ -13,7 +13,7 @@ import com.commerce.order.service.order.usecase.CreateOrder;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
-import com.commerce.order.service.saga.SagaHelper;
+import com.commerce.order.service.saga.helper.SagaHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +82,7 @@ public class CreateOrderHelper {
         OrderInventoryStatus orderInventoryStatus = OrderInventoryStatus.CHECKING;
 
         InventoryOutboxPayload inventoryOutboxPayload = new InventoryOutboxPayload(order, orderInventoryStatus);
-        InventoryOutbox inventoryOutbox = InventoryOutbox.builder()
+        return InventoryOutbox.builder()
                 .sagaId(sagaId)
                 .payload(jsonPort.convertDataToJson(inventoryOutboxPayload))
                 .orderStatus(orderStatus)
@@ -90,6 +90,5 @@ public class CreateOrderHelper {
                 .outboxStatus(OutboxStatus.STARTED)
                 .sagaStatus(sagaHelper.orderStatusToSagaStatus(orderStatus))
                 .build();
-        return inventoryOutbox;
     }
 }
