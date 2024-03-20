@@ -8,5 +8,5 @@ import com.commerce.notification.service.common.valueobject.NotificationType;
  * @Created 14.03.2024
  */
 
-public record MailContent(CustomerResponse customerResponse, NotificationType notificationType) implements UseCase {
+public record MailContent(Long orderId,CustomerResponse customerResponse, NotificationType notificationType) implements UseCase {
 }

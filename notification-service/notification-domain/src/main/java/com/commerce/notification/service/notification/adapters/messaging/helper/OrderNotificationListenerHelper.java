@@ -78,7 +78,7 @@ public class OrderNotificationListenerHelper {
 
     private void sendMail(OrderNotificationMessage message) {
         CustomerResponse customerResponse = restPort.getCustomerInfo(message.customerId());
-        MailContent mailContent = new MailContent(customerResponse, message.notificationType());
+        MailContent mailContent = new MailContent(message.orderId(), customerResponse, message.notificationType());
 
         Runnable task = () -> mailPort.sendMail(mailContent);
         CompletableFuture.runAsync(task);
