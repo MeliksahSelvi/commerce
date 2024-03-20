@@ -1,6 +1,7 @@
 package com.commerce.inventory.service;
 
 import com.commerce.inventory.service.common.DomainComponent;
+import com.commerce.inventory.service.common.cache.config.RedisConfigData;
 import com.commerce.kafka.config.KafkaConfigData;
 import com.commerce.kafka.config.KafkaConsumerConfigData;
 import com.commerce.kafka.config.KafkaProducerConfigData;
@@ -18,7 +19,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 
 
-@EnableConfigurationProperties(value = {KafkaConfigData.class, KafkaConsumerConfigData.class, KafkaProducerConfigData.class})
+@EnableConfigurationProperties(value = {
+        KafkaConfigData.class,
+        KafkaConsumerConfigData.class,
+        KafkaProducerConfigData.class,
+        RedisConfigData.class
+})
 @EnableJpaRepositories(basePackages = "com.commerce.inventory.service")
 @EntityScan(basePackages = "com.commerce.inventory.service")
 @SpringBootApplication
