@@ -33,6 +33,7 @@
 <!--        <spring-cloud-circuitbreaker-reactor-resilience4j.version>3.0.3</spring-cloud-circuitbreaker-reactor-resilience4j.version>-->
         <spring-kafka.version>3.0.12</spring-kafka.version>
 <!--        <mockito.version>5.7.0</mockito.version>-->
+        <jedis.version>4.3.1</jedis.version>
         <jwt.version>0.9.1</jwt.version>
 <!--        <jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>-->
         <jasypt-spring.version>3.0.5</jasypt-spring.version>
@@ -92,6 +93,11 @@
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring-kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
