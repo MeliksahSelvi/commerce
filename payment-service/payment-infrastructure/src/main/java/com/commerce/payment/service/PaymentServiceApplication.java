@@ -17,7 +17,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @Created 07.03.2024
  */
 
-@EnableConfigurationProperties(value = {KafkaConfigData.class, KafkaConsumerConfigData.class, KafkaProducerConfigData.class})
+@EnableConfigurationProperties(value = {
+        KafkaConfigData.class,
+        KafkaConsumerConfigData.class,
+        KafkaProducerConfigData.class
+})
 @EnableJpaRepositories(basePackages = "com.commerce.payment.service")
 @EntityScan(basePackages = "com.commerce.payment.service")
 @SpringBootApplication
