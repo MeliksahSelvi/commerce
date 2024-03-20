@@ -1,11 +1,13 @@
 package com.commerce.inventory.service.inventory.usecase;
 
+import com.commerce.inventory.service.common.model.UseCase;
+
 /**
  * @Author mselvi
  * @Created 11.03.2024
  */
 
-public class CachedProduct {
+public class CachedProduct implements UseCase {
     private final Long productId;
     private int baseQuantity;
     private int tempQuantity;

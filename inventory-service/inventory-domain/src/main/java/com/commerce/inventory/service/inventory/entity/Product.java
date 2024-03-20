@@ -47,34 +47,20 @@ public class Product extends BaseEntity {
         }
     }
 
-    public void decreaseQuantity(Quantity difference) {
+    public void decreaseQuantity(Quantity difference, List<String> failureMessages) {
         Quantity newQuantity = quantity.substract(difference);
         if (!newQuantity.isGreaterThanZero()) {
-            throw new InventoryDomainException("Quantity that you want making decrease mustn't be greater than old quantity!");
+            String errorMessage = String.format("Quantity that you want making decrease mustn't be greater than old quantity!");
+            failureMessages.add(errorMessage);
         }
-        quantity = newQuantity;
+        if (failureMessages.isEmpty()) {
+            quantity = newQuantity;
+        }
     }
 
     public void increaseQuantity(Quantity difference) {
         Quantity newQuantity = quantity.add(difference);
         quantity = newQuantity;
-    }
-
-    public void decreasePrice(Money difference) {
-        if (!difference.isGreaterThanZero()) {//todo throw or add failure messages
-            throw new InventoryDomainException("Price that you want making decrease must be greater than zero!");
-        }
-
-        Money newPrice = price.substract(difference);
-        if (!newPrice.isGreaterThanZero()) {//todo throw or add failure messages
-            throw new InventoryDomainException("Price that you want making decrease mustn't be greater than old price!");
-        }
-        price = newPrice;
-    }
-
-    public void increasePrice(Money difference) {
-        Money newPrice = price.add(difference);
-        price = newPrice;
     }
 
     private Product(Builder builder) {
