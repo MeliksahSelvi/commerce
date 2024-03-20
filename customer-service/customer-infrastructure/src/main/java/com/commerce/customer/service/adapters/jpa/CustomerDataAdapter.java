@@ -55,7 +55,7 @@ public class CustomerDataAdapter implements CustomerDataPort {
     }
 
     @Override
-    public boolean existById(Long customerId) {
-        return customerEntityRepository.existsById(customerId);
+    public boolean existById(CustomerRetrieve customerRetrieve) {
+        return customerEntityRepository.existsById(customerRetrieve.customerId());
     }
 }

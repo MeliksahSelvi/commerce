@@ -20,5 +20,5 @@ public interface CustomerDataPort {
 
     Customer save(Customer customer);
 
-    boolean existById(Long customerId);
+    boolean existById(CustomerRetrieve customerRetrieve);
 }

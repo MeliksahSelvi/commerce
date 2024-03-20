@@ -25,7 +25,7 @@ public class CustomerExistUseCaseHandler implements UseCaseHandler<Boolean, Cust
     @Override
     public Boolean handle(CustomerRetrieve useCase) {
         Long customerId = useCase.customerId();
-        boolean isExist = customerDataPort.existById(customerId);
+        boolean isExist = customerDataPort.existById(useCase);
         logger.info("Customer existence was questioned for id : {}", customerId);
         return isExist;
     }
