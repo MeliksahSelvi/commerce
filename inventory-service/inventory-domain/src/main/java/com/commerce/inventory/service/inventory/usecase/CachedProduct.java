@@ -2,12 +2,14 @@ package com.commerce.inventory.service.inventory.usecase;
 
 import com.commerce.inventory.service.common.model.UseCase;
 
+import java.io.Serializable;
+
 /**
  * @Author mselvi
  * @Created 11.03.2024
  */
 
-public class CachedProduct implements UseCase {
+public class CachedProduct implements UseCase, Serializable {
     private final Long productId;
     private int baseQuantity;
     private int tempQuantity;
