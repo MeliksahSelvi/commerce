@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ExtendWith(MockitoExtension.class)
-public class ProductDataAdapterTest {
+class ProductDataAdapterTest {
 
     @InjectMocks
     private ProductDataAdapter productDataAdapter;
