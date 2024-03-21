@@ -26,7 +26,7 @@ class ProductRetrieveAllUseCaseHandlerTest {
     }
 
     @Test
-    void should_product_retrieveAll() {
+    void should_retrieveAll() {
         //given
         var productRetrieveAll = new ProductRetrieveAll(Optional.of(0), Optional.of(3));
 
@@ -39,7 +39,7 @@ class ProductRetrieveAllUseCaseHandlerTest {
     }
 
     @Test
-    void should_product_retrieveAll_empty() {
+    void should_retrieveAll_empty() {
         //given
         var productRetrieveAll = new ProductRetrieveAll(Optional.of(0), Optional.of(0));
 

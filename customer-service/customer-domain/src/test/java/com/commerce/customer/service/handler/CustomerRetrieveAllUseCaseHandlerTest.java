@@ -28,7 +28,7 @@ class CustomerRetrieveAllUseCaseHandlerTest {
     }
 
     @Test
-    void should_customer_retrieveAll() {
+    void should_retrieveAll() {
         //given
         var customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(3));
 
@@ -41,7 +41,7 @@ class CustomerRetrieveAllUseCaseHandlerTest {
     }
 
     @Test
-    void should_customer_retrieveAll_empty() {
+    void should_retrieveAll_empty() {
         //given
         var customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(0));
 

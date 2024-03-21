@@ -25,7 +25,7 @@ class CustomerRetrieveUseCaseHandlerTest {
     }
 
     @Test
-    void should_customer_retrieve() {
+    void should_retrieve() {
         //given
         var customerRetrieve = new CustomerRetrieve(1L);
 
@@ -38,7 +38,7 @@ class CustomerRetrieveUseCaseHandlerTest {
     }
 
     @Test
-    void should_customer_retrieve_empty() {
+    void should_retrieve_empty() {
         //given
         var customerRetrieve = new CustomerRetrieve(0L);
 
