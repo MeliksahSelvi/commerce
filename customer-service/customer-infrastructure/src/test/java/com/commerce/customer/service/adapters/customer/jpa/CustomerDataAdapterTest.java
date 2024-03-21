@@ -1,8 +1,9 @@
 package com.commerce.customer.service.adapters.customer.jpa;
 
-import com.commerce.customer.service.adapters.customer.customer.jpa.entity.CustomerEntity;
 import com.commerce.customer.service.adapters.customer.customer.jpa.CustomerDataAdapter;
+import com.commerce.customer.service.adapters.customer.customer.jpa.entity.CustomerEntity;
 import com.commerce.customer.service.adapters.customer.customer.jpa.repository.CustomerEntityRepository;
+import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -98,6 +101,26 @@ class CustomerDataAdapterTest {
         assertTrue(customerOptional.isEmpty());
     }
 
+    @Test
+    void should_save() {
+        //given
+        var customer = buildCustomer();
+        CustomerEntity customerEntity = mock(CustomerEntity.class);
+        when(customerEntityRepository.save(any())).thenReturn(customerEntity);
+        when(customerEntity.toModel()).thenReturn(customer);
+
+        //when
+        var savedCustomer = customerDataAdapter.save(customer);
+
+        //then
+        assertEquals(customer.getId(),savedCustomer.getId());
+        assertEquals(customer.getFirstName(),savedCustomer.getFirstName());
+        assertEquals(customer.getLastName(),savedCustomer.getLastName());
+        assertEquals(customer.getIdentityNo(),savedCustomer.getIdentityNo());
+        assertEquals(customer.getEmail(),savedCustomer.getEmail());
+        assertEquals(customer.getPassword(),savedCustomer.getPassword());
+    }
+
     private List<CustomerEntity> buildCustomerEntities() {
         return List.of(buildCustomerEntity());
     }
@@ -111,6 +134,17 @@ class CustomerDataAdapterTest {
         customerEntity.setEmail("email1");
         customerEntity.setPassword("password1");
         return customerEntity;
+    }
+
+    private Customer buildCustomer() {
+        return Customer.builder()
+                .id(1L)
+                .identityNo("identity1")
+                .email("email1")
+                .password("password1")
+                .firstName("first1")
+                .lastName("last1")
+                .build();
     }
 
 }
