@@ -7,8 +7,7 @@ import com.commerce.customer.service.handler.adapter.FakeCustomerDataPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -35,6 +34,7 @@ class CustomerRetrieveUseCaseHandlerTest {
 
         //then
         assertEquals(customerRetrieve.customerId(), customer.getId());
+        assertNotNull(customer);
     }
 
     @Test

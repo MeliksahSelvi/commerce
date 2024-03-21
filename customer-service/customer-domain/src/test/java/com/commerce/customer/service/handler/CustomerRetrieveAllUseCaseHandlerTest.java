@@ -6,9 +6,11 @@ import com.commerce.customer.service.handler.adapter.FakeCustomerDataPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 /**
@@ -35,6 +37,7 @@ class CustomerRetrieveAllUseCaseHandlerTest {
 
         //then
         assertEquals(customerRetrieveAll.size().get(),customerList.size());
+        assertNotEquals(Collections.EMPTY_LIST.size(),customerList.size());
     }
 
     @Test
@@ -47,5 +50,6 @@ class CustomerRetrieveAllUseCaseHandlerTest {
 
         //then
         assertEquals(customerRetrieveAll.size().get(),customerList.size());
+        assertEquals(Collections.EMPTY_LIST.size(),customerList.size());
     }
 }
