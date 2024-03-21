@@ -38,4 +38,10 @@ public record Money(BigDecimal amount) {
     private BigDecimal setScale(BigDecimal input) {
         return input.setScale(2, RoundingMode.HALF_EVEN);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Money another= (Money) obj;
+        return setScale(amount).equals(setScale(another.amount));
+    }
 }
