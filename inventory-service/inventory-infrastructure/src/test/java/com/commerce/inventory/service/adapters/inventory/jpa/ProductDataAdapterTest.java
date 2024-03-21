@@ -108,7 +108,7 @@ class ProductDataAdapterTest {
     void should_save() {
         //given
         var product = buildProduct();
-        ProductEntity productEntity = mock(ProductEntity.class);
+        var productEntity = mock(ProductEntity.class);
         when(productEntityRepository.save(any())).thenReturn(productEntity);
         when(productEntity.toModel()).thenReturn(product);
 

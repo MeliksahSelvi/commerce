@@ -105,7 +105,7 @@ class CustomerDataAdapterTest {
     void should_save() {
         //given
         var customer = buildCustomer();
-        CustomerEntity customerEntity = mock(CustomerEntity.class);
+        var customerEntity = mock(CustomerEntity.class);
         when(customerEntityRepository.save(any())).thenReturn(customerEntity);
         when(customerEntity.toModel()).thenReturn(customer);
 
