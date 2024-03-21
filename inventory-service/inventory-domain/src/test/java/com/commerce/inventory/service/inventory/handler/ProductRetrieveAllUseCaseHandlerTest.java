@@ -1,7 +1,6 @@
-package com.commerce.inventory.service.handler;
+package com.commerce.inventory.service.inventory.handler;
 
-import com.commerce.inventory.service.handler.adapter.FakeProductDataPort;
-import com.commerce.inventory.service.inventory.handler.ProductRetrieveAllUseCaseHandler;
+import com.commerce.inventory.service.inventory.handler.adapter.FakeProductDataAdapter;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class ProductRetrieveAllUseCaseHandlerTest {
 
     @BeforeEach
     void setUp() {
-        productRetrieveAllUseCaseHandler = new ProductRetrieveAllUseCaseHandler(new FakeProductDataPort());
+        productRetrieveAllUseCaseHandler = new ProductRetrieveAllUseCaseHandler(new FakeProductDataAdapter());
     }
 
     @Test

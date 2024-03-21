@@ -1,4 +1,4 @@
-package com.commerce.inventory.service.handler.adapter;
+package com.commerce.inventory.service.inventory.handler.adapter;
 
 import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
@@ -18,7 +18,7 @@ import java.util.Optional;
  * @Created 21.03.2024
  */
 
-public class FakeProductDataPort implements ProductDataPort {
+public class FakeProductDataAdapter implements ProductDataPort {
 
     private static final Long EXIST_PRODUCT_ID = 1L;
 

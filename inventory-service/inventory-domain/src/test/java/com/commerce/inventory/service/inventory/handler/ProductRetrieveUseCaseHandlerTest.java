@@ -1,8 +1,7 @@
-package com.commerce.inventory.service.handler;
+package com.commerce.inventory.service.inventory.handler;
 
 import com.commerce.inventory.service.common.exception.ProductNotFoundException;
-import com.commerce.inventory.service.handler.adapter.FakeProductDataPort;
-import com.commerce.inventory.service.inventory.handler.ProductRetrieveUseCaseHandler;
+import com.commerce.inventory.service.inventory.handler.adapter.FakeProductDataAdapter;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,12 @@ class ProductRetrieveUseCaseHandlerTest {
     ProductRetrieveUseCaseHandler productRetrieveUseCaseHandler;
 
     @BeforeEach
-    void setUp(){
-        productRetrieveUseCaseHandler=new ProductRetrieveUseCaseHandler(new FakeProductDataPort());
+    void setUp() {
+        productRetrieveUseCaseHandler = new ProductRetrieveUseCaseHandler(new FakeProductDataAdapter());
     }
 
     @Test
-    void should_customer_retrieve() {
+    void should_product_retrieve() {
         //given
         var productRetrieve = new ProductRetrieve(1L);
 
@@ -37,12 +36,13 @@ class ProductRetrieveUseCaseHandlerTest {
     }
 
     @Test
-    void should_customer_retrieve_empty() {
+    void should_product_retrieve_empty() {
         //given
         var customerRetrieve = new ProductRetrieve(0L);
 
         //when
         //then
-        assertThrows(ProductNotFoundException.class, () -> productRetrieveUseCaseHandler.handle(customerRetrieve));
+        var exception = assertThrows(ProductNotFoundException.class, () -> productRetrieveUseCaseHandler.handle(customerRetrieve));
+        assertTrue(exception.getMessage().contains("Product could not be found"));
     }
 }
