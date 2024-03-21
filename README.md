@@ -29,7 +29,7 @@ This project will be the biggest project of my own projects. This adventure will
 <li>Externalizing Configuration with Spring Cloud</li>
 <li>Authentication with Jwt Token</li>
 <li>Encryption with Jasypt</li>
-<i>Unit Tests</i>
+<li>Unit Tests</li>
 </ul>
 
 ## These Features and Patterns be going to add on future times.
