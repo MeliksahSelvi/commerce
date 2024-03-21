@@ -1,7 +1,8 @@
-package com.commerce.customer.service.adapters.jpa;
+package com.commerce.customer.service.adapters.customer.jpa;
 
-import com.commerce.customer.service.adapters.jpa.entity.CustomerEntity;
-import com.commerce.customer.service.adapters.jpa.repository.CustomerEntityRepository;
+import com.commerce.customer.service.adapters.customer.customer.jpa.entity.CustomerEntity;
+import com.commerce.customer.service.adapters.customer.customer.jpa.CustomerDataAdapter;
+import com.commerce.customer.service.adapters.customer.customer.jpa.repository.CustomerEntityRepository;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerDataAdapterTest {
+class CustomerDataAdapterTest {
 
     @InjectMocks
     private CustomerDataAdapter customerDataAdapter;
