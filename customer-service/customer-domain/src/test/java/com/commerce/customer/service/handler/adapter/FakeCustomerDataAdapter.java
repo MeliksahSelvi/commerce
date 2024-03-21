@@ -14,7 +14,7 @@ import java.util.Optional;
  * @Created 20.03.2024
  */
 
-public class FakeCustomerDataPort implements CustomerDataPort {
+public class FakeCustomerDataAdapter implements CustomerDataPort {
 
     private static final Long EXIST_CUSTOMER_ID = 1L;
 

@@ -3,7 +3,7 @@ package com.commerce.customer.service.handler;
 import com.commerce.customer.service.common.exception.CustomerNotFoundException;
 import com.commerce.customer.service.customer.handler.CustomerRetrieveUseCaseHandler;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
-import com.commerce.customer.service.handler.adapter.FakeCustomerDataPort;
+import com.commerce.customer.service.handler.adapter.FakeCustomerDataAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class CustomerRetrieveUseCaseHandlerTest {
 
     @BeforeEach
     void setUp() {
-        retrieveUseCaseHandler = new CustomerRetrieveUseCaseHandler(new FakeCustomerDataPort());
+        retrieveUseCaseHandler = new CustomerRetrieveUseCaseHandler(new FakeCustomerDataAdapter());
     }
 
     @Test
@@ -44,6 +44,7 @@ class CustomerRetrieveUseCaseHandlerTest {
 
         //when
         //then
-        assertThrows(CustomerNotFoundException.class, () -> retrieveUseCaseHandler.handle(customerRetrieve));
+        var customerNotFoundException = assertThrows(CustomerNotFoundException.class, () -> retrieveUseCaseHandler.handle(customerRetrieve));
+        assertTrue(customerNotFoundException.getMessage().contains("Customer Not Found"));
     }
 }

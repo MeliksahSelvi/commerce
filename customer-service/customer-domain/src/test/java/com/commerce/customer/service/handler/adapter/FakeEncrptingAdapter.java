@@ -7,7 +7,7 @@ import com.commerce.customer.service.customer.port.security.EncryptingPort;
  * @Created 20.03.2024
  */
 
-public class FakeEncrptingPort implements EncryptingPort {
+public class FakeEncrptingAdapter implements EncryptingPort {
 
     @Override
     public String encrypt(String password) {

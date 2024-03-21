@@ -2,7 +2,7 @@ package com.commerce.customer.service.handler;
 
 import com.commerce.customer.service.customer.handler.CustomerRetrieveAllUseCaseHandler;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
-import com.commerce.customer.service.handler.adapter.FakeCustomerDataPort;
+import com.commerce.customer.service.handler.adapter.FakeCustomerDataAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class CustomerRetrieveAllUseCaseHandlerTest {
 
     @BeforeEach
     void setUp() {
-        customerRetrieveAllUseCaseHandler = new CustomerRetrieveAllUseCaseHandler(new FakeCustomerDataPort());
+        customerRetrieveAllUseCaseHandler = new CustomerRetrieveAllUseCaseHandler(new FakeCustomerDataAdapter());
     }
 
     @Test

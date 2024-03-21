@@ -9,10 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +37,9 @@ public class CustomerDataAdapterTest {
     @Test
     void should_findAll() {
         //given
-        CustomerRetrieveAll customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(1));
-        PageRequest pageRequest = PageRequest.of(customerRetrieveAll.page().get(), customerRetrieveAll.size().get());
-        Page<CustomerEntity> page = new PageImpl<>(buildCustomerEntities());
+        var customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(1));
+        var pageRequest = PageRequest.of(customerRetrieveAll.page().get(), customerRetrieveAll.size().get());
+        var page = new PageImpl<>(buildCustomerEntities());
         when(customerEntityRepository.findAll(pageRequest)).thenReturn(page);
 
         //when
@@ -56,9 +56,9 @@ public class CustomerDataAdapterTest {
     @Test
     void should_findAll_empty() {
         //given
-        CustomerRetrieveAll customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(1));
-        PageRequest pageRequest = PageRequest.of(customerRetrieveAll.page().get(), customerRetrieveAll.size().get());
-        Page<CustomerEntity> page = new PageImpl<>(Collections.emptyList());
+        var customerRetrieveAll = new CustomerRetrieveAll(Optional.of(0), Optional.of(1));
+        var pageRequest = PageRequest.of(customerRetrieveAll.page().get(), customerRetrieveAll.size().get());
+        var page = new PageImpl<>(new ArrayList<CustomerEntity>());
         when(customerEntityRepository.findAll(pageRequest)).thenReturn(page);
 
         //when
@@ -73,7 +73,7 @@ public class CustomerDataAdapterTest {
     @Test
     void should_findById() {
         //given
-        CustomerRetrieve retrieve = new CustomerRetrieve(1L);
+        var retrieve = new CustomerRetrieve(1L);
         when(customerEntityRepository.findById(retrieve.customerId())).thenReturn(Optional.of(buildCustomerEntity()));
 
         //when
@@ -87,7 +87,7 @@ public class CustomerDataAdapterTest {
     @Test
     void should_findById_empty() {
         //given
-        CustomerRetrieve retrieve = new CustomerRetrieve(1L);
+        var retrieve = new CustomerRetrieve(1L);
         when(customerEntityRepository.findById(retrieve.customerId())).thenReturn(Optional.empty());
 
         //when

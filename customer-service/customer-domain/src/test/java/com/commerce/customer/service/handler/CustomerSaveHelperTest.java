@@ -2,11 +2,12 @@ package com.commerce.customer.service.handler;
 
 import com.commerce.customer.service.customer.handler.helper.CustomerSaveHelper;
 import com.commerce.customer.service.customer.usecase.CustomerSave;
-import com.commerce.customer.service.handler.adapter.FakeCustomerDataPort;
-import com.commerce.customer.service.handler.adapter.FakeEncrptingPort;
-import org.junit.jupiter.api.Assertions;
+import com.commerce.customer.service.handler.adapter.FakeCustomerDataAdapter;
+import com.commerce.customer.service.handler.adapter.FakeEncrptingAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author mselvi
@@ -19,7 +20,7 @@ class CustomerSaveHelperTest {
 
     @BeforeEach
     void setUp() {
-        customerSaveHelper = new CustomerSaveHelper(new FakeCustomerDataPort(), new FakeEncrptingPort());
+        customerSaveHelper = new CustomerSaveHelper(new FakeCustomerDataAdapter(), new FakeEncrptingAdapter());
     }
 
     @Test
@@ -31,10 +32,11 @@ class CustomerSaveHelperTest {
         var customer = customerSaveHelper.handle(customerSave);
 
         //then
-        Assertions.assertEquals(customerSave.firstName(), customer.getFirstName());
-        Assertions.assertEquals(customerSave.lastName(), customer.getLastName());
-        Assertions.assertEquals(customerSave.identityNo(), customer.getIdentityNo());
-        Assertions.assertEquals(customerSave.email(), customer.getEmail());
-        Assertions.assertNotEquals(customerSave.password(), customer.getPassword());
+        assertEquals(customerSave.firstName(), customer.getFirstName());
+        assertEquals(customerSave.lastName(), customer.getLastName());
+        assertEquals(customerSave.identityNo(), customer.getIdentityNo());
+        assertEquals(customerSave.email(), customer.getEmail());
+        assertNotEquals(customerSave.password(), customer.getPassword());
+        assertNull(customer.getId());
     }
 }
