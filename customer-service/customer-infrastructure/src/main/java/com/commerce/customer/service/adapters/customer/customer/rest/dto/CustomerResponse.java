@@ -1,4 +1,4 @@
-package com.commerce.customer.service.adapters.rest.dto;
+package com.commerce.customer.service.adapters.customer.customer.rest.dto;
 
 import com.commerce.customer.service.customer.entity.Customer;
 

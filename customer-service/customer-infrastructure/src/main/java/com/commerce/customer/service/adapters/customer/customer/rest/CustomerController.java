@@ -1,7 +1,7 @@
-package com.commerce.customer.service.adapters.rest;
+package com.commerce.customer.service.adapters.customer.customer.rest;
 
-import com.commerce.customer.service.adapters.rest.dto.CustomerResponse;
-import com.commerce.customer.service.adapters.rest.dto.CustomerSaveCommand;
+import com.commerce.customer.service.adapters.customer.customer.rest.dto.CustomerResponse;
+import com.commerce.customer.service.adapters.customer.customer.rest.dto.CustomerSaveCommand;
 import com.commerce.customer.service.common.handler.UseCaseHandler;
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;

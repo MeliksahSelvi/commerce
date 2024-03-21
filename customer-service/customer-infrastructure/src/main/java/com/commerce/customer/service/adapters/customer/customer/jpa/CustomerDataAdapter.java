@@ -1,7 +1,7 @@
-package com.commerce.customer.service.adapters.jpa;
+package com.commerce.customer.service.adapters.customer.customer.jpa;
 
-import com.commerce.customer.service.adapters.jpa.entity.CustomerEntity;
-import com.commerce.customer.service.adapters.jpa.repository.CustomerEntityRepository;
+import com.commerce.customer.service.adapters.customer.customer.jpa.entity.CustomerEntity;
+import com.commerce.customer.service.adapters.customer.customer.jpa.repository.CustomerEntityRepository;
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;

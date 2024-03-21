@@ -1,4 +1,4 @@
-package com.commerce.customer.service.adapters.rest.dto;
+package com.commerce.customer.service.adapters.customer.customer.rest.dto;
 
 import com.commerce.customer.service.customer.usecase.CustomerSave;
 import jakarta.validation.constraints.Email;

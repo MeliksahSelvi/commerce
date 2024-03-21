@@ -2,7 +2,6 @@ package com.commerce.inventory.service.adapters.inventory.messaging.publisher;
 
 import com.commerce.inventory.service.common.messaging.kafka.helper.KafkaHelper;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.inventory.service.inventory.port.messaging.output.InventoryResponseMessagePublisher;
 import com.commerce.inventory.service.outbox.entity.OrderOutbox;
 import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
@@ -47,7 +46,7 @@ public class InventoryResponseKafkaPublisher implements InventoryResponseMessage
         logger.info("Received OrderOutbox for order id: {} and saga id: {}", orderId, sagaId);
 
         try {
-            InventoryResponseAvroModel kafkaModel = buildAvroModel(sagaId, orderOutbox.getOrderInventoryStatus(), payload);
+            InventoryResponseAvroModel kafkaModel = buildAvroModel(sagaId, payload);
             kafkaProducer.send(inventoryResponseTopicName, sagaId.toString(), kafkaModel,
                     kafkaHelper.getKafkaCallback(kafkaModel, orderOutbox, outboxCallback, orderId));
 
@@ -58,13 +57,13 @@ public class InventoryResponseKafkaPublisher implements InventoryResponseMessage
         }
     }
 
-    private InventoryResponseAvroModel buildAvroModel(UUID sagaId, OrderInventoryStatus orderInventoryStatus, OrderOutboxPayload payload) {
+    private InventoryResponseAvroModel buildAvroModel(UUID sagaId, OrderOutboxPayload payload) {
         return InventoryResponseAvroModel.newBuilder()
                 .setSagaId(sagaId.toString())
                 .setOrderId(payload.orderId())
                 .setCustomerId(payload.customerId())
                 .setInventoryStatus(InventoryStatus.valueOf(payload.inventoryStatus().name()))
-                .setOrderInventoryStatus(com.commerce.kafka.model.OrderInventoryStatus.valueOf(orderInventoryStatus.name()))
+                .setOrderInventoryStatus(com.commerce.kafka.model.OrderInventoryStatus.valueOf(payload.orderInventoryStatus().name()))
                 .setFailureMessages(payload.failureMessages())
                 .build();
     }

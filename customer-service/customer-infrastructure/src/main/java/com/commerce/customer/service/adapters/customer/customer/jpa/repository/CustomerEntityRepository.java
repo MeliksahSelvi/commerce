@@ -1,6 +1,6 @@
-package com.commerce.customer.service.adapters.jpa.repository;
+package com.commerce.customer.service.adapters.customer.customer.jpa.repository;
 
-import com.commerce.customer.service.adapters.jpa.entity.CustomerEntity;
+import com.commerce.customer.service.adapters.customer.customer.jpa.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
