@@ -41,7 +41,7 @@ public class OrderDataAdapter implements OrderDataPort {
         return orderEntityRepository.save(orderEntity).toModel();
     }
 
-    public AddressEntity buildAddressEntity(Address address) {
+    private AddressEntity buildAddressEntity(Address address) {
         var addressEntity = new AddressEntity();
         addressEntity.setId(address.getId());
         addressEntity.setCity(address.getCity());
@@ -52,7 +52,7 @@ public class OrderDataAdapter implements OrderDataPort {
         return addressEntity;
     }
 
-    public OrderItemEntity buildOrderItemEntity(OrderItem orderItem) {
+    private OrderItemEntity buildOrderItemEntity(OrderItem orderItem) {
         var orderItemEntity = new OrderItemEntity();
         orderItemEntity.setId(orderItem.getId());
         orderItemEntity.setProductId(orderItem.getProductId());
