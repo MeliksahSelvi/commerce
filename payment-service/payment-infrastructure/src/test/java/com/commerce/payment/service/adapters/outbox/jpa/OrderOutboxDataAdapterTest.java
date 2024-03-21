@@ -1,9 +1,9 @@
-package com.commerce.inventory.service.adapters.outbox.jpa;
+package com.commerce.payment.service.adapters.outbox.jpa;
 
-import com.commerce.inventory.service.adapters.outbox.jpa.entity.OrderOutboxEntity;
-import com.commerce.inventory.service.adapters.outbox.jpa.repository.OrderOutboxEntityRepository;
-import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.payment.service.adapters.outbox.jpa.entity.OrderOutboxEntity;
+import com.commerce.payment.service.adapters.outbox.jpa.repository.OrderOutboxEntityRepository;
+import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.outbox.entity.OrderOutbox;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,27 +28,27 @@ import static org.mockito.Mockito.when;
 class OrderOutboxDataAdapterTest {
 
     @InjectMocks
-    private OrderOutboxDataAdapter orderOutboxDataAdapter;
+    private OrderOutboxDataAdapter adapter;
 
     @Mock
-    private OrderOutboxEntityRepository orderOutboxEntityRepository;
+    private OrderOutboxEntityRepository repository;
 
     @Test
     void should_save() {
-        //given
         var orderOutbox = buildOrderOutbox();
         var orderOutboxEntity = mock(OrderOutboxEntity.class);
-        when(orderOutboxEntityRepository.save(any())).thenReturn(orderOutboxEntity);
+        when(repository.save(any())).thenReturn(orderOutboxEntity);
         when(orderOutboxEntity.toModel()).thenReturn(orderOutbox);
 
         //when
-        var savedOrderOutbox = orderOutboxDataAdapter.save(orderOutbox);
+        OrderOutbox savedPaymentOutbox = adapter.save(orderOutbox);
 
         //then
-        assertEquals(orderOutbox.getId(), savedOrderOutbox.getId());
-        assertEquals(orderOutbox.getSagaId(), savedOrderOutbox.getSagaId());
-        assertEquals(orderOutbox.getPayload(), savedOrderOutbox.getPayload());
-        assertEquals(orderOutbox.getOutboxStatus(), savedOrderOutbox.getOutboxStatus());
+        assertNotNull(savedPaymentOutbox);
+        assertEquals(savedPaymentOutbox.getId(), orderOutbox.getId());
+        assertEquals(savedPaymentOutbox.getOutboxStatus(), orderOutbox.getOutboxStatus());
+        assertEquals(savedPaymentOutbox.getPayload(), orderOutbox.getPayload());
+        assertEquals(savedPaymentOutbox.getSagaId(), orderOutbox.getSagaId());
     }
 
     @Test
@@ -61,23 +61,26 @@ class OrderOutboxDataAdapterTest {
         var list = new ArrayList<OrderOutboxEntity>();
         list.add(orderOutboxEntity);
 
-        when(orderOutboxEntityRepository.findByOutboxStatus(any())).thenReturn(Optional.of(list));
+        when(repository.findByOutboxStatus(any())).thenReturn(Optional.of(list));
 
         //when
-        var orderOutboxList = orderOutboxDataAdapter.findByOutboxStatus(any());
+        var orderOutboxList = adapter.findByOutboxStatus(any());
 
         //then
         assertFalse(orderOutboxList.isEmpty());
-        assertTrue(orderOutboxList.get().stream().map(OrderOutbox::getOutboxStatus).allMatch(orderOutbox.getOutboxStatus()::equals));
+        assertTrue(orderOutboxList.get()
+                .stream()
+                .map(OrderOutbox::getOutboxStatus)
+                .allMatch(orderOutbox.getOutboxStatus()::equals));
     }
 
     @Test
     void should_findByOutboxStatus_empty() {
         //given
-        when(orderOutboxEntityRepository.findByOutboxStatus(any())).thenReturn(Optional.empty());
+        when(repository.findByOutboxStatus(any())).thenReturn(Optional.empty());
 
         //when
-        var orderOutboxList = orderOutboxDataAdapter.findByOutboxStatus(any());
+        var orderOutboxList = adapter.findByOutboxStatus(any());
 
         //then
         assertTrue(orderOutboxList.isEmpty());
@@ -86,10 +89,10 @@ class OrderOutboxDataAdapterTest {
     @Test
     void should_deleteByOutboxStatus() {
         //when
-        orderOutboxDataAdapter.deleteByOutboxStatus(any());
+        adapter.deleteByOutboxStatus(any());
 
         //then
-        var entityList = orderOutboxEntityRepository.findAll();
+        var entityList = repository.findAll();
         assertTrue(entityList.isEmpty());
     }
 
@@ -97,8 +100,8 @@ class OrderOutboxDataAdapterTest {
         return OrderOutbox.builder()
                 .id(1L)
                 .sagaId(UUID.randomUUID())
+                .outboxStatus(OutboxStatus.COMPLETED)
                 .payload("payload")
-                .outboxStatus(OutboxStatus.STARTED)
                 .build();
     }
 }
