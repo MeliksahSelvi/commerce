@@ -4,6 +4,7 @@ import com.commerce.inventory.service.adapters.inventory.jpa.entity.ProductEntit
 import com.commerce.inventory.service.adapters.inventory.jpa.repository.ProductEntityRepository;
 import com.commerce.inventory.service.inventory.entity.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
+import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,8 +30,8 @@ public class ProductDataAdapter implements ProductDataPort {
     }
 
     @Override
-    public Optional<Product> findById(Long productId) {
-        Optional<ProductEntity> productEntityOptional = productEntityRepository.findById(productId);
+    public Optional<Product> findById(ProductRetrieve useCase) {
+        Optional<ProductEntity> productEntityOptional = productEntityRepository.findById(useCase.productId());
         return productEntityOptional.map(ProductEntity::toModel);
     }
 

@@ -29,7 +29,7 @@ public class ProductRetrieveUseCaseHandler implements UseCaseHandler<Product, Pr
     @Override
     public Product handle(ProductRetrieve useCase) {
         Long productId = useCase.productId();
-        Optional<Product> productOptional = productDataPort.findById(productId);
+        Optional<Product> productOptional = productDataPort.findById(useCase);
         Product product = productOptional.orElseThrow(() ->
                 new ProductNotFoundException(String.format("Product could not be found by id: %d", productId)));
         logger.info("Product retrieved for id : {}", productId);

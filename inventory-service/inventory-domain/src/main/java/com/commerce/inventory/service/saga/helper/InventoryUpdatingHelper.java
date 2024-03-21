@@ -11,6 +11,7 @@ import com.commerce.inventory.service.inventory.port.json.JsonPort;
 import com.commerce.inventory.service.inventory.usecase.CachedProduct;
 import com.commerce.inventory.service.inventory.usecase.InventoryRequest;
 import com.commerce.inventory.service.inventory.usecase.OrderItem;
+import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.outbox.entity.OrderOutbox;
 import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
 import com.commerce.inventory.service.outbox.port.jpa.OrderOutboxDataPort;
@@ -87,7 +88,7 @@ public class InventoryUpdatingHelper {
         for (OrderItem item : items) {
             Long productId = item.productId();
 
-            Optional<Product> productOptional = productDataPort.findById(productId);
+            Optional<Product> productOptional = productDataPort.findById(new ProductRetrieve(productId));
             if (productOptional.isEmpty()) {
                 String errorMessage = String.format("Product could not find by productId: %d", productId);
                 failureMessages.add(errorMessage);
@@ -150,7 +151,7 @@ public class InventoryUpdatingHelper {
         for (OrderItem item : items) {
             Long productId = item.productId();
 
-            Optional<Product> productOptional = productDataPort.findById(productId);
+            Optional<Product> productOptional = productDataPort.findById(new ProductRetrieve(productId));
             if (productOptional.isEmpty()) {
                 String errorMessage = String.format("Product could not be found by product id: %d and order id: %d", productId, item.orderId());
                 failureMessages.add(errorMessage);

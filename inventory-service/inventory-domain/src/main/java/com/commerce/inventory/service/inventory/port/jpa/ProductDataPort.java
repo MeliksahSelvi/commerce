@@ -1,6 +1,7 @@
 package com.commerce.inventory.service.inventory.port.jpa;
 
 import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 public interface ProductDataPort {
 
-    Optional<Product> findById(Long productId);
+    Optional<Product> findById(ProductRetrieve useCase);
 
     Product save(Product product);
 
