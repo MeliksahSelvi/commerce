@@ -27,10 +27,10 @@ class ProductRetrieveUseCaseHandlerTest {
         //given
         var productRetrieve = new ProductRetrieve(1L);
 
-        //when
-        var product = productRetrieveUseCaseHandler.handle(productRetrieve);
 
+        //when
         //then
+        var product=assertDoesNotThrow(() -> productRetrieveUseCaseHandler.handle(productRetrieve));
         assertEquals(productRetrieve.productId(), product.getId());
         assertNotNull(product);
     }

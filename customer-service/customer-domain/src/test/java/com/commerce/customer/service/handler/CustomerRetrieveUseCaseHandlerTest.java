@@ -29,10 +29,10 @@ class CustomerRetrieveUseCaseHandlerTest {
         //given
         var customerRetrieve = new CustomerRetrieve(1L);
 
-        //when
-        var customer = retrieveUseCaseHandler.handle(customerRetrieve);
 
+        //when
         //then
+        var customer=assertDoesNotThrow(()->retrieveUseCaseHandler.handle(customerRetrieve));
         assertEquals(customerRetrieve.customerId(), customer.getId());
         assertNotNull(customer);
     }
