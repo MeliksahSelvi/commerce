@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,7 +45,10 @@ class ProductDataAdapterTest {
         //given
         var productRetrieveAll = new ProductRetrieveAll(Optional.of(0), Optional.of(1));
         var pageRequest = PageRequest.of(productRetrieveAll.page().get(), productRetrieveAll.size().get());
-        var page = new PageImpl<>(buildProductEntities());
+        var productEntity = mock(ProductEntity.class);
+        var list = new ArrayList<ProductEntity>();
+        list.add(productEntity);
+        var page = new PageImpl<>(list);
         when(productEntityRepository.findAll(pageRequest)).thenReturn(page);
 
         //when
@@ -84,11 +86,11 @@ class ProductDataAdapterTest {
         when(productEntityRepository.findById(retrieve.productId())).thenReturn(Optional.of(buildProductEntity()));
 
         //when
-        var customerOptional = productDataAdapter.findById(retrieve);
+        var productOptional = productDataAdapter.findById(retrieve);
 
         //then
-        assertTrue(customerOptional.isPresent());
-        assertEquals(retrieve.productId(), customerOptional.get().getId());
+        assertTrue(productOptional.isPresent());
+        assertEquals(retrieve.productId(), productOptional.get().getId());
     }
 
     @Test
@@ -116,11 +118,12 @@ class ProductDataAdapterTest {
         var savedProduct = productDataAdapter.save(product);
 
         //then
-        assertEquals(product.getId(),savedProduct.getId());
-        assertEquals(product.getName(),savedProduct.getName());
-        assertEquals(product.getPrice(),savedProduct.getPrice());
-        assertEquals(product.getQuantity(),savedProduct.getQuantity());
-        assertEquals(product.getAvailability(),savedProduct.getAvailability());
+        assertNotNull(savedProduct);
+        assertEquals(product.getId(), savedProduct.getId());
+        assertEquals(product.getName(), savedProduct.getName());
+        assertEquals(product.getPrice(), savedProduct.getPrice());
+        assertEquals(product.getQuantity(), savedProduct.getQuantity());
+        assertEquals(product.getAvailability(), savedProduct.getAvailability());
     }
 
     private Product buildProduct() {
@@ -131,10 +134,6 @@ class ProductDataAdapterTest {
                 .quantity(new Quantity(3))
                 .availability(new Availability(true))
                 .build();
-    }
-
-    private List<ProductEntity> buildProductEntities() {
-        return List.of(buildProductEntity());
     }
 
     private ProductEntity buildProductEntity() {
