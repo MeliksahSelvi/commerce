@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -101,16 +100,16 @@ class InventoryOutboxDataAdapterTest {
     }
 
     @Test
-    void should_findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(){
+    void should_findByOutboxStatusAndSagaStatusAndOrderInventoryStatus() {
         //given
         var inventoryOutbox = buildInventoryOutbox();
 
         var inventoryOutboxEntity = mock(InventoryOutboxEntity.class);
         when(inventoryOutboxEntity.toModel()).thenReturn(inventoryOutbox);
-        var list=new ArrayList<InventoryOutboxEntity>();
+        var list = new ArrayList<InventoryOutboxEntity>();
         list.add(inventoryOutboxEntity);
 
-        when(repository.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(),any(),any())).thenReturn(Optional.of(list));
+        when(repository.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(), any())).thenReturn(Optional.of(list));
 
 
         //when
@@ -135,25 +134,25 @@ class InventoryOutboxDataAdapterTest {
     }
 
     @Test
-    void should_findByOutboxStatusAndSagaStatusAndOrderInventoryStatus_empty(){
+    void should_findByOutboxStatusAndSagaStatusAndOrderInventoryStatus_empty() {
         //given
-        when(repository.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(),any())).thenReturn(Optional.empty());
+        when(repository.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(), any())).thenReturn(Optional.empty());
 
         //when
-        var inventoryOutboxList = adapter.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(),any());
+        var inventoryOutboxList = adapter.findByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(), any());
 
         //then
         assertTrue(inventoryOutboxList.isEmpty());
     }
 
     @Test
-    void should_findBySagaIdAndSagaStatusAndOrderInventoryStatus(){
+    void should_findBySagaIdAndSagaStatusAndOrderInventoryStatus() {
         //given
         var inventoryOutbox = buildInventoryOutbox();
 
         var inventoryOutboxEntity = mock(InventoryOutboxEntity.class);
         when(inventoryOutboxEntity.toModel()).thenReturn(inventoryOutbox);
-        when(repository.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(),any(),any())).thenReturn(Optional.of(inventoryOutboxEntity));
+        when(repository.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(), any())).thenReturn(Optional.of(inventoryOutboxEntity));
 
         //when
         var inventoryOutboxOptional = adapter.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(), any());
@@ -161,44 +160,44 @@ class InventoryOutboxDataAdapterTest {
         //then
         assertTrue(inventoryOutboxOptional.isPresent());
         assertNotNull(inventoryOutboxOptional.get());
-        assertEquals(inventoryOutboxOptional.get().getSagaId(),inventoryOutbox.getSagaId());
-        assertEquals(inventoryOutboxOptional.get().getSagaStatus(),inventoryOutbox.getSagaStatus());
-        assertEquals(inventoryOutboxOptional.get().getOrderInventoryStatus(),inventoryOutbox.getOrderInventoryStatus());
+        assertEquals(inventoryOutboxOptional.get().getSagaId(), inventoryOutbox.getSagaId());
+        assertEquals(inventoryOutboxOptional.get().getSagaStatus(), inventoryOutbox.getSagaStatus());
+        assertEquals(inventoryOutboxOptional.get().getOrderInventoryStatus(), inventoryOutbox.getOrderInventoryStatus());
     }
 
     @Test
-    void should_findBySagaIdAndSagaStatusAndOrderInventoryStatus_empty(){
+    void should_findBySagaIdAndSagaStatusAndOrderInventoryStatus_empty() {
         //given
-        when(repository.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(),any())).thenReturn(Optional.empty());
+        when(repository.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(), any())).thenReturn(Optional.empty());
 
         //when
-        var inventoryOutbox = adapter.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(),any());
+        var inventoryOutbox = adapter.findBySagaIdAndSagaStatusAndOrderInventoryStatus(any(), any(), any());
 
         //then
         assertTrue(inventoryOutbox.isEmpty());
     }
 
     @Test
-    void should_findBySagaIdAndSagaStatuses(){
+    void should_findBySagaIdAndSagaStatuses() {
         //given
         var inventoryOutbox = buildInventoryOutbox();
 
         var inventoryOutboxEntity = mock(InventoryOutboxEntity.class);
         when(inventoryOutboxEntity.toModel()).thenReturn(inventoryOutbox);
-        when(repository.findBySagaIdAndSagaStatusIn(any(),any())).thenReturn(Optional.of(inventoryOutboxEntity));
+        when(repository.findBySagaIdAndSagaStatusIn(any(), any())).thenReturn(Optional.of(inventoryOutboxEntity));
 
         //when
-        var inventoryOutboxOptional = adapter.findBySagaIdAndSagaStatuses(inventoryOutbox.getSagaId(),inventoryOutbox.getSagaStatus());
+        var inventoryOutboxOptional = adapter.findBySagaIdAndSagaStatuses(inventoryOutbox.getSagaId(), inventoryOutbox.getSagaStatus());
 
         //then
         assertTrue(inventoryOutboxOptional.isPresent());
         assertNotNull(inventoryOutboxOptional.get());
-        assertEquals(inventoryOutboxOptional.get().getSagaId(),inventoryOutbox.getSagaId());
-        assertEquals(inventoryOutboxOptional.get().getSagaStatus(),inventoryOutbox.getSagaStatus());
+        assertEquals(inventoryOutboxOptional.get().getSagaId(), inventoryOutbox.getSagaId());
+        assertEquals(inventoryOutboxOptional.get().getSagaStatus(), inventoryOutbox.getSagaStatus());
     }
 
     @Test
-    void should_findBySagaIdAndSagaStatuses_empty(){
+    void should_findBySagaIdAndSagaStatuses_empty() {
         //given
         when(repository.findBySagaIdAndSagaStatusIn(any(), any())).thenReturn(Optional.empty());
 
@@ -210,25 +209,24 @@ class InventoryOutboxDataAdapterTest {
     }
 
     @Test
-    void should_deleteByOutboxStatusAndSagaStatuses(){
+    void should_deleteByOutboxStatusAndSagaStatuses() {
         //when
-        adapter.deleteByOutboxStatusAndSagaStatuses(OutboxStatus.STARTED,SagaStatus.PAYING);
+        adapter.deleteByOutboxStatusAndSagaStatuses(OutboxStatus.STARTED, SagaStatus.PAYING);
 
         //then
-        List<InventoryOutboxEntity> entityList = repository.findAll();
+        var entityList = repository.findAll();
         assertTrue(entityList.isEmpty());
     }
 
     @Test
-    void should_deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(){
+    void should_deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus() {
         //when
-        adapter.deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(),any(),any());
+        adapter.deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(any(), any(), any());
 
         //then
-        List<InventoryOutboxEntity> entityList = repository.findAll();
+        var entityList = repository.findAll();
         assertTrue(entityList.isEmpty());
     }
-
 
 
     private InventoryOutbox buildInventoryOutbox() {
