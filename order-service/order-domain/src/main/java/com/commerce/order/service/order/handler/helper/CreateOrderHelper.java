@@ -10,6 +10,7 @@ import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.rest.RestPort;
 import com.commerce.order.service.order.usecase.CreateOrder;
+import com.commerce.order.service.order.usecase.CustomerResponse;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
@@ -46,7 +47,7 @@ public class CreateOrderHelper {
 
     @Transactional
     public Order createOrder(CreateOrder useCase) {
-        logger.info("Checking customer by id: {]", useCase.customerId());
+        logger.info("Checking customer by id: {}", useCase.customerId());
         checkCustomer(useCase.customerId());
 
         Order order = buildOrder(useCase);
@@ -61,8 +62,8 @@ public class CreateOrderHelper {
     }
 
     private void checkCustomer(Long customerId) {
-        boolean existCustomer = restPort.isCustomerExist(customerId);
-        if (!existCustomer) {
+        CustomerResponse customerResponse = restPort.getCustomerInfo(customerId);
+        if (customerResponse == null) {
             throw new OrderNotFoundException(String.format("Could not find customer with id: %d", customerId));
         }
     }

@@ -19,6 +19,4 @@ public interface CustomerDataPort {
     Optional<Customer> findById(CustomerRetrieve customerRetrieve);
 
     Customer save(Customer customer);
-
-    boolean existById(CustomerRetrieve customerRetrieve);
 }

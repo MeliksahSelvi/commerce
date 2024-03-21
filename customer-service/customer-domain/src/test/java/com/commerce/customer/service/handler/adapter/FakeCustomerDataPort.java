@@ -76,9 +76,4 @@ public class FakeCustomerDataPort implements CustomerDataPort {
                 .password(customer.getEmail())
                 .build();
     }
-
-    @Override
-    public boolean existById(Long customerId) {
-        return customerId == EXIST_CUSTOMER_ID;
-    }
 }

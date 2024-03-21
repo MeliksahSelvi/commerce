@@ -53,9 +53,4 @@ public class CustomerDataAdapter implements CustomerDataPort {
         customerEntity.setPassword(customer.getPassword());
         return customerEntityRepository.save(customerEntity).toModel();
     }
-
-    @Override
-    public boolean existById(CustomerRetrieve customerRetrieve) {
-        return customerEntityRepository.existsById(customerRetrieve.customerId());
-    }
 }

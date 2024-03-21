@@ -2,6 +2,7 @@ package com.commerce.order.service.adapters.order.rest;
 
 import com.commerce.order.service.common.rest.client.CustomerHttpClient;
 import com.commerce.order.service.order.port.rest.RestPort;
+import com.commerce.order.service.order.usecase.CustomerResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +20,7 @@ public class RestClientAdapter implements RestPort {
     }
 
     @Override
-    public boolean isCustomerExist(Long customerId) {
-        return client.isCustomerExist(customerId);
+    public CustomerResponse getCustomerInfo(Long customerId) {
+        return client.findById(customerId);
     }
 }

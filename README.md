@@ -14,6 +14,7 @@ This project will be the biggest project of my own projects. This adventure will
 <li>Spring Boot 3.2.3</li>
 <li>Spring Cloud 4.1.0</li>
 <li>Kafka 7.0.1</li>
+<li>Redis</li>
 </ul>
 
 ## The Principles and Patterns tried implemented:
@@ -24,6 +25,7 @@ This project will be the biggest project of my own projects. This adventure will
 <li>Command Query Responsibility Segregation(CQRS) Pattern</li>
 <li>Saga Pattern with choreography on Distributed Systems</li>
 <li>Outbox Pattern with Outbox Schedulers</li>
+<li>Cache Mechanism With Redis</li>
 <li>Externalizing Configuration with Spring Cloud</li>
 <li>Authentication with Jwt Token</li>
 <li>Encryption with Jasypt</li>
@@ -32,7 +34,6 @@ This project will be the biggest project of my own projects. This adventure will
 ## These Features and Patterns be going to add on future times.
 
 <ul>
-<li>Cache Mechanism With Couchbase</li>
 <li>Tests</li>
 <li>Adding Java and Spring Boot version features</li>
 </ul>
