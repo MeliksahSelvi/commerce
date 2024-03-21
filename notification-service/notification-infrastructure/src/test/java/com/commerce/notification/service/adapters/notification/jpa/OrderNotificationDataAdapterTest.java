@@ -41,7 +41,7 @@ class OrderNotificationDataAdapterTest {
         when(orderNotificationEntity.toModel()).thenReturn(orderNotification);
 
         //when
-        OrderNotification savedOrderNotification = adapter.save(orderNotification);
+        var savedOrderNotification = adapter.save(orderNotification);
 
         //then
         assertEquals(orderNotification.getId(),savedOrderNotification.getId());
@@ -56,7 +56,7 @@ class OrderNotificationDataAdapterTest {
         //given
         OrderNotification orderNotification = buildOrderNotification();
         Long orderId=orderNotification.getOrderId();
-        NotificationStatus notificationStatus=orderNotification.getNotificationStatus();
+        var notificationStatus=orderNotification.getNotificationStatus();
 
         var orderNotificationEntity=mock(OrderNotificationEntity.class);
         when(repository.findByOrderIdAndNotificationStatus(orderId,notificationStatus)).thenReturn(Optional.of(orderNotificationEntity));
@@ -77,7 +77,7 @@ class OrderNotificationDataAdapterTest {
         when(repository.findByOrderIdAndNotificationStatus(anyLong(),any())).thenReturn(Optional.empty());
 
         //when
-        Optional<OrderNotification> orderNotificationOptional = adapter.findByOrderIdAndNotificationStatus(anyLong(), any());
+        var orderNotificationOptional = adapter.findByOrderIdAndNotificationStatus(anyLong(), any());
 
         //then
         assertTrue(orderNotificationOptional.isEmpty());

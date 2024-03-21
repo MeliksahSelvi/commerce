@@ -81,12 +81,10 @@ class OrderOutboxDataAdapterTest {
 
     @Test
     void should_deleteByOutboxStatus() {
-        //given
-        OutboxStatus outboxStatus = OutboxStatus.STARTED;
-
         //when
-        orderOutboxDataAdapter.deleteByOutboxStatus(outboxStatus);
+        orderOutboxDataAdapter.deleteByOutboxStatus(any());
 
+        //then
         List<OrderOutboxEntity> entityList = orderOutboxEntityRepository.findAll();
         assertTrue(entityList.isEmpty());
     }
