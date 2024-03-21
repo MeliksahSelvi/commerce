@@ -27,15 +27,12 @@ public class CustomerController {
     private final UseCaseHandler<List<Customer>, CustomerRetrieveAll> customerRetrieveAllUseCaseHandler;
     private final UseCaseHandler<Customer, CustomerRetrieve> customerRetrieveUseCaseHandler;
     private final UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler;
-    private final UseCaseHandler<Boolean,CustomerRetrieve> customerExistUseCaseHandler;
 
     public CustomerController(UseCaseHandler<List<Customer>, CustomerRetrieveAll> customerRetrieveAllUseCaseHandler, UseCaseHandler<Customer,
-            CustomerRetrieve> customerRetrieveUseCaseHandler, UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler,
-                              UseCaseHandler<Boolean, CustomerRetrieve> customerExistUseCaseHandler) {
+            CustomerRetrieve> customerRetrieveUseCaseHandler, UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler) {
         this.customerRetrieveAllUseCaseHandler = customerRetrieveAllUseCaseHandler;
         this.customerRetrieveUseCaseHandler = customerRetrieveUseCaseHandler;
         this.customerSaveUseCaseHandler = customerSaveUseCaseHandler;
-        this.customerExistUseCaseHandler = customerExistUseCaseHandler;
     }
 
     @GetMapping
@@ -54,11 +51,5 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> save(@RequestBody @Valid CustomerSaveCommand customerSaveCommand) {
         var customer = customerSaveUseCaseHandler.handle(customerSaveCommand.toModel());
         return ResponseEntity.status(HttpStatus.CREATED).body(new CustomerResponse(customer));
-    }
-
-    @GetMapping("/exist/{id}")
-    public ResponseEntity<Boolean> isExist(@PathVariable Long id){
-        var isExist = customerExistUseCaseHandler.handle(new CustomerRetrieve(id));
-        return ResponseEntity.ok(isExist);
     }
 }
