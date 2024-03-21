@@ -8,7 +8,7 @@ import com.commerce.notification.service.notification.usecase.CustomerResponse;
  */
 
 
-public interface RestPort {
+public interface InnerRestPort {
 
     CustomerResponse getCustomerInfo(Long customerId);
 }

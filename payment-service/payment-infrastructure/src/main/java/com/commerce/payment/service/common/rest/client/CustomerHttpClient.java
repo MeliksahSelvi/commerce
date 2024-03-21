@@ -1,5 +1,7 @@
 package com.commerce.payment.service.common.rest.client;
 
+import com.commerce.payment.service.payment.usecase.CustomerResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.service.annotation.GetExchange;
 
@@ -10,6 +12,6 @@ import org.springframework.web.service.annotation.GetExchange;
 
 public interface CustomerHttpClient {
 
-    @GetExchange("/customer-service/api/v1/customers/exist/{id}")
-    Boolean isCustomerExist(@PathVariable Long id);
+    @GetExchange("/customer-service/api/v1/customers/{id}")
+    ResponseEntity<CustomerResponse> findById(@PathVariable Long id);
 }

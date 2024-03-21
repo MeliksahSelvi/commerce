@@ -7,7 +7,7 @@ import com.commerce.order.service.order.usecase.CustomerResponse;
  * @Created 06.03.2024
  */
 
-public interface RestPort {
+public interface InnerRestPort {
 
     CustomerResponse getCustomerInfo(Long customerId);
 }
