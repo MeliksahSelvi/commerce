@@ -80,20 +80,13 @@ public class Order extends BaseEntity {
     }
 
     public void validateOrder() {
-        validateOrderInitialState();
         validateCost();
         validateItemsPrice();
     }
 
-    private void validateOrderInitialState() {
-        if (orderStatus != null) {
-            throw new OrderDomainException("Order is not in correct state for initialization!");
-        }
-    }
-
     private void validateCost() {
         if (cost == null || !cost.isGreaterThanZero()) {
-            throw new OrderDomainException("Cost must be greater than zero!");
+            throw new OrderDomainException("Cost can't be zero and must be greater than zero!");
         }
     }
 

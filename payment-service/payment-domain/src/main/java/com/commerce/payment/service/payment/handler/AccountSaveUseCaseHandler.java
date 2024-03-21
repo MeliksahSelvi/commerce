@@ -6,8 +6,9 @@ import com.commerce.payment.service.common.handler.UseCaseHandler;
 import com.commerce.payment.service.payment.entity.Account;
 import com.commerce.payment.service.payment.port.generate.RandomGeneratePort;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
-import com.commerce.payment.service.payment.port.rest.RestPort;
+import com.commerce.payment.service.payment.port.rest.InnerRestPort;
 import com.commerce.payment.service.payment.usecase.AccountSave;
+import com.commerce.payment.service.payment.usecase.CustomerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +23,12 @@ public class AccountSaveUseCaseHandler implements UseCaseHandler<Account, Accoun
     private static final Logger logger = LoggerFactory.getLogger(AccountSaveUseCaseHandler.class);
     private final RandomGeneratePort randomGeneratePort;
     private final AccountDataPort accountDataPort;
-    private final RestPort restPort;
+    private final InnerRestPort innerRestPort;
 
-    public AccountSaveUseCaseHandler(RandomGeneratePort randomGeneratePort, AccountDataPort accountDataPort, RestPort restPort) {
+    public AccountSaveUseCaseHandler(RandomGeneratePort randomGeneratePort, AccountDataPort accountDataPort, InnerRestPort innerRestPort) {
         this.randomGeneratePort = randomGeneratePort;
         this.accountDataPort = accountDataPort;
-        this.restPort = restPort;
+        this.innerRestPort = innerRestPort;
     }
 
     @Override
@@ -46,8 +47,8 @@ public class AccountSaveUseCaseHandler implements UseCaseHandler<Account, Accoun
     }
 
     private void checkCustomer(Long customerId) {
-        boolean customerExist = restPort.isCustomerExist(customerId);
-        if (!customerExist) {
+        CustomerResponse customerInfo = innerRestPort.getCustomerInfo(customerId);
+        if (customerInfo == null) {
             throw new PaymentDomainException(String.format("Customer could not found for account save operation by customerId %d", customerId));
         }
     }

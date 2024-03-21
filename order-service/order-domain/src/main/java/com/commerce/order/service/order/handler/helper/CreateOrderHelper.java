@@ -1,14 +1,14 @@
 package com.commerce.order.service.order.handler.helper;
 
 import com.commerce.order.service.common.DomainComponent;
-import com.commerce.order.service.common.exception.OrderNotFoundException;
+import com.commerce.order.service.common.exception.OrderDomainException;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.json.JsonPort;
-import com.commerce.order.service.order.port.rest.RestPort;
+import com.commerce.order.service.order.port.rest.InnerRestPort;
 import com.commerce.order.service.order.usecase.CreateOrder;
 import com.commerce.order.service.order.usecase.CustomerResponse;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
@@ -34,15 +34,15 @@ public class CreateOrderHelper {
     private final OrderDataPort orderDataPort;
     private final SagaHelper sagaHelper;
     private final JsonPort jsonPort;
-    private final RestPort restPort;
+    private final InnerRestPort innerRestPort;
 
     public CreateOrderHelper(InventoryOutboxDataPort inventoryOutboxDataPort, OrderDataPort orderDataPort,
-                             SagaHelper sagaHelper, JsonPort jsonPort, RestPort restPort) {
+                             SagaHelper sagaHelper, JsonPort jsonPort, InnerRestPort innerRestPort) {
         this.inventoryOutboxDataPort = inventoryOutboxDataPort;
         this.orderDataPort = orderDataPort;
         this.sagaHelper = sagaHelper;
         this.jsonPort = jsonPort;
-        this.restPort = restPort;
+        this.innerRestPort = innerRestPort;
     }
 
     @Transactional
@@ -62,9 +62,9 @@ public class CreateOrderHelper {
     }
 
     private void checkCustomer(Long customerId) {
-        CustomerResponse customerResponse = restPort.getCustomerInfo(customerId);
+        CustomerResponse customerResponse = innerRestPort.getCustomerInfo(customerId);
         if (customerResponse == null) {
-            throw new OrderNotFoundException(String.format("Could not find customer with id: %d", customerId));
+            throw new OrderDomainException(String.format("Could not find customer with id: %d", customerId));
         }
     }
 

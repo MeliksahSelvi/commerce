@@ -1,12 +1,13 @@
 package com.commerce.notification.service.notification.adapters.messaging.helper;
 
 import com.commerce.notification.service.common.DomainComponent;
+import com.commerce.notification.service.common.exception.NotificationDomainException;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
 import com.commerce.notification.service.common.valueobject.NotificationType;
 import com.commerce.notification.service.notification.entity.OrderNotification;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
 import com.commerce.notification.service.notification.port.mail.MailPort;
-import com.commerce.notification.service.notification.port.rest.RestPort;
+import com.commerce.notification.service.notification.port.rest.InnerRestPort;
 import com.commerce.notification.service.notification.usecase.CustomerResponse;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
@@ -28,12 +29,12 @@ public class OrderNotificationListenerHelper {
     private static final Logger logger = LoggerFactory.getLogger(OrderNotificationListenerHelper.class);
     private final OrderNotificationDataPort orderNotificationDataPort;
     private final MailPort mailPort;
-    private final RestPort restPort;
+    private final InnerRestPort innerRestPort;
 
-    public OrderNotificationListenerHelper(OrderNotificationDataPort orderNotificationDataPort, MailPort mailPort, RestPort restPort) {
+    public OrderNotificationListenerHelper(OrderNotificationDataPort orderNotificationDataPort, MailPort mailPort, InnerRestPort innerRestPort) {
         this.orderNotificationDataPort = orderNotificationDataPort;
         this.mailPort = mailPort;
-        this.restPort = restPort;
+        this.innerRestPort = innerRestPort;
     }
 
     @Transactional
@@ -77,7 +78,11 @@ public class OrderNotificationListenerHelper {
     }
 
     private void sendMail(OrderNotificationMessage message) {
-        CustomerResponse customerResponse = restPort.getCustomerInfo(message.customerId());
+        Long customerId = message.customerId();
+        CustomerResponse customerResponse = innerRestPort.getCustomerInfo(customerId);
+        if (customerResponse == null) {
+            throw new NotificationDomainException(String.format("Could not find customer with id: %d", customerId));
+        }
         MailContent mailContent = new MailContent(message.orderId(), customerResponse, message.notificationType());
 
         Runnable task = () -> mailPort.sendMail(mailContent);
