@@ -52,7 +52,7 @@ public class PaymentRequestListenerHelper {
 
 
     @Transactional
-    public void completePayment(PaymentRequest paymentRequest) {
+    public List<String> completePayment(PaymentRequest paymentRequest) {
         UUID sagaId = paymentRequest.sagaId();
         Long orderId = paymentRequest.orderId();
         Long customerId = paymentRequest.customerId();
@@ -79,6 +79,7 @@ public class PaymentRequestListenerHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(sagaId, savedPayment, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for payment request with paymentId", savedPayment.getId());
+        return failureMessages;
     }
 
     private Payment buildPayment(PaymentRequest paymentRequest, List<String> failureMessages) {
@@ -93,7 +94,7 @@ public class PaymentRequestListenerHelper {
     }
 
     @Transactional
-    public void cancelPayment(PaymentRequest paymentRequest) {
+    public List<String> cancelPayment(PaymentRequest paymentRequest) {
         Long orderId = paymentRequest.orderId();
         Money cost = paymentRequest.cost();
 
@@ -119,6 +120,7 @@ public class PaymentRequestListenerHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(paymentRequest.sagaId(), savedPayment, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("PaymentOutbox persisted for payment rollback with orderId: {}", orderId);
+        return failureMessages;
     }
 
     private Payment findPayment(Long orderId) {

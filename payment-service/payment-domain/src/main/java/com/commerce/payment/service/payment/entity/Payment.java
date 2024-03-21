@@ -20,7 +20,7 @@ public class Payment extends BaseEntity {
 
     public void validatePayment(List<String> failureMessages) {
         if (cost == null || !cost.isGreaterThanZero()) {
-            failureMessages.add("Cost must be greater than zero!");
+            failureMessages.add("Cost can't be zero and must be greater than zero!");
         }
     }
 

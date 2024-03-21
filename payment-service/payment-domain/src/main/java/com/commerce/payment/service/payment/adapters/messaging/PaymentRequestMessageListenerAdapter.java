@@ -2,8 +2,11 @@ package com.commerce.payment.service.payment.adapters.messaging;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.payment.adapters.messaging.helper.PaymentRequestListenerHelper;
+import com.commerce.payment.service.payment.entity.Payment;
 import com.commerce.payment.service.payment.port.messaging.input.PaymentRequestMessageListener;
 import com.commerce.payment.service.payment.usecase.PaymentRequest;
+
+import java.util.List;
 
 /**
  * @Author mselvi
@@ -20,12 +23,12 @@ public class PaymentRequestMessageListenerAdapter implements PaymentRequestMessa
     }
 
     @Override
-    public void completePayment(PaymentRequest paymentRequest) {
-        paymentRequestListenerHelper.completePayment(paymentRequest);
+    public List<String> completePayment(PaymentRequest paymentRequest) {
+        return paymentRequestListenerHelper.completePayment(paymentRequest);
     }
 
     @Override
-    public void cancelPayment(PaymentRequest paymentRequest) {
-        paymentRequestListenerHelper.cancelPayment(paymentRequest);
+    public List<String> cancelPayment(PaymentRequest paymentRequest) {
+        return paymentRequestListenerHelper.cancelPayment(paymentRequest);
     }
 }

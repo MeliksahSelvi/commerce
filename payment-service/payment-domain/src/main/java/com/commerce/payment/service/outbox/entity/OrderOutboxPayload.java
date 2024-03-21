@@ -17,6 +17,7 @@ public record OrderOutboxPayload(Long paymentId, Long orderId, Long customerId, 
                                  List<String> failureMessages) implements OutboxPayload {
 
     public OrderOutboxPayload(Payment payment, List<String> failureMessages) {
-        this(payment.getId(), payment.getOrderId(), payment.getCustomerId(), payment.getCost().amount(), payment.getPaymentStatus(), failureMessages);
+        this(payment.getId(), payment.getOrderId(), payment.getCustomerId(),
+                payment.getCost() == null ? null : payment.getCost().amount(), payment.getPaymentStatus(), failureMessages);
     }
 }
