@@ -1,18 +1,16 @@
 package com.commerce.order.service.order.adapters.messaging;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.adapter.FakeInventoryUpdatingRollbackSagaStep;
+import com.commerce.order.service.adapter.saga.FakeInventoryUpdatingRollbackSagaStep;
+import com.commerce.order.service.adapter.saga.FakeInventoryUpdatingSagaStep;
+import com.commerce.order.service.appender.MemoryApender;
+import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.adapter.FakeInventoryUpdatingSagaStep;
-import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,33 +23,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class InventoryUpdatingResponseMessageListenerAdapterTest {
+class InventoryUpdatingResponseMessageListenerAdapterTest extends LoggerTest {
+
+    private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
 
     InventoryUpdatingResponseMessageListenerAdapter adapter;
-    MemoryApender memoryApender;
+
+    public InventoryUpdatingResponseMessageListenerAdapterTest() {
+        super(InventoryUpdatingResponseMessageListenerAdapter.class);
+    }
 
     @BeforeEach
     void setUp() {
         adapter = new InventoryUpdatingResponseMessageListenerAdapter(new FakeInventoryUpdatingSagaStep(), new FakeInventoryUpdatingRollbackSagaStep());
-
-        Logger logger = (Logger) LoggerFactory.getLogger(adapter.getClass());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
     }
 
     @AfterEach
     void cleanUp() {
-        memoryApender.reset();
-        memoryApender.stop();
+        destroy();
     }
 
     @Test
     void should_updating_inventory_status_available() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING);
+        var inventoryResponse = buildInventoryResponseWithParameter(sagaId,3L,InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING);
         var logMessage = "InventoryResponse is available for Inventory updating action";
 
         //when
@@ -63,7 +58,7 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_inventory_status_non_available() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING);
+        var inventoryResponse = buildInventoryResponseWithParameter(sagaId,3L,InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING);
         var logMessage = "InventoryResponse is not available for Inventory updating action";
 
         //when
@@ -75,7 +70,7 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_rollback_inventory_status_available() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
+        var inventoryResponse = buildInventoryResponseWithParameter(sagaId,1L,InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
         var logMessage = "InventoryResponse is available for Inventory updating rollback action";
 
         //when
@@ -87,7 +82,7 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_rollback_inventory_status_non_available() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
+        var inventoryResponse = buildInventoryResponseWithParameter(sagaId,1L,InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
         var logMessage = "InventoryResponse is not available for Inventory updating rollback action";
 
         //when
@@ -96,7 +91,7 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
-    private InventoryResponse buildInventoryResponseWithParameter(InventoryStatus inventoryStatus, OrderInventoryStatus orderInventoryStatus) {
-        return new InventoryResponse(UUID.randomUUID(), 1L, 1L, inventoryStatus, orderInventoryStatus, new ArrayList<>());
+    private InventoryResponse buildInventoryResponseWithParameter(UUID sagaId,Long orderId,InventoryStatus inventoryStatus, OrderInventoryStatus orderInventoryStatus) {
+        return new InventoryResponse(sagaId, orderId,1L, inventoryStatus, orderInventoryStatus, new ArrayList<>());
     }
 }

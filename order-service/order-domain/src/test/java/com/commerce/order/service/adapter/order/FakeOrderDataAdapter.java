@@ -1,4 +1,4 @@
-package com.commerce.order.service.adapter;
+package com.commerce.order.service.adapter.order;
 
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
@@ -18,9 +18,8 @@ import java.util.Optional;
  * @Created 25.03.2024
  */
 
-public class FakePaidOrderDataAdapter implements OrderDataPort {
-
-    private static final Long EXIST_ORDER_ID = 1L;
+public class FakeOrderDataAdapter implements OrderDataPort {
+    private static final Long NOT_EXIST_ORDER_ID = 7L;
 
     @Override
     public Order save(Order order) {
@@ -37,18 +36,18 @@ public class FakePaidOrderDataAdapter implements OrderDataPort {
 
     @Override
     public Optional<Order> findById(Long orderId) {
-        if (EXIST_ORDER_ID != orderId) {
+        if (NOT_EXIST_ORDER_ID == orderId) {
             return Optional.empty();
         }
         return Optional.of(
                 Order.builder()
-                        .id(EXIST_ORDER_ID)
+                        .id(orderId)
                         .cost(new Money(BigDecimal.TEN))
                         .failureMessages(Collections.EMPTY_LIST)
                         .items(List.of(
                                 OrderItem.builder()
                                         .id(1L)
-                                        .orderId(EXIST_ORDER_ID)
+                                        .orderId(orderId)
                                         .productId(1L)
                                         .totalPrice(new Money(BigDecimal.TEN))
                                         .price(new Money(BigDecimal.ONE))
@@ -56,7 +55,7 @@ public class FakePaidOrderDataAdapter implements OrderDataPort {
                                         .build(),
                                 OrderItem.builder()
                                         .id(2L)
-                                        .orderId(EXIST_ORDER_ID)
+                                        .orderId(orderId)
                                         .productId(2L)
                                         .totalPrice(new Money(BigDecimal.ONE))
                                         .price(new Money(BigDecimal.ONE))
@@ -64,7 +63,7 @@ public class FakePaidOrderDataAdapter implements OrderDataPort {
                                         .build(),
                                 OrderItem.builder()
                                         .id(3L)
-                                        .orderId(EXIST_ORDER_ID)
+                                        .orderId(orderId)
                                         .productId(3L)
                                         .totalPrice(new Money(BigDecimal.valueOf(6)))
                                         .price(new Money(BigDecimal.valueOf(2)))
@@ -81,9 +80,20 @@ public class FakePaidOrderDataAdapter implements OrderDataPort {
                                         .postalCode("postalCode")
                                         .build()
                         )
-                        .orderStatus(OrderStatus.PAID)
+                        .orderStatus(chooseStatus(orderId))
                         .customerId(1L)
                         .build()
         );
     }
+
+    private OrderStatus chooseStatus(Long orderId) {
+        return OrderStatus.values()[orderId.intValue() - 1];
+    }
+
+//    private static final Long CHECKING_ORDER_ID = 1L;
+//    private static final Long PENDING_ORDER_ID = 2L;
+//    private static final Long PAID_ORDER_ID = 3L;
+//    private static final Long APPROVED_ORDER_ID = 4L;
+//    private static final Long CANCELLING_ORDER_ID = 5L;
+//    private static final Long CANCELLED_ORDER_ID = 6L;
 }

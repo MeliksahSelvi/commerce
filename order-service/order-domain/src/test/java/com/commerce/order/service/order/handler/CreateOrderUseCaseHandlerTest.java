@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.handler;
 
 import com.commerce.order.service.common.exception.OrderDomainException;
-import com.commerce.order.service.adapter.FakeCreateOrderHelper;
+import com.commerce.order.service.adapter.helper.FakeCreateOrderHelper;
 import com.commerce.order.service.order.handler.common.CreateOrderCommonData;
 import com.commerce.order.service.order.usecase.CreateOrder;
 import org.junit.jupiter.api.BeforeEach;

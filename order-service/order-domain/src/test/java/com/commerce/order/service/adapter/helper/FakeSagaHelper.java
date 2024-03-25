@@ -1,4 +1,4 @@
-package com.commerce.order.service.adapter;
+package com.commerce.order.service.adapter.helper;
 
 import com.commerce.order.service.saga.helper.SagaHelper;
 

@@ -1,5 +1,6 @@
-package com.commerce.order.service.adapter;
+package com.commerce.order.service.adapter.saga;
 
+import com.commerce.order.service.adapter.helper.FakeInventoryUpdatingHelper;
 import com.commerce.order.service.saga.InventoryUpdatingSagaStep;
 
 /**

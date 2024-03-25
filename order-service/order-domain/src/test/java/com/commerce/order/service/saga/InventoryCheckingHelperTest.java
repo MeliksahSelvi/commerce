@@ -1,25 +1,22 @@
 package com.commerce.order.service.saga;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.appender.MemoryApender;
+import com.commerce.order.service.adapter.FakeJsonAdapter;
+import com.commerce.order.service.adapter.helper.FakeSagaHelper;
+import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
+import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
+import com.commerce.order.service.adapter.outbox.FakePaymentOutboxDataAdapter;
+import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.exception.InventoryOutboxNotFoundException;
 import com.commerce.order.service.common.exception.OrderDomainException;
 import com.commerce.order.service.common.exception.OrderNotFoundException;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.adapter.FakeInventoryOutboxDataAdapter;
-import com.commerce.order.service.adapter.FakeJsonAdapter;
-import com.commerce.order.service.adapter.FakePaymentOutboxDataAdapter;
-import com.commerce.order.service.adapter.FakeSagaHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
-import com.commerce.order.service.adapter.FakeApprovedOrderDataAdapter;
 import com.commerce.order.service.saga.helper.InventoryCheckingHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -31,37 +28,32 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Created 21.03.2024
  */
 
-class InventoryCheckingHelperTest {
+class InventoryCheckingHelperTest extends LoggerTest<InventoryCheckingHelper> {
 
-    private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
-    private static final UUID wrongSagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
+    private static final UUID sagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
+    private static final UUID wrongSagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
 
     InventoryCheckingHelper inventoryCheckingHelper;
-    MemoryApender memoryApender;
+
+    public InventoryCheckingHelperTest() {
+        super(InventoryCheckingHelper.class);
+    }
 
     @BeforeEach
     void setUp() {
         inventoryCheckingHelper = new InventoryCheckingHelper(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(),
-                new FakeApprovedOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
-
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryCheckingHelper.getClass());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
+                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
     }
 
     @AfterEach
     void cleanUp() {
-        memoryApender.reset();
-        memoryApender.stop();
+        destroy();
     }
 
     @Test
     void should_process() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 1L);
         var logMessage = String.format("PaymentOutbox persisted for inventory checking process by sagaId: %s", inventoryResponse.sagaId());
 
 
@@ -73,7 +65,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_process_fail_when_order_not_exist() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,2L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 7L);
 
         //when
         //then
@@ -84,7 +76,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_process_fail_when_order_status_wrong() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,3L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 3L);
 
         //when
         //then
@@ -95,7 +87,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_process_fail_when_saga_id_wrong() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId,1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId, 1L);
 
         //when
         //then
@@ -107,7 +99,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_rollback() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 1L);
         var logMessage = String.format("InventoryOutbox updated for inventory checking rollback by sagaId: %s", inventoryResponse.sagaId());
 
 
@@ -119,7 +111,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_rollback_fail_when_order_not_exist() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,2L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 7L);
 
         //when
         //then
@@ -130,7 +122,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_rollback_fail_when_order_status_wrong() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId,3L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 3L);
 
         //when
         //then
@@ -141,7 +133,7 @@ class InventoryCheckingHelperTest {
     @Test
     void should_rollback_fail_when_saga_id_wrong() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId,1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId, 1L);
 
         //when
         //then

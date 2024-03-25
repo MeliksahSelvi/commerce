@@ -1,4 +1,4 @@
-package com.commerce.order.service.adapter;
+package com.commerce.order.service.adapter.outbox;
 
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;

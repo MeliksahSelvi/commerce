@@ -1,25 +1,22 @@
 package com.commerce.order.service.saga;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.adapter.FakePaidOrderDataAdapter;
-import com.commerce.order.service.appender.MemoryApender;
+import com.commerce.order.service.adapter.FakeJsonAdapter;
+import com.commerce.order.service.adapter.FakeOrderNotificationMessagePublisherAdapter;
+import com.commerce.order.service.adapter.helper.FakeSagaHelper;
+import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
+import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
+import com.commerce.order.service.adapter.outbox.FakePaymentOutboxDataAdapter;
+import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.exception.InventoryOutboxNotFoundException;
 import com.commerce.order.service.common.exception.OrderNotFoundException;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.adapter.FakeOrderNotificationMessagePublisherAdapter;
-import com.commerce.order.service.adapter.FakeInventoryOutboxDataAdapter;
-import com.commerce.order.service.adapter.FakeJsonAdapter;
-import com.commerce.order.service.adapter.FakePaymentOutboxDataAdapter;
-import com.commerce.order.service.adapter.FakeSagaHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import com.commerce.order.service.saga.helper.InventoryUpdatingHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -31,38 +28,34 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Created 21.03.2024
  */
 
-class InventoryUpdatingHelperTest {
+class InventoryUpdatingHelperTest extends LoggerTest<InventoryUpdatingHelper> {
 
     private static final UUID sagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
     private static final UUID wrongSagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
 
     InventoryUpdatingHelper inventoryUpdatingHelper;
-    MemoryApender memoryApender;
+
+    public InventoryUpdatingHelperTest() {
+        super(InventoryUpdatingHelper.class);
+    }
 
     @BeforeEach
     void setUp() {
         inventoryUpdatingHelper = new InventoryUpdatingHelper(new FakeOrderNotificationMessagePublisherAdapter(),
                 new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(),
-                new FakePaidOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
 
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryUpdatingHelper.getClass());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
     }
 
     @AfterEach
     void cleanUp() {
-        memoryApender.reset();
-        memoryApender.stop();
+        destroy();
     }
 
     @Test
     void should_process() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 3L);
         var logMessage = String.format("Order approving notification sent to notification service by order id: %d", inventoryResponse.orderId());
 
 
@@ -74,7 +67,7 @@ class InventoryUpdatingHelperTest {
     @Test
     void should_process_fail_when_order_not_exist() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 2L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 7L);
 
         //when
         //then
@@ -85,7 +78,7 @@ class InventoryUpdatingHelperTest {
     @Test
     void should_process_fail_when_saga_id_wrong() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId, 1L);
+        var inventoryResponse = buildInventoryResponseWithParameters(wrongSagaId, 3L);
 
         //when
         //then
@@ -109,7 +102,7 @@ class InventoryUpdatingHelperTest {
     @Test
     void should_rollback_fail_when_order_not_exist() {
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 2L);
+        var inventoryResponse = buildInventoryResponseWithParameters(sagaId, 7L);
 
         //when
         //then

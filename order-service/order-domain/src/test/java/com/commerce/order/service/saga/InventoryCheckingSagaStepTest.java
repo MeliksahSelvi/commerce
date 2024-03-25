@@ -3,8 +3,9 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.adapter.FakeInventoryCheckingHelper;
+import com.commerce.order.service.adapter.helper.FakeInventoryCheckingHelper;
 import com.commerce.order.service.appender.MemoryApender;
+import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.order.usecase.InventoryResponse;
@@ -24,29 +25,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class InventoryCheckingSagaStepTest {
+class InventoryCheckingSagaStepTest extends LoggerTest<InventoryCheckingSagaStep> {
 
     private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
 
     InventoryCheckingSagaStep inventoryCheckingSagaStep;
-    MemoryApender memoryApender;
+
+    public InventoryCheckingSagaStepTest() {
+        super(InventoryCheckingSagaStep.class);
+    }
 
     @BeforeEach
     void setUp() {
         inventoryCheckingSagaStep = new InventoryCheckingSagaStep(new FakeInventoryCheckingHelper());
 
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryCheckingSagaStep.getClass());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
     }
 
     @AfterEach
     void cleanUp() {
-        memoryApender.reset();
-        memoryApender.stop();
+        destroy();
     }
 
     @Test
