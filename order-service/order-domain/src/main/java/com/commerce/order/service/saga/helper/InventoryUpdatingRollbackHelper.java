@@ -74,7 +74,7 @@ public class InventoryUpdatingRollbackHelper {
         inventoryOutbox.setOrderStatus(orderStatus);
         inventoryOutbox.setSagaStatus(sagaStatus);
         inventoryOutboxDataPort.save(inventoryOutbox);
-        logger.info("InventoryOutbox updated for inventory updating rollback with sagaId :{}",sagaId);
+        logger.info("InventoryOutbox updated for inventory updating rollback with sagaId: {}",sagaId);
         return savedOrder;
     }
 

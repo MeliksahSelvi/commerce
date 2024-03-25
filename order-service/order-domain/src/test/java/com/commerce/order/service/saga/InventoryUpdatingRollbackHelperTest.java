@@ -3,16 +3,18 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.commerce.order.service.adapter.FakeCheckingOrderDataAdapter;
+import com.commerce.order.service.adapter.FakePaidOrderDataAdapter;
 import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.common.exception.InventoryOutboxNotFoundException;
 import com.commerce.order.service.common.exception.OrderNotFoundException;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.order.service.order.adapters.messaging.adapter.FakeOrderNotificationMessagePublisherAdapter;
 import com.commerce.order.service.order.handler.adapter.FakeInventoryOutboxDataAdapter;
 import com.commerce.order.service.order.handler.adapter.FakeSagaHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
-import com.commerce.order.service.adapter.FakeApprovedOrderDataAdapter;
-import com.commerce.order.service.saga.helper.InventoryCheckingRollbackHelper;
+import com.commerce.order.service.saga.helper.InventoryUpdatingRollbackHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,20 +31,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @Created 21.03.2024
  */
 
-class InventoryCheckingRollbackHelperTest {
+class InventoryUpdatingRollbackHelperTest {
 
-    private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
-    private static final UUID wrongSagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
+    private static final UUID sagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
+    private static final UUID wrongSagaId = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
 
-    InventoryCheckingRollbackHelper inventoryCheckingRollbackHelper;
+
+    InventoryUpdatingRollbackHelper inventoryUpdatingRollbackHelper;
     MemoryApender memoryApender;
 
     @BeforeEach
-    void setUp(){
-        inventoryCheckingRollbackHelper=
-                new InventoryCheckingRollbackHelper(new FakeInventoryOutboxDataAdapter(),new FakeApprovedOrderDataAdapter(),new FakeSagaHelper());
+    void setUp() {
+        inventoryUpdatingRollbackHelper = new InventoryUpdatingRollbackHelper(new FakeOrderNotificationMessagePublisherAdapter(),
+                new FakeInventoryOutboxDataAdapter(), new FakeCheckingOrderDataAdapter(), new FakeSagaHelper());
 
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryCheckingRollbackHelper.getClass());
+        Logger logger = (Logger) LoggerFactory.getLogger(inventoryUpdatingRollbackHelper.getClass());
         memoryApender = new MemoryApender();
         memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
         logger.setLevel(Level.INFO);
@@ -60,13 +63,13 @@ class InventoryCheckingRollbackHelperTest {
     void should_process() {
         //given
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
-        var logMessage = String.format("InventoryOutbox is updated for inventory checking rollback with sagaId: %s", sagaId);
+        var logMessage = String.format("InventoryOutbox updated for inventory updating rollback with sagaId: %s", sagaId);
 
         //when
-        inventoryCheckingRollbackHelper.process(inventoryResponse);
+        inventoryUpdatingRollbackHelper.process(inventoryResponse);
 
         //then
-        assertDoesNotThrow(() -> inventoryCheckingRollbackHelper.process(inventoryResponse));
+        assertDoesNotThrow(() -> inventoryUpdatingRollbackHelper.process(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
@@ -77,7 +80,7 @@ class InventoryCheckingRollbackHelperTest {
 
         //when
         //then
-        var orderNotFoundException = assertThrows(OrderNotFoundException.class, () -> inventoryCheckingRollbackHelper.process(inventoryResponse));
+        var orderNotFoundException = assertThrows(OrderNotFoundException.class, () -> inventoryUpdatingRollbackHelper.process(inventoryResponse));
         assertEquals(String.format("Order could not found with id: %d", inventoryResponse.orderId()), orderNotFoundException.getMessage());
     }
 
@@ -89,7 +92,7 @@ class InventoryCheckingRollbackHelperTest {
         //when
         //then
         var inventoryOutboxNotFoundException =
-                assertThrows(InventoryOutboxNotFoundException.class, () -> inventoryCheckingRollbackHelper.process(inventoryResponse));
+                assertThrows(InventoryOutboxNotFoundException.class, () -> inventoryUpdatingRollbackHelper.process(inventoryResponse));
         assertEquals(String.format("InventoryOutbox could not found with sagaId: %s", wrongSagaId), inventoryOutboxNotFoundException.getMessage());
     }
 
@@ -97,13 +100,13 @@ class InventoryCheckingRollbackHelperTest {
     void should_rollback() {
         //given
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
-        var logMessage = String.format("InventoryOutbox is updated for inventory checking rollback with sagaId: %s", sagaId);
+        var logMessage = String.format("InventoryOutbox updated for inventory updating rollback with sagaId: %s", sagaId);
 
         //when
-        inventoryCheckingRollbackHelper.process(inventoryResponse);
+        inventoryUpdatingRollbackHelper.process(inventoryResponse);
 
         //then
-        assertDoesNotThrow(() -> inventoryCheckingRollbackHelper.rollback(inventoryResponse));
+        assertDoesNotThrow(() -> inventoryUpdatingRollbackHelper.rollback(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
@@ -115,7 +118,7 @@ class InventoryCheckingRollbackHelperTest {
         //when
         //then
         var orderNotFoundException = assertThrows(OrderNotFoundException.class,
-                () -> inventoryCheckingRollbackHelper.rollback(inventoryResponse));
+                () -> inventoryUpdatingRollbackHelper.rollback(inventoryResponse));
         assertEquals(String.format("Order could not found with id: %d", inventoryResponse.orderId()), orderNotFoundException.getMessage());
     }
 
@@ -127,7 +130,7 @@ class InventoryCheckingRollbackHelperTest {
         //when
         //then
         var inventoryOutboxNotFoundException =
-                assertThrows(InventoryOutboxNotFoundException.class, () -> inventoryCheckingRollbackHelper.rollback(inventoryResponse));
+                assertThrows(InventoryOutboxNotFoundException.class, () -> inventoryUpdatingRollbackHelper.rollback(inventoryResponse));
         assertEquals(String.format("InventoryOutbox could not found with sagaId: %s", wrongSagaId), inventoryOutboxNotFoundException.getMessage());
     }
 
