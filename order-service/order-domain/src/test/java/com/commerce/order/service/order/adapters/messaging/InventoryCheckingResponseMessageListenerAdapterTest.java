@@ -7,7 +7,7 @@ import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.order.adapters.messaging.adapter.FakeInventoryCheckingRollbackSagaStep;
 import com.commerce.order.service.order.adapters.messaging.adapter.FakeInventoryCheckingSagaStep;
-import com.commerce.order.service.order.adapters.messaging.appender.MemoryApender;
+import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class InventoryCheckingResponseMessageListenerAdapterTest {
         adapter = new InventoryCheckingResponseMessageListenerAdapter(
                 new FakeInventoryCheckingSagaStep(), new FakeInventoryCheckingRollbackSagaStep());
 
-        Logger logger = (Logger) LoggerFactory.getLogger(adapter.getClass().getPackageName());
+        Logger logger = (Logger) LoggerFactory.getLogger(adapter.getClass());
         memoryApender = new MemoryApender();
         memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
         logger.setLevel(Level.INFO);

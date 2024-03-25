@@ -1,7 +1,6 @@
 package com.commerce.order.service.order.adapters.messaging.adapter;
 
 import com.commerce.order.service.order.handler.adapter.FakeInventoryOutboxDataAdapter;
-import com.commerce.order.service.order.handler.adapter.FakeOrderDataAdapter;
 import com.commerce.order.service.order.handler.adapter.FakeSagaHelper;
 import com.commerce.order.service.saga.helper.InventoryUpdatingRollbackHelper;
 
@@ -12,6 +11,6 @@ import com.commerce.order.service.saga.helper.InventoryUpdatingRollbackHelper;
 
 public class FakeInventoryUpdatingRollbackHelper extends InventoryUpdatingRollbackHelper {
     public FakeInventoryUpdatingRollbackHelper() {
-        super(new FakeOrderNotificationMessagePublisherAdapter(), new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper());
+        super(new FakeOrderNotificationMessagePublisherAdapter(), new FakeInventoryOutboxDataAdapter(), new FakeCheckingOrderDataAdapter(), new FakeSagaHelper());
     }
 }

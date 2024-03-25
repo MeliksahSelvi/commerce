@@ -19,15 +19,15 @@ public class InventoryUpdatingResponseMessageListenerAdapter implements Inventor
     private static final Logger logger = LoggerFactory.getLogger(InventoryUpdatingResponseMessageListenerAdapter.class);
 
     @Qualifier("inventoryUpdatingSagaStep")
-    private final SagaStep<InventoryResponse> inventoryProcessingSagaStep;
+    private final SagaStep<InventoryResponse> inventoryUpdatingSagaStep;
 
     @Qualifier("inventoryUpdatingRollbackSagaStep")
-    private final SagaStep<InventoryResponse> inventoryProcessingRollbackSagaStep;
+    private final SagaStep<InventoryResponse> inventoryUpdatingRollbackSagaStep;
 
-    public InventoryUpdatingResponseMessageListenerAdapter(SagaStep<InventoryResponse> inventoryProcessingSagaStep,
-                                                           SagaStep<InventoryResponse> inventoryProcessingRollbackSagaStep) {
-        this.inventoryProcessingSagaStep = inventoryProcessingSagaStep;
-        this.inventoryProcessingRollbackSagaStep = inventoryProcessingRollbackSagaStep;
+    public InventoryUpdatingResponseMessageListenerAdapter(SagaStep<InventoryResponse> inventoryUpdatingSagaStep,
+                                                           SagaStep<InventoryResponse> inventoryUpdatingRollbackSagaStep) {
+        this.inventoryUpdatingSagaStep = inventoryUpdatingSagaStep;
+        this.inventoryUpdatingRollbackSagaStep = inventoryUpdatingRollbackSagaStep;
     }
 
     @Override
@@ -35,11 +35,11 @@ public class InventoryUpdatingResponseMessageListenerAdapter implements Inventor
         switch (inventoryResponse.inventoryStatus()) {
             case AVAILABLE -> {
                 logger.info("InventoryResponse is available for Inventory updating action");
-                inventoryProcessingSagaStep.process(inventoryResponse);
+                inventoryUpdatingSagaStep.process(inventoryResponse);
             }
             case NON_AVAILABLE -> {
                 logger.info("InventoryResponse is not available for Inventory updating action");
-                inventoryProcessingSagaStep.rollback(inventoryResponse);
+                inventoryUpdatingSagaStep.rollback(inventoryResponse);
             }
         }
     }
@@ -49,11 +49,11 @@ public class InventoryUpdatingResponseMessageListenerAdapter implements Inventor
         switch (inventoryResponse.inventoryStatus()) {
             case AVAILABLE -> {
                 logger.info("InventoryResponse is available for Inventory updating rollback action");
-                inventoryProcessingRollbackSagaStep.process(inventoryResponse);
+                inventoryUpdatingRollbackSagaStep.process(inventoryResponse);
             }
             case NON_AVAILABLE -> {
                 logger.info("InventoryResponse is not available for Inventory updating rollback action");
-                inventoryProcessingRollbackSagaStep.rollback(inventoryResponse);
+                inventoryUpdatingRollbackSagaStep.rollback(inventoryResponse);
             }
         }
     }

@@ -11,6 +11,6 @@ import com.commerce.order.service.saga.helper.InventoryCheckingHelper;
 public class FakeInventoryCheckingHelper extends InventoryCheckingHelper {
 
     public FakeInventoryCheckingHelper() {
-        super(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+        super(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(), new FakeCheckingOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
     }
 }
