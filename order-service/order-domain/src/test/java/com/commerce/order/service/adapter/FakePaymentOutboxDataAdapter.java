@@ -18,6 +18,7 @@ import java.util.UUID;
 
 public class FakePaymentOutboxDataAdapter implements PaymentOutboxDataPort {
 
+    private static final UUID EXIST_SAGA_ID = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
     private boolean deleteActionForOutboxAndSagaStatuses = false;
 
     @Override
@@ -68,6 +69,9 @@ public class FakePaymentOutboxDataAdapter implements PaymentOutboxDataPort {
 
     @Override
     public Optional<PaymentOutbox> findBySagaIdAndSagaStatuses(UUID sagaId, SagaStatus... sagaStatuses) {
+        if (!EXIST_SAGA_ID.equals(sagaId)){
+            return Optional.empty();
+        }
         return Optional.of(
                 PaymentOutbox.builder()
                         .id(1L)
