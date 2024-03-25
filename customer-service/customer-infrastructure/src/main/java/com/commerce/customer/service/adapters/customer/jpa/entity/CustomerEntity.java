@@ -1,4 +1,4 @@
-package com.commerce.customer.service.adapters.customer.customer.jpa.entity;
+package com.commerce.customer.service.adapters.customer.jpa.entity;
 
 import com.commerce.customer.service.common.model.AbstractEntity;
 import com.commerce.customer.service.customer.entity.Customer;

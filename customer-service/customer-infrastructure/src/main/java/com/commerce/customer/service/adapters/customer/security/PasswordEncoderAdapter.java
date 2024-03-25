@@ -1,4 +1,4 @@
-package com.commerce.customer.service.adapters.customer.customer.security;
+package com.commerce.customer.service.adapters.customer.security;
 
 import com.commerce.customer.service.customer.port.security.EncryptingPort;
 import org.slf4j.Logger;
