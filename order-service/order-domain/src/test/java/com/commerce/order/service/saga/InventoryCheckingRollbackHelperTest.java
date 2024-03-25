@@ -11,7 +11,7 @@ import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.order.handler.adapter.FakeInventoryOutboxDataAdapter;
 import com.commerce.order.service.order.handler.adapter.FakeSagaHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
-import com.commerce.order.service.saga.adapter.FakeApprovedOrderDataAdapter;
+import com.commerce.order.service.adapter.FakeApprovedOrderDataAdapter;
 import com.commerce.order.service.saga.helper.InventoryCheckingRollbackHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

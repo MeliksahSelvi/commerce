@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.handler;
 
+import com.commerce.order.service.adapter.FakeCheckingOrderDataAdapter;
 import com.commerce.order.service.common.exception.OrderNotFoundException;
-import com.commerce.order.service.order.handler.adapter.FakeOrderDataAdapter;
 import com.commerce.order.service.order.usecase.TrackOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class TrackOrderUseCaseHandlerTest {
 
     @BeforeEach
     void setUp() {
-        trackOrderUseCaseHandler = new TrackOrderUseCaseHandler(new FakeOrderDataAdapter());
+        trackOrderUseCaseHandler = new TrackOrderUseCaseHandler(new FakeCheckingOrderDataAdapter());
     }
 
     @Test

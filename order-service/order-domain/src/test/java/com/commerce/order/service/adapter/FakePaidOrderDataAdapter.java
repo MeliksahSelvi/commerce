@@ -1,4 +1,4 @@
-package com.commerce.order.service.order.handler.adapter;
+package com.commerce.order.service.adapter;
 
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
@@ -15,10 +15,10 @@ import java.util.Optional;
 
 /**
  * @Author mselvi
- * @Created 21.03.2024
+ * @Created 25.03.2024
  */
 
-public class FakeOrderDataAdapter implements OrderDataPort {
+public class FakePaidOrderDataAdapter implements OrderDataPort {
 
     private static final Long EXIST_ORDER_ID = 1L;
 
@@ -81,7 +81,7 @@ public class FakeOrderDataAdapter implements OrderDataPort {
                                         .postalCode("postalCode")
                                         .build()
                         )
-                        .orderStatus(OrderStatus.CHECKING)
+                        .orderStatus(OrderStatus.PAID)
                         .customerId(1L)
                         .build()
         );

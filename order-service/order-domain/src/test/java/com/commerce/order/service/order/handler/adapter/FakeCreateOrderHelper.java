@@ -1,5 +1,6 @@
 package com.commerce.order.service.order.handler.adapter;
 
+import com.commerce.order.service.adapter.FakeCheckingOrderDataAdapter;
 import com.commerce.order.service.order.handler.helper.CreateOrderHelper;
 
 /**
@@ -9,6 +10,6 @@ import com.commerce.order.service.order.handler.helper.CreateOrderHelper;
 
 public class FakeCreateOrderHelper extends CreateOrderHelper {
     public FakeCreateOrderHelper() {
-        super(new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter(), new FakeInnerRestAdapter());
+        super(new FakeInventoryOutboxDataAdapter(), new FakeCheckingOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter(), new FakeInnerRestAdapter());
     }
 }

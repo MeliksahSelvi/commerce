@@ -1,5 +1,6 @@
 package com.commerce.order.service.order.handler.adapter;
 
+import com.commerce.order.service.adapter.FakeCheckingOrderDataAdapter;
 import com.commerce.order.service.order.handler.helper.CancelOrderHelper;
 
 /**
@@ -9,6 +10,6 @@ import com.commerce.order.service.order.handler.helper.CancelOrderHelper;
 
 public class FakeCancelOrderHelper extends CancelOrderHelper {
     public FakeCancelOrderHelper() {
-        super(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+        super(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(), new FakeCheckingOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
     }
 }

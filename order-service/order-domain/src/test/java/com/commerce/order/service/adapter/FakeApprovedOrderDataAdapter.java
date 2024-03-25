@@ -1,4 +1,4 @@
-package com.commerce.order.service.order.adapters.messaging.adapter;
+package com.commerce.order.service.adapter;
 
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
@@ -18,10 +18,10 @@ import java.util.Optional;
  * @Created 25.03.2024
  */
 
-public class FakeCheckingOrderDataAdapter implements OrderDataPort {
-
-
+public class FakeApprovedOrderDataAdapter implements OrderDataPort {
     private static final Long EXIST_ORDER_ID = 1L;
+    private static final Long NOT_EXIST_ORDER_ID=2L;
+    private static final Long APPROVED_STATUS_ORDER_ID = 3L;
 
     @Override
     public Order save(Order order) {
@@ -38,7 +38,7 @@ public class FakeCheckingOrderDataAdapter implements OrderDataPort {
 
     @Override
     public Optional<Order> findById(Long orderId) {
-        if (EXIST_ORDER_ID != orderId) {
+        if (NOT_EXIST_ORDER_ID == orderId) {
             return Optional.empty();
         }
         return Optional.of(
@@ -82,7 +82,7 @@ public class FakeCheckingOrderDataAdapter implements OrderDataPort {
                                         .postalCode("postalCode")
                                         .build()
                         )
-                        .orderStatus(OrderStatus.CHECKING)
+                        .orderStatus(APPROVED_STATUS_ORDER_ID == orderId ? OrderStatus.APPROVED : OrderStatus.CHECKING)
                         .customerId(1L)
                         .build()
         );
