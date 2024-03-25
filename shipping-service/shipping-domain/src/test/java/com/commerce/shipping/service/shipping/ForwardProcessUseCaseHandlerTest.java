@@ -1,20 +1,17 @@
 package com.commerce.shipping.service.shipping;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.shipping.adapters.FakeForwardShippingDataAdapter;
-import com.commerce.shipping.service.shipping.entity.Shipping;
 import com.commerce.shipping.service.shipping.adapters.FakeOrderNotificationMessagePublisherAdapter;
-import com.commerce.shipping.service.shipping.appender.MemoryApender;
+import com.commerce.shipping.service.shipping.common.LoggerTest;
+import com.commerce.shipping.service.shipping.entity.Shipping;
 import com.commerce.shipping.service.shipping.handler.ForwardProcessUseCaseHandler;
 import com.commerce.shipping.service.shipping.usecase.ForwardProcess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,27 +20,22 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Created 21.03.2024
  */
 
-class ForwardProcessUseCaseHandlerTest {
+class ForwardProcessUseCaseHandlerTest extends LoggerTest<ForwardProcessUseCaseHandler> {
 
     ForwardProcessUseCaseHandler forwardProcessUseCaseHandler;
-    MemoryApender memoryApender;
+
+    public ForwardProcessUseCaseHandlerTest() {
+        super(ForwardProcessUseCaseHandler.class);
+    }
 
     @BeforeEach
     void setUp() {
         forwardProcessUseCaseHandler = new ForwardProcessUseCaseHandler(new FakeOrderNotificationMessagePublisherAdapter(), new FakeForwardShippingDataAdapter());
-
-        Logger logger = (Logger) LoggerFactory.getLogger(forwardProcessUseCaseHandler.getClass().getPackageName());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
     }
 
     @AfterEach
     void cleanUp() {
-        memoryApender.reset();
-        memoryApender.stop();
+        destroy();
     }
 
     @Test
@@ -56,7 +48,7 @@ class ForwardProcessUseCaseHandlerTest {
         //then
         Shipping shipping = assertDoesNotThrow(() -> forwardProcessUseCaseHandler.handle(forwardProcess));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
-        assertEquals(forwardProcess.newStatus(),shipping.getDeliveryStatus());
+        assertEquals(forwardProcess.newStatus(), shipping.getDeliveryStatus());
     }
 
     @Test
