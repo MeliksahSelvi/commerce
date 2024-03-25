@@ -5,7 +5,7 @@ At the meantime I will add unit and integration tests at end of the project.
 I think trying to Java 21/22 features such as Virtual Thread, String Templates, Record For Pattern Matching etc on this project.
 
 In the other hand, I will have increasing my knowledge of clean code and refactoring code. 
-This project will be the biggest project of my own projects. This adventure will improve me by all aspects of software engineering.
+This project will be the biggest project in my software adventure. This adventure will improve me by all aspects of software engineering.
 
 ## Technology Stack used in this project:
 
