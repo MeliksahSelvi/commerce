@@ -3,7 +3,7 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.order.adapters.messaging.adapter.FakeInventoryCheckingHelper;
+import com.commerce.order.service.adapter.FakeInventoryCheckingHelper;
 import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;

@@ -3,16 +3,17 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.commerce.order.service.adapter.FakePaymentResponseHelper;
 import com.commerce.order.service.appender.MemoryApender;
-import com.commerce.order.service.common.valueobject.InventoryStatus;
-import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.adapter.FakeInventoryUpdatingHelper;
-import com.commerce.order.service.order.usecase.InventoryResponse;
+import com.commerce.order.service.common.valueobject.Money;
+import com.commerce.order.service.common.valueobject.PaymentStatus;
+import com.commerce.order.service.order.usecase.PaymentResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -24,17 +25,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class InventoryUpdatingSagaStepTest {
+class PaymentResponseSagaStepTest {
 
     private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
 
-    InventoryUpdatingSagaStep inventoryUpdatingSagaStep;
+
+    PaymentResponseSagaStep paymentResponseSagaStep;
     MemoryApender memoryApender;
 
     @BeforeEach
-    void setUp(){
-        inventoryUpdatingSagaStep=new InventoryUpdatingSagaStep(new FakeInventoryUpdatingHelper());
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryUpdatingSagaStep.getClass());
+    void setUp() {
+        paymentResponseSagaStep = new PaymentResponseSagaStep(new FakePaymentResponseHelper());
+
+        Logger logger = (Logger) LoggerFactory.getLogger(paymentResponseSagaStep.getClass());
         memoryApender = new MemoryApender();
         memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
         logger.setLevel(Level.INFO);
@@ -51,28 +54,28 @@ class InventoryUpdatingSagaStepTest {
     @Test
     void should_process(){
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId);
-        var logMessage="Processing action for inventory updating started with InventoryResponse";
+        var paymentResponse = buildPaymentResponse();
+        var logMessage="Processing action for payment started with PaymentResponse";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryUpdatingSagaStep.process(inventoryResponse));
+        assertDoesNotThrow(() -> paymentResponseSagaStep.process(paymentResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
     @Test
     void should_rollback(){
         //given
-        var inventoryResponse = buildInventoryResponseWithParameters(sagaId);
-        var logMessage="Rollback action for inventory updating started with InventoryResponse";
+        var inventoryResponse = buildPaymentResponse();
+        var logMessage="Rollback action for payment started with PaymentResponse";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryUpdatingSagaStep.rollback(inventoryResponse));
+        assertDoesNotThrow(() -> paymentResponseSagaStep.rollback(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
-    private InventoryResponse buildInventoryResponseWithParameters(UUID sagaId) {
-        return new InventoryResponse(sagaId, 1L, 1L, InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING, new ArrayList<>());
+    private PaymentResponse buildPaymentResponse(){
+        return new PaymentResponse(sagaId,1L,1L,1L,new Money(BigDecimal.TEN), PaymentStatus.COMPLETED,new ArrayList<>());
     }
 }

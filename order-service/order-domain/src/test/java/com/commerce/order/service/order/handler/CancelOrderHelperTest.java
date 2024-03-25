@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.handler;
 
 import com.commerce.order.service.common.exception.OrderNotFoundException;
-import com.commerce.order.service.order.handler.adapter.FakeCancelOrderHelper;
+import com.commerce.order.service.adapter.FakeCancelOrderHelper;
 import com.commerce.order.service.order.handler.helper.CancelOrderHelper;
 import com.commerce.order.service.order.usecase.CancelOrder;
 import org.junit.jupiter.api.BeforeEach;

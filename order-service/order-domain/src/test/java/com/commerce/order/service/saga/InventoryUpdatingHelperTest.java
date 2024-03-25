@@ -9,11 +9,11 @@ import com.commerce.order.service.common.exception.InventoryOutboxNotFoundExcept
 import com.commerce.order.service.common.exception.OrderNotFoundException;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.order.adapters.messaging.adapter.FakeOrderNotificationMessagePublisherAdapter;
-import com.commerce.order.service.order.handler.adapter.FakeInventoryOutboxDataAdapter;
-import com.commerce.order.service.order.handler.adapter.FakeJsonAdapter;
-import com.commerce.order.service.order.handler.adapter.FakePaymentOutboxDataAdapter;
-import com.commerce.order.service.order.handler.adapter.FakeSagaHelper;
+import com.commerce.order.service.adapter.FakeOrderNotificationMessagePublisherAdapter;
+import com.commerce.order.service.adapter.FakeInventoryOutboxDataAdapter;
+import com.commerce.order.service.adapter.FakeJsonAdapter;
+import com.commerce.order.service.adapter.FakePaymentOutboxDataAdapter;
+import com.commerce.order.service.adapter.FakeSagaHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import com.commerce.order.service.saga.helper.InventoryUpdatingHelper;
 import org.junit.jupiter.api.AfterEach;

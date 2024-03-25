@@ -1,7 +1,5 @@
-package com.commerce.order.service.order.adapters.messaging.adapter;
+package com.commerce.order.service.adapter;
 
-import com.commerce.order.service.adapter.FakePaidOrderDataAdapter;
-import com.commerce.order.service.order.handler.adapter.*;
 import com.commerce.order.service.saga.helper.InventoryUpdatingHelper;
 
 /**

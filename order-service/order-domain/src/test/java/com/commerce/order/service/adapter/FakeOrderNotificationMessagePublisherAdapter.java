@@ -1,4 +1,4 @@
-package com.commerce.order.service.order.adapters.messaging.adapter;
+package com.commerce.order.service.adapter;
 
 import com.commerce.order.service.order.port.messaging.output.OrderNotificationMessagePublisher;
 import com.commerce.order.service.order.usecase.OrderNotificationMessage;
