@@ -4,6 +4,8 @@ import com.commerce.order.service.common.DomainComponent;
 import com.commerce.order.service.common.saga.SagaStep;
 import com.commerce.order.service.order.port.messaging.input.InventoryUpdatingResponseMessageListener;
 import com.commerce.order.service.order.usecase.InventoryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @DomainComponent
 public class InventoryUpdatingResponseMessageListenerAdapter implements InventoryUpdatingResponseMessageListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(InventoryUpdatingResponseMessageListenerAdapter.class);
 
     @Qualifier("inventoryUpdatingSagaStep")
     private final SagaStep<InventoryResponse> inventoryProcessingSagaStep;
@@ -27,18 +31,30 @@ public class InventoryUpdatingResponseMessageListenerAdapter implements Inventor
     }
 
     @Override
-    public void processing(InventoryResponse inventoryResponse) {
+    public void updating(InventoryResponse inventoryResponse) {
         switch (inventoryResponse.inventoryStatus()) {
-            case AVAILABLE -> inventoryProcessingSagaStep.process(inventoryResponse);
-            case NON_AVAILABLE -> inventoryProcessingSagaStep.rollback(inventoryResponse);
+            case AVAILABLE -> {
+                logger.info("InventoryResponse is available for Inventory updating action");
+                inventoryProcessingSagaStep.process(inventoryResponse);
+            }
+            case NON_AVAILABLE -> {
+                logger.info("InventoryResponse is not available for Inventory updating action");
+                inventoryProcessingSagaStep.rollback(inventoryResponse);
+            }
         }
     }
 
     @Override
-    public void processingRollback(InventoryResponse inventoryResponse) {
+    public void updatingRollback(InventoryResponse inventoryResponse) {
         switch (inventoryResponse.inventoryStatus()) {
-            case AVAILABLE -> inventoryProcessingRollbackSagaStep.process(inventoryResponse);
-            case NON_AVAILABLE -> inventoryProcessingRollbackSagaStep.rollback(inventoryResponse);
+            case AVAILABLE -> {
+                logger.info("InventoryResponse is available for Inventory updating rollback action");
+                inventoryProcessingRollbackSagaStep.process(inventoryResponse);
+            }
+            case NON_AVAILABLE -> {
+                logger.info("InventoryResponse is not available for Inventory updating rollback action");
+                inventoryProcessingRollbackSagaStep.rollback(inventoryResponse);
+            }
         }
     }
 }

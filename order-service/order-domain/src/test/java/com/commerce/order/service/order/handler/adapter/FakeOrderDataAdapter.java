@@ -81,7 +81,7 @@ public class FakeOrderDataAdapter implements OrderDataPort {
                                         .postalCode("postalCode")
                                         .build()
                         )
-                        .orderStatus(OrderStatus.CHECKING)
+                        .orderStatus(OrderStatus.PAID)
                         .customerId(1L)
                         .build()
         );

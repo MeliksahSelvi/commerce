@@ -9,7 +9,7 @@ import com.commerce.order.service.order.usecase.InventoryResponse;
 
 public interface InventoryUpdatingResponseMessageListener {
 
-    void processing(InventoryResponse inventoryResponse);
+    void updating(InventoryResponse inventoryResponse);
 
-    void processingRollback(InventoryResponse inventoryResponse);
+    void updatingRollback(InventoryResponse inventoryResponse);
 }

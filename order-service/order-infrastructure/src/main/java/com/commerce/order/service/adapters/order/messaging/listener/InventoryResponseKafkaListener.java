@@ -62,11 +62,11 @@ public class InventoryResponseKafkaListener implements KafkaConsumer<InventoryRe
                     }
                     case UPDATING -> {
                         logger.info("InventoryResponse sent to updating action");
-                        inventoryUpdatingResponseMessageListener.processing(inventoryResponse);
+                        inventoryUpdatingResponseMessageListener.updating(inventoryResponse);
                     }
                     case UPDATING_ROLLBACK -> {
                         logger.info("InventoryResponse sent to updating rollback action");
-                        inventoryUpdatingResponseMessageListener.processingRollback(inventoryResponse);
+                        inventoryUpdatingResponseMessageListener.updatingRollback(inventoryResponse);
                     }
                 }
             } catch (Exception e) {
