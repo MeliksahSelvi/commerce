@@ -35,6 +35,7 @@ class InventoryCheckingHelperTest {
 
     private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
     private static final UUID wrongSagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2d");
+
     InventoryCheckingHelper inventoryCheckingHelper;
     MemoryApender memoryApender;
 
@@ -63,8 +64,6 @@ class InventoryCheckingHelperTest {
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
         var logMessage = String.format("PaymentOutbox persisted for inventory checking process by sagaId: %s", inventoryResponse.sagaId());
 
-        //when
-        inventoryCheckingHelper.process(inventoryResponse);
 
         //then
         assertDoesNotThrow(() -> inventoryCheckingHelper.process(inventoryResponse));
@@ -111,11 +110,9 @@ class InventoryCheckingHelperTest {
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId,1L);
         var logMessage = String.format("InventoryOutbox updated for inventory checking rollback by sagaId: %s", inventoryResponse.sagaId());
 
-        //when
-        inventoryCheckingHelper.rollback(inventoryResponse);
 
         //then
-        assertDoesNotThrow(() -> inventoryCheckingHelper.process(inventoryResponse));
+        assertDoesNotThrow(() -> inventoryCheckingHelper.rollback(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 

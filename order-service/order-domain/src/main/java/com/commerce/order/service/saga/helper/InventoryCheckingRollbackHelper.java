@@ -74,6 +74,6 @@ public class InventoryCheckingRollbackHelper {
 
     private InventoryOutbox findInventoryOutboxBySagaId(UUID sagaId) {
         return inventoryOutboxDataPort.findBySagaIdAndSagaStatusAndOrderInventoryStatus(sagaId, SagaStatus.CANCELLING, OrderInventoryStatus.CHECKING_ROLLBACK)
-                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %d", sagaId)));
+                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %s", sagaId)));
     }
 }

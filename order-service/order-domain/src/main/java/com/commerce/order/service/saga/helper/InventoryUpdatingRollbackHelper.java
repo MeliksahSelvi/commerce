@@ -80,7 +80,7 @@ public class InventoryUpdatingRollbackHelper {
 
     private InventoryOutbox getInventoryOutboxBySagaId(UUID sagaId) {
         return inventoryOutboxDataPort.findBySagaIdAndSagaStatusAndOrderInventoryStatus(sagaId, SagaStatus.CANCELLING, OrderInventoryStatus.UPDATING_ROLLBACK)
-                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %d", sagaId)));
+                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %s", sagaId)));
     }
 
     private Order findOrder(Long orderId) {

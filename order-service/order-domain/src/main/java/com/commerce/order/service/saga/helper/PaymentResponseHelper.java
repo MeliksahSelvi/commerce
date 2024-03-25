@@ -85,7 +85,7 @@ public class PaymentResponseHelper {
 
     private PaymentOutbox getPaymentOutboxBySagaIdSagaStatuses(UUID sagaId, SagaStatus... sagaStatuses) {
         return paymentOutboxDataPort.findBySagaIdAndSagaStatuses(sagaId, sagaStatuses)
-                .orElseThrow(() -> new PaymentOutboxNotFoundException(String.format("PaymentOutbox could not found with sagaId: %d", sagaId)));
+                .orElseThrow(() -> new PaymentOutboxNotFoundException(String.format("PaymentOutbox could not found with sagaId: %s", sagaId)));
     }
 
     private InventoryOutbox buildInventoryOutbox(UUID sagaId, Order order, OrderStatus orderStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
