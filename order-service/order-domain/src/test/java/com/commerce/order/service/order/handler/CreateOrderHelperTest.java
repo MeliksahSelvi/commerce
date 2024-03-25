@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.handler;
 
 import com.commerce.order.service.common.exception.OrderDomainException;
-import com.commerce.order.service.order.handler.adapter.FakeCreateOrderHelper;
+import com.commerce.order.service.order.handler.adapter.*;
 import com.commerce.order.service.order.handler.common.CreateOrderCommonData;
 import com.commerce.order.service.order.handler.helper.CreateOrderHelper;
 import com.commerce.order.service.order.usecase.CreateOrder;
@@ -22,7 +22,8 @@ class CreateOrderHelperTest {
 
     @BeforeEach
     void setUp() {
-        createOrderHelper = new FakeCreateOrderHelper();
+        createOrderHelper = new CreateOrderHelper(new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(),
+                new FakeSagaHelper(), new FakeJsonAdapter(), new FakeInnerRestAdapter());
 
         createOrderCommonData = new CreateOrderCommonData();
     }

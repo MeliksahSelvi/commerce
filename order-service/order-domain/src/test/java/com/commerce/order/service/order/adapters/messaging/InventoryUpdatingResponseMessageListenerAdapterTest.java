@@ -51,8 +51,8 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_inventory_status_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING);
-        String logMessage = "InventoryResponse is available for Inventory updating action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING);
+        var logMessage = "InventoryResponse is available for Inventory updating action";
 
         //when
         //then
@@ -63,8 +63,8 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_inventory_status_non_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING);
-        String logMessage = "InventoryResponse is not available for Inventory updating action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING);
+        var logMessage = "InventoryResponse is not available for Inventory updating action";
 
         //when
         //then
@@ -75,8 +75,8 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_rollback_inventory_status_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
-        String logMessage = "InventoryResponse is available for Inventory updating rollback action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
+        var logMessage = "InventoryResponse is available for Inventory updating rollback action";
 
         //when
         //then
@@ -87,8 +87,8 @@ class InventoryUpdatingResponseMessageListenerAdapterTest {
     @Test
     void should_updating_rollback_inventory_status_non_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
-        String logMessage = "InventoryResponse is not available for Inventory updating rollback action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.UPDATING_ROLLBACK);
+        var logMessage = "InventoryResponse is not available for Inventory updating rollback action";
 
         //when
         //then

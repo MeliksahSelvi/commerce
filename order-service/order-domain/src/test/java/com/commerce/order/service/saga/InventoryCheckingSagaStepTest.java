@@ -50,8 +50,8 @@ class InventoryCheckingSagaStepTest {
     @Test
     void should_process() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponse();
-        String logMessage="InventoryResponse processing action is started";
+        var inventoryResponse = buildInventoryResponse();
+        var logMessage="InventoryResponse processing action is started";
 
         //when
         //then
@@ -62,8 +62,8 @@ class InventoryCheckingSagaStepTest {
     @Test
     void should_update(){
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponse();
-        String logMessage="InventoryResponse rollback action is started";
+        var inventoryResponse = buildInventoryResponse();
+        var logMessage="InventoryResponse rollback action is started";
 
         //when
         //then

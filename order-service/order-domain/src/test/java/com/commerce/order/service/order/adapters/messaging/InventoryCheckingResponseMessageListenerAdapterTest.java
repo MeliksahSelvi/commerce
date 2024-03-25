@@ -52,8 +52,8 @@ class InventoryCheckingResponseMessageListenerAdapterTest {
     @Test
     void should_checking_inventory_status_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING);
-        String logMessage = "InventoryResponse is available for Inventory checking action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING);
+        var logMessage = "InventoryResponse is available for Inventory checking action";
 
         //when
         //then
@@ -64,8 +64,8 @@ class InventoryCheckingResponseMessageListenerAdapterTest {
     @Test
     void should_checking_inventory_status_non_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.CHECKING);
-        String logMessage = "InventoryResponse is not available for Inventory checking action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.CHECKING);
+        var logMessage = "InventoryResponse is not available for Inventory checking action";
 
         //when
         //then
@@ -76,8 +76,8 @@ class InventoryCheckingResponseMessageListenerAdapterTest {
     @Test
     void should_checking_rollback_inventory_status_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING_ROLLBACK);
-        String logMessage = "InventoryResponse is available for Inventory checking rollback action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING_ROLLBACK);
+        var logMessage = "InventoryResponse is available for Inventory checking rollback action";
 
         //when
         //then
@@ -88,8 +88,8 @@ class InventoryCheckingResponseMessageListenerAdapterTest {
     @Test
     void should_checking_rollback_inventory_status_non_available() {
         //given
-        InventoryResponse inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.CHECKING_ROLLBACK);
-        String logMessage = "InventoryResponse is not available for Inventory checking rollback action";
+        var inventoryResponse = buildInventoryResponseWithParameter(InventoryStatus.NON_AVAILABLE, OrderInventoryStatus.CHECKING_ROLLBACK);
+        var logMessage = "InventoryResponse is not available for Inventory checking rollback action";
 
         //when
         //then

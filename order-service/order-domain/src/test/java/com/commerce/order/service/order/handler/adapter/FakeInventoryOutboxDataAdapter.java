@@ -19,13 +19,14 @@ import java.util.UUID;
 
 public class FakeInventoryOutboxDataAdapter implements InventoryOutboxDataPort {
 
+    private static final UUID EXIST_SAGA_ID = UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
     private boolean deleteActionForOutboxAndSagaStatuses = false;
     private boolean deleteActionForOutboxAndSagaStatusAndOrderInventoryStatus = false;
 
     @Override
     public InventoryOutbox save(InventoryOutbox inventoryOutbox) {
         deleteActionForOutboxAndSagaStatuses = false;
-        deleteActionForOutboxAndSagaStatusAndOrderInventoryStatus=false;
+        deleteActionForOutboxAndSagaStatusAndOrderInventoryStatus = false;
         return InventoryOutbox.builder()
                 .id(inventoryOutbox.getId())
                 .orderStatus(inventoryOutbox.getOrderStatus())
@@ -111,6 +112,9 @@ public class FakeInventoryOutboxDataAdapter implements InventoryOutboxDataPort {
 
     @Override
     public Optional<InventoryOutbox> findBySagaIdAndSagaStatusAndOrderInventoryStatus(UUID sagaId, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
+        if (!EXIST_SAGA_ID.equals(sagaId))  {
+            return Optional.empty();
+        }
         return Optional.of(
                 InventoryOutbox.builder()
                         .id(1L)
@@ -125,6 +129,9 @@ public class FakeInventoryOutboxDataAdapter implements InventoryOutboxDataPort {
 
     @Override
     public Optional<InventoryOutbox> findBySagaIdAndSagaStatuses(UUID sagaId, SagaStatus... sagaStatuses) {
+        if (!EXIST_SAGA_ID.equals(sagaId)) {
+            return Optional.empty();
+        }
         return Optional.of(
                 InventoryOutbox.builder()
                         .id(1L)
@@ -144,6 +151,6 @@ public class FakeInventoryOutboxDataAdapter implements InventoryOutboxDataPort {
 
     @Override
     public void deleteByOutboxStatusAndSagaStatusAndOrderInventoryStatus(OutboxStatus outboxStatus, SagaStatus sagaStatus, OrderInventoryStatus orderInventoryStatus) {
-        deleteActionForOutboxAndSagaStatusAndOrderInventoryStatus =true;
+        deleteActionForOutboxAndSagaStatusAndOrderInventoryStatus = true;
     }
 }

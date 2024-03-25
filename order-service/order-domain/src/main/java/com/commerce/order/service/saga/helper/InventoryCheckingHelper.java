@@ -107,7 +107,7 @@ public class InventoryCheckingHelper {
 
     private InventoryOutbox findInventoryOutboxBySagaId(UUID sagaId) {
         return inventoryOutboxDataPort.findBySagaIdAndSagaStatuses(sagaId, SagaStatus.CHECKING)
-                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %d", sagaId)));
+                .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %s", sagaId)));
     }
 
     private void updateInventoryOutbox(InventoryOutbox inventoryOutbox, OrderStatus orderStatus, SagaStatus sagaStatus) {
