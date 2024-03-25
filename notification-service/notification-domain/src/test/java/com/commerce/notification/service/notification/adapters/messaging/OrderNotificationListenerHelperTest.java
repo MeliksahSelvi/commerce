@@ -1,21 +1,18 @@
 package com.commerce.notification.service.notification.adapters.messaging;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 import com.commerce.notification.service.common.exception.NotificationDomainException;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
 import com.commerce.notification.service.common.valueobject.NotificationType;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeInnerRestAdapter;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeMailAdapter;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeOrderNotificationDataAdapter;
-import com.commerce.notification.service.notification.adapters.messaging.appender.MemoryApender;
+import com.commerce.notification.service.notification.adapters.messaging.common.LoggerTest;
 import com.commerce.notification.service.notification.adapters.messaging.helper.OrderNotificationListenerHelper;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,29 +21,23 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Created 21.03.2024
  */
 
-class OrderNotificationListenerHelperTest {
-
+class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationListenerHelper> {
 
     OrderNotificationListenerHelper orderNotificationListenerHelper;
-    MemoryApender memoryApender;
+
+    public OrderNotificationListenerHelperTest() {
+        super(OrderNotificationListenerHelper.class);
+    }
 
     @BeforeEach
     void setUp() {
         orderNotificationListenerHelper = new OrderNotificationListenerHelper(
                 new FakeOrderNotificationDataAdapter(), new FakeMailAdapter(), new FakeInnerRestAdapter());
-
-        Logger logger = (Logger) LoggerFactory.getLogger(orderNotificationListenerHelper.getClass().getPackageName());
-        memoryApender = new MemoryApender();
-        memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-        logger.setLevel(Level.INFO);
-        logger.addAppender(memoryApender);
-        memoryApender.start();
     }
 
     @AfterEach
-    void cleanUp(){
-        memoryApender.reset();
-        memoryApender.stop();
+    void cleanUp() {
+        destroy();
     }
 
     @Test
@@ -70,17 +61,9 @@ class OrderNotificationListenerHelperTest {
         orderNotificationListenerHelper.processMessage(message);
 
         //then
-        assertTrue(memoryApender.contains(logMessage,Level.INFO));
+        assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
-    private NotificationStatus notificationTypeToNotificationStatus(NotificationType notificationType) {
-        return switch (notificationType) {
-            case APPROVING -> NotificationStatus.APPROVED;
-            case DELIVERING -> NotificationStatus.DELIVERED;
-            case SHIPPING -> NotificationStatus.SHIPPED;
-            case CANCELLING -> NotificationStatus.CANCELLED;
-        };
-    }
 
     @Test
     void should_processMessage_fail_when_customer_not_exist() {
@@ -92,5 +75,14 @@ class OrderNotificationListenerHelperTest {
         var exception = assertThrows(NotificationDomainException.class,
                 () -> orderNotificationListenerHelper.processMessage(message));
         assertTrue(exception.getMessage().contains("Could not find customer with"));
+    }
+
+    private NotificationStatus notificationTypeToNotificationStatus(NotificationType notificationType) {
+        return switch (notificationType) {
+            case APPROVING -> NotificationStatus.APPROVED;
+            case DELIVERING -> NotificationStatus.DELIVERED;
+            case SHIPPING -> NotificationStatus.SHIPPED;
+            case CANCELLING -> NotificationStatus.CANCELLED;
+        };
     }
 }

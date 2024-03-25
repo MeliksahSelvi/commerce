@@ -4,6 +4,8 @@ import com.commerce.notification.service.common.DomainComponent;
 import com.commerce.notification.service.notification.adapters.messaging.helper.OrderNotificationListenerHelper;
 import com.commerce.notification.service.notification.port.messaging.input.OrderNotificationMessageListener;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author mselvi
@@ -13,6 +15,7 @@ import com.commerce.notification.service.notification.usecase.OrderNotificationM
 @DomainComponent
 public class OrderNotificationMessageListenerAdapter implements OrderNotificationMessageListener {
 
+    private static final Logger logger= LoggerFactory.getLogger(OrderNotificationMessageListenerAdapter.class);
     private final OrderNotificationListenerHelper orderNotificationListenerHelper;
 
     public OrderNotificationMessageListenerAdapter(OrderNotificationListenerHelper orderNotificationListenerHelper) {
@@ -21,6 +24,7 @@ public class OrderNotificationMessageListenerAdapter implements OrderNotificatio
 
     @Override
     public void processMessage(OrderNotificationMessage orderNotificationMessage) {
+        logger.info("OrderNotificationMessage processing action is started");
         orderNotificationListenerHelper.processMessage(orderNotificationMessage);
     }
 }
