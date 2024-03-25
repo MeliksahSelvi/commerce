@@ -25,13 +25,13 @@ public class InventoryCheckingSagaStep implements SagaStep<InventoryResponse> {
 
     @Override
     public void process(InventoryResponse useCase) {
-        logger.info("InventoryResponse processing action is started");
+        logger.info("Processing action for inventory checking started with InventoryResponse");
         inventoryCheckingHelper.process(useCase);
     }
 
     @Override
     public void rollback(InventoryResponse useCase) {
-        logger.info("InventoryResponse rollback action is started");
+        logger.info("Rollback action for inventory checking started with InventoryResponse");
         inventoryCheckingHelper.rollback(useCase);
     }
 }

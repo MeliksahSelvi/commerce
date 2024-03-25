@@ -4,6 +4,8 @@ import com.commerce.order.service.common.DomainComponent;
 import com.commerce.order.service.common.saga.SagaStep;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import com.commerce.order.service.saga.helper.InventoryUpdatingRollbackHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author mselvi
@@ -13,6 +15,7 @@ import com.commerce.order.service.saga.helper.InventoryUpdatingRollbackHelper;
 @DomainComponent
 public class InventoryUpdatingRollbackSagaStep implements SagaStep<InventoryResponse> {
 
+    private static final Logger logger= LoggerFactory.getLogger(InventoryUpdatingRollbackSagaStep.class);
     private final InventoryUpdatingRollbackHelper inventoryUpdatingRollbackHelper;
 
     public InventoryUpdatingRollbackSagaStep(InventoryUpdatingRollbackHelper inventoryUpdatingRollbackHelper) {
@@ -21,11 +24,13 @@ public class InventoryUpdatingRollbackSagaStep implements SagaStep<InventoryResp
 
     @Override
     public void process(InventoryResponse inventoryResponse) {
+        logger.info("Processing action for inventory updating rollback started with InventoryResponse");
         inventoryUpdatingRollbackHelper.process(inventoryResponse);
     }
 
     @Override
     public void rollback(InventoryResponse inventoryResponse) {
+        logger.info("Rollback action for inventory updating rollback started with InventoryResponse");
         inventoryUpdatingRollbackHelper.rollback(inventoryResponse);
     }
 }

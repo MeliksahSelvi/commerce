@@ -3,10 +3,10 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.order.adapters.messaging.adapter.FakeInventoryCheckingHelper;
 import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.order.service.order.adapters.messaging.adapter.FakeInventoryCheckingRollbackHelper;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,18 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class InventoryCheckingSagaStepTest {
+class InventoryCheckingRollbackSagaStepTest {
 
     private static final UUID sagaId=UUID.fromString("5bf96862-0c98-41ef-a952-e03d2ded6a6a");
 
-    InventoryCheckingSagaStep inventoryCheckingSagaStep;
+    InventoryCheckingRollbackSagaStep inventoryCheckingRollbackSagaStep;
     MemoryApender memoryApender;
 
     @BeforeEach
-    void setUp() {
-        inventoryCheckingSagaStep = new InventoryCheckingSagaStep(new FakeInventoryCheckingHelper());
-
-        Logger logger = (Logger) LoggerFactory.getLogger(inventoryCheckingSagaStep.getClass());
+    void setUp(){
+        inventoryCheckingRollbackSagaStep=new InventoryCheckingRollbackSagaStep(new FakeInventoryCheckingRollbackHelper());
+        Logger logger = (Logger) LoggerFactory.getLogger(inventoryCheckingRollbackSagaStep.getClass());
         memoryApender = new MemoryApender();
         memoryApender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
         logger.setLevel(Level.INFO);
@@ -50,14 +49,14 @@ class InventoryCheckingSagaStepTest {
     }
 
     @Test
-    void should_process() {
+    void should_process(){
         //given
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId);
-        var logMessage="Processing action for inventory checking started with InventoryResponse";
+        var logMessage="Processing action for inventory checking rollback started with InventoryResponse";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryCheckingSagaStep.process(inventoryResponse));
+        assertDoesNotThrow(() -> inventoryCheckingRollbackSagaStep.process(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
@@ -65,11 +64,11 @@ class InventoryCheckingSagaStepTest {
     void should_rollback(){
         //given
         var inventoryResponse = buildInventoryResponseWithParameters(sagaId);
-        var logMessage="Rollback action for inventory checking started with InventoryResponse";
+        var logMessage="Rollback action for inventory checking rollback started with InventoryResponse";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryCheckingSagaStep.rollback(inventoryResponse));
+        assertDoesNotThrow(() -> inventoryCheckingRollbackSagaStep.rollback(inventoryResponse));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
