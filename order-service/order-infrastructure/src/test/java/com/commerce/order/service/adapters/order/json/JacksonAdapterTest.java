@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,35 +31,31 @@ class JacksonAdapterTest {
     @Test
     void should_convertDataToJson() throws IOException {
         //given
-        String json = "{\"name\":\"joe\",\"surName\":\"doe\"}";
-        var javaPojo = mock(JavaPojo.class);
-        when(javaPojo.getName()).thenReturn("joe");
-        when(javaPojo.getSurName()).thenReturn("doe");
-        when(objectMapper.writeValueAsString(any())).thenReturn(json);
-        when(objectMapper.readValue(json, JavaPojo.class)).thenReturn(javaPojo);
+        JavaPojo javaPojo = new JavaPojo("joe", "doe");
+        String expectedJson = "{\"name\":\"joe\",\"surName\":\"doe\"}";
+
+        when(objectMapper.writeValueAsString(javaPojo)).thenReturn(expectedJson);
 
         //when
-        String result = jacksonAdapter.convertDataToJson(javaPojo);
+        String actualJson = jacksonAdapter.convertDataToJson(javaPojo);
 
         //then
-        JavaPojo readedValue = objectMapper.readValue(result, JavaPojo.class);
-        assertEquals(javaPojo.getName(), readedValue.getName());
-        assertEquals(javaPojo.getSurName(), readedValue.getSurName());
+        verify(objectMapper).writeValueAsString(javaPojo);
+        assertEquals(expectedJson, actualJson);
     }
 
     @Test
     void should_exractDataFromJson() throws JsonProcessingException {
         //given
-        String json = "{\"name\":\"joe\",\"surName\":\"doe\"}";
-        var javaPojo = mock(JavaPojo.class);
-        when(objectMapper.writeValueAsString(any())).thenReturn(json);
-        when(objectMapper.readValue(json, JavaPojo.class)).thenReturn(javaPojo);
+        String jsonPayload = "{\"name\":\"joe\",\"surName\":\"doe\"}";
+        JavaPojo expectedJavaPojo = new JavaPojo("joe", "doe");
+        when(objectMapper.readValue(jsonPayload, JavaPojo.class)).thenReturn(expectedJavaPojo);
 
         //when
-        var result = jacksonAdapter.exractDataFromJson(json, JavaPojo.class);
+        var actualJavaPojo = jacksonAdapter.exractDataFromJson(jsonPayload, JavaPojo.class);
 
         //then
-        String writeValueAsString = objectMapper.writeValueAsString(result);
-        assertEquals(writeValueAsString, json);
+        verify(objectMapper).readValue(jsonPayload, JavaPojo.class);
+        assertEquals(expectedJavaPojo, actualJavaPojo);
     }
 }

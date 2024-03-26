@@ -12,6 +12,11 @@ public class JavaPojo implements Serializable {
     private String name;
     private String surName;
 
+    public JavaPojo(String name, String surName) {
+        this.name = name;
+        this.surName = surName;
+    }
+
     public String getName() {
         return name;
     }
