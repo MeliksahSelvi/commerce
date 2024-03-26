@@ -63,7 +63,7 @@ class PaymentResponseKafkaListenerTest extends LoggerTest<PaymentResponseKafkaLi
     }
 
     @Test
-    void should_receive_when_order_payment_status_completed() {
+    void should_receive_when_payment_status_completed() {
         //given
         var messages = buildMessages(PaymentStatus.COMPLETED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
@@ -77,7 +77,7 @@ class PaymentResponseKafkaListenerTest extends LoggerTest<PaymentResponseKafkaLi
     }
 
     @Test
-    void should_receive_when_order_payment_status_cancelled() {
+    void should_receive_when_payment_status_cancelled() {
         //given
         var messages = buildMessages(PaymentStatus.CANCELLED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
@@ -91,7 +91,7 @@ class PaymentResponseKafkaListenerTest extends LoggerTest<PaymentResponseKafkaLi
     }
 
     @Test
-    void should_receive_when_order_payment_status_failed() {
+    void should_receive_when_payment_status_failed() {
         //given
         var messages = buildMessages(PaymentStatus.FAILED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
