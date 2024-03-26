@@ -1,0 +1,115 @@
+package com.commerce.notification.service.adapters.notification.messaging.listener;
+
+import ch.qos.logback.classic.Level;
+import com.commerce.kafka.model.AddressPayload;
+import com.commerce.kafka.model.NotificationRequestAvroModel;
+import com.commerce.kafka.model.NotificationType;
+import com.commerce.kafka.model.OrderInventoryStatus;
+import com.commerce.notification.service.adapters.notification.common.LoggerTest;
+import com.commerce.notification.service.notification.port.messaging.input.OrderNotificationMessageListener;
+import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+
+/**
+ * @Author mselvi
+ * @Created 21.03.2024
+ */
+
+@ExtendWith(MockitoExtension.class)
+class OrderNotificationKafkaListenerTest extends LoggerTest<OrderNotificationKafkaListener> {
+
+    @InjectMocks
+    private OrderNotificationKafkaListener kafkaListener;
+
+    @Mock
+    private OrderNotificationMessageListener orderListener;
+
+    private List<String> keys;
+    private List<Integer> partitions;
+    private List<Long> offsets;
+
+    public OrderNotificationKafkaListenerTest() {
+        super(OrderNotificationKafkaListener.class);
+    }
+
+    @BeforeEach
+    void setUp() {
+        keys = buildKeys();
+        partitions = buildPartitions();
+        offsets = buildOffsets();
+    }
+
+    @AfterEach
+    @Override
+    protected void cleanUp() {
+        cleanUpActions();
+    }
+
+    @Test
+    void should_receive() {
+        //given
+        var messages = buildMessages();
+        var logMessage = buildLogMessage(messages, keys, partitions, offsets);
+
+        //when
+        kafkaListener.receive(messages, keys, partitions, offsets);
+
+        //then
+        assertTrue(memoryApender.contains(logMessage, Level.INFO));
+        verify(orderListener).processMessage(any(OrderNotificationMessage.class));
+    }
+
+    private List<NotificationRequestAvroModel> buildMessages() {
+        var avroModel = buildAvroModel();
+        List<NotificationRequestAvroModel> messages = new ArrayList<>();
+        messages.add(avroModel);
+        return messages;
+    }
+
+    private NotificationRequestAvroModel buildAvroModel() {
+        return NotificationRequestAvroModel.newBuilder()
+                .setAddressPayload(new AddressPayload())
+                .setMessage("message")
+                .setNotificationType(NotificationType.APPROVING)
+                .setOrderId(1L)
+                .setCustomerId(1L)
+                .setItems(new ArrayList<>())
+                .build();
+    }
+
+    private List<String> buildKeys() {
+        List<String> keys = new ArrayList<>();
+        keys.add("key1");
+        return keys;
+    }
+
+    private List<Integer> buildPartitions() {
+        List<Integer> partitions = new ArrayList<>();
+        partitions.add(0);
+        return partitions;
+    }
+
+    private List<Long> buildOffsets() {
+        List<Long> offsets = new ArrayList<>();
+        offsets.add(0L);
+        return offsets;
+    }
+
+    private String buildLogMessage(List messages, List<String> keys, List<Integer> partitions, List<Long> offsets) {
+        return String.format("%d number of messages received with keys:[%s], partitions:[%d] and offsets:[%d]"
+                , messages.size(), keys.get(0), partitions.get(0), offsets.get(0));
+    }
+}
