@@ -1,4 +1,4 @@
-package com.commerce.order.service.appender;
+package com.commerce.order.service.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;

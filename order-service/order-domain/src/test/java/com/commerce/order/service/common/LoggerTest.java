@@ -3,7 +3,6 @@ package com.commerce.order.service.common;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.appender.MemoryApender;
 import org.slf4j.LoggerFactory;
 
 /**

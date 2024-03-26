@@ -1,9 +1,6 @@
 package com.commerce.order.service.saga;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
@@ -12,7 +9,6 @@ import com.commerce.order.service.order.usecase.InventoryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -3,7 +3,6 @@ package com.commerce.order.service.order.adapters.messaging;
 import ch.qos.logback.classic.Level;
 import com.commerce.order.service.adapter.saga.FakeInventoryUpdatingRollbackSagaStep;
 import com.commerce.order.service.adapter.saga.FakeInventoryUpdatingSagaStep;
-import com.commerce.order.service.appender.MemoryApender;
 import com.commerce.order.service.common.LoggerTest;
 import com.commerce.order.service.common.valueobject.InventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
