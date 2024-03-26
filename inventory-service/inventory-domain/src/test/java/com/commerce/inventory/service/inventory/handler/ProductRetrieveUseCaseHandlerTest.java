@@ -38,7 +38,7 @@ class ProductRetrieveUseCaseHandlerTest {
     @Test
     void should_retrieve_empty() {
         //given
-        var customerRetrieve = new ProductRetrieve(0L);
+        var customerRetrieve = new ProductRetrieve(2L);
 
         //when
         //then
