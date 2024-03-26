@@ -36,8 +36,8 @@ class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationLi
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

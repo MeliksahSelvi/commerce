@@ -31,8 +31,8 @@ class OrderNotificationMessageListenerAdapterTest extends LoggerTest<OrderNotifi
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

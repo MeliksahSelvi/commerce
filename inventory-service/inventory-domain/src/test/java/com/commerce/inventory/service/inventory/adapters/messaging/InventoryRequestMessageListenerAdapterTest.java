@@ -36,8 +36,8 @@ class InventoryRequestMessageListenerAdapterTest extends LoggerTest<InventoryReq
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

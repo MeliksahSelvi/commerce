@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.commerce.shipping.service.shipping.appender.MemoryApender;
+import org.junit.jupiter.api.AfterEach;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -24,8 +25,11 @@ public abstract class LoggerTest<T> {
         memoryApender.start();
     }
 
-    protected void destroy() {
+    protected void cleanUpActions() {
         memoryApender.reset();
         memoryApender.stop();
     }
+
+    @AfterEach
+    protected abstract void cleanUp();
 }

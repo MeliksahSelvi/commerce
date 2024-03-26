@@ -37,8 +37,8 @@ class InventoryUpdatingSagaStepTest extends LoggerTest<InventoryUpdatingSagaStep
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

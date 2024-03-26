@@ -44,8 +44,8 @@ class InventoryCheckingRollbackHelperTest extends LoggerTest<InventoryCheckingRo
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

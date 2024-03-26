@@ -48,8 +48,8 @@ class InventoryUpdatingHelperTest extends LoggerTest<InventoryUpdatingHelper> {
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

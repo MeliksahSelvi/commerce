@@ -34,8 +34,8 @@ class ForwardProcessUseCaseHandlerTest extends LoggerTest<ForwardProcessUseCaseH
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

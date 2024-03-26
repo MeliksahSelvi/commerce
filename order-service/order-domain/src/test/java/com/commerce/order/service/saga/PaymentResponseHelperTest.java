@@ -46,8 +46,8 @@ class PaymentResponseHelperTest extends LoggerTest<PaymentResponseHelper> {
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test

@@ -4,6 +4,8 @@ import com.commerce.inventory.service.common.DomainComponent;
 import com.commerce.inventory.service.common.saga.SagaStep;
 import com.commerce.inventory.service.inventory.usecase.InventoryRequest;
 import com.commerce.inventory.service.saga.helper.InventoryCheckingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author mselvi
@@ -13,6 +15,8 @@ import com.commerce.inventory.service.saga.helper.InventoryCheckingHelper;
 @DomainComponent
 public class InventoryCheckingSagaStep implements SagaStep<InventoryRequest> {
 
+    private static final Logger logger= LoggerFactory.getLogger(InventoryCheckingSagaStep.class);
+
     private final InventoryCheckingHelper inventoryCheckingHelper;
 
     public InventoryCheckingSagaStep(InventoryCheckingHelper inventoryCheckingHelper) {
@@ -21,11 +25,13 @@ public class InventoryCheckingSagaStep implements SagaStep<InventoryRequest> {
 
     @Override
     public void process(InventoryRequest inventoryRequest) {
+        logger.info("Inventory checking process step started with InventoryRequest");
         inventoryCheckingHelper.process(inventoryRequest);
     }
 
     @Override
     public void rollback(InventoryRequest inventoryRequest) {
+        logger.info("Inventory checking rollback step started with InventoryRequest");
         inventoryCheckingHelper.rollback(inventoryRequest);
     }
 }

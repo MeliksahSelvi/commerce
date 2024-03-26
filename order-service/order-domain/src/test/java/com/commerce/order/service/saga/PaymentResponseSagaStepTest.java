@@ -38,8 +38,8 @@ class PaymentResponseSagaStepTest extends LoggerTest<PaymentResponseSagaStep> {
     }
 
     @AfterEach
-    void cleanUp() {
-        destroy();
+    protected void cleanUp() {
+        cleanUpActions();
     }
 
     @Test
