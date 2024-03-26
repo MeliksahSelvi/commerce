@@ -1,6 +1,6 @@
 package com.commerce.payment.service.payment.port.rest;
 
-import com.commerce.payment.service.payment.usecase.CustomerResponse;
+import com.commerce.payment.service.payment.usecase.CustomerInfo;
 
 /**
  * @Author mselvi
@@ -9,5 +9,5 @@ import com.commerce.payment.service.payment.usecase.CustomerResponse;
 
 public interface InnerRestPort {
 
-    CustomerResponse getCustomerInfo(Long customerId);
+    CustomerInfo getCustomerInfo(Long customerId);
 }

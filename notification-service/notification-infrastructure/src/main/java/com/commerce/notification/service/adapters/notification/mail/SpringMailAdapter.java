@@ -1,7 +1,7 @@
 package com.commerce.notification.service.adapters.notification.mail;
 
 import com.commerce.notification.service.notification.port.mail.MailPort;
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +31,14 @@ public class SpringMailAdapter implements MailPort {
 
     @Override
     public void sendMail(MailContent mailContent) {
-        CustomerResponse customerResponse = mailContent.customerResponse();
+        CustomerInfo customerInfo = mailContent.customerResponse();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(whoSendEmail);
         mailMessage.setSubject(mailContent.notificationType().toString());
         mailMessage.setText(generateMailBody(mailContent));
-        mailMessage.setTo(customerResponse.email());
+        mailMessage.setTo(customerInfo.email());
 
-        String customerFullname = customerResponse.firstName() + customerResponse.lastName();
+        String customerFullname = customerInfo.firstName() + customerInfo.lastName();
         try {
             javaMailSender.send(mailMessage);
             logger.info("Mail sent to customer -> {}", customerFullname);
@@ -48,11 +48,11 @@ public class SpringMailAdapter implements MailPort {
     }
 
     private String generateMailBody(MailContent mailContent) {
-        CustomerResponse customerResponse = mailContent.customerResponse();
+        CustomerInfo customerInfo = mailContent.customerResponse();
         return String.format("""
                 Hi Mr./Mrs. %s %s
                                 
                 Your order number %d has updated with %s situation.
-                """, customerResponse.firstName(), customerResponse.lastName(), mailContent.orderId(), mailContent.notificationType());
+                """, customerInfo.firstName(), customerInfo.lastName(), mailContent.orderId(), mailContent.notificationType());
     }
 }

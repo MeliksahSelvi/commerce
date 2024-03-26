@@ -1,7 +1,7 @@
 package com.commerce.notification.service.adapters.notification.mail;
 
 import com.commerce.notification.service.common.valueobject.NotificationType;
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,8 +36,8 @@ class SpringMailAdapterTest {
     @Test
     public void testSendMail() {
         //given
-        CustomerResponse customerResponse = new CustomerResponse(1L, "John", "Doe", "123456789", "john@example.com");
-        MailContent mailContent = new MailContent(123L, customerResponse, NotificationType.SHIPPING);
+        CustomerInfo customerInfo = new CustomerInfo(1L, "John", "Doe", "123456789", "john@example.com");
+        MailContent mailContent = new MailContent(123L, customerInfo, NotificationType.SHIPPING);
 
         //when
         adapter.sendMail(mailContent);
@@ -53,7 +53,7 @@ class SpringMailAdapterTest {
                 Hi Mr./Mrs. %s %s
                                 
                 Your order number %d has updated with %s situation.
-                """, customerResponse.firstName(), customerResponse.lastName(), mailContent.orderId(), mailContent.notificationType());
+                """, customerInfo.firstName(), customerInfo.lastName(), mailContent.orderId(), mailContent.notificationType());
         assertEquals(expectedBody, sentMessage.getText());
     }
 }

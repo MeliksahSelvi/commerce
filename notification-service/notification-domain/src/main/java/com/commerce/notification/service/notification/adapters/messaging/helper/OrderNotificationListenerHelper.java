@@ -8,7 +8,7 @@ import com.commerce.notification.service.notification.entity.OrderNotification;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
 import com.commerce.notification.service.notification.port.mail.MailPort;
 import com.commerce.notification.service.notification.port.rest.InnerRestPort;
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
 import org.slf4j.Logger;
@@ -79,11 +79,11 @@ public class OrderNotificationListenerHelper {
 
     private void sendMail(OrderNotificationMessage message) {
         Long customerId = message.customerId();
-        CustomerResponse customerResponse = innerRestPort.getCustomerInfo(customerId);
-        if (customerResponse == null) {
+        CustomerInfo customerInfo = innerRestPort.getCustomerInfo(customerId);
+        if (customerInfo == null) {
             throw new NotificationDomainException(String.format("Could not find customer with id: %d", customerId));
         }
-        MailContent mailContent = new MailContent(message.orderId(), customerResponse, message.notificationType());
+        MailContent mailContent = new MailContent(message.orderId(), customerInfo, message.notificationType());
 
         Runnable task = () -> mailPort.sendMail(mailContent);
         CompletableFuture.runAsync(task);

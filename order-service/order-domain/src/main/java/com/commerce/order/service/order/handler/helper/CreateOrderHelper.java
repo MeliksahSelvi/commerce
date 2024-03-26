@@ -10,7 +10,7 @@ import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.rest.InnerRestPort;
 import com.commerce.order.service.order.usecase.CreateOrder;
-import com.commerce.order.service.order.usecase.CustomerResponse;
+import com.commerce.order.service.order.usecase.CustomerInfo;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
@@ -62,8 +62,8 @@ public class CreateOrderHelper {
     }
 
     private void checkCustomer(Long customerId) {
-        CustomerResponse customerResponse = innerRestPort.getCustomerInfo(customerId);
-        if (customerResponse == null) {
+        CustomerInfo customerInfo = innerRestPort.getCustomerInfo(customerId);
+        if (customerInfo == null) {
             throw new OrderDomainException(String.format("Could not find customer with id: %d", customerId));
         }
     }

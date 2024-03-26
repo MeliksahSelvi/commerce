@@ -1,6 +1,6 @@
 package com.commerce.order.service.order.port.rest;
 
-import com.commerce.order.service.order.usecase.CustomerResponse;
+import com.commerce.order.service.order.usecase.CustomerInfo;
 
 /**
  * @Author mselvi
@@ -9,5 +9,5 @@ import com.commerce.order.service.order.usecase.CustomerResponse;
 
 public interface InnerRestPort {
 
-    CustomerResponse getCustomerInfo(Long customerId);
+    CustomerInfo getCustomerInfo(Long customerId);
 }

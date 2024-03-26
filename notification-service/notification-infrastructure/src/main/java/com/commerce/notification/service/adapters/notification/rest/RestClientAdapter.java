@@ -2,7 +2,7 @@ package com.commerce.notification.service.adapters.notification.rest;
 
 import com.commerce.notification.service.common.rest.client.CustomerHttpClient;
 import com.commerce.notification.service.notification.port.rest.InnerRestPort;
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class InnerRestClientAdapter implements InnerRestPort {
+public class RestClientAdapter implements InnerRestPort {
 
     private final CustomerHttpClient client;
 
-    public InnerRestClientAdapter(CustomerHttpClient client) {
+    public RestClientAdapter(CustomerHttpClient client) {
         this.client = client;
     }
 
     @Override
-    public CustomerResponse getCustomerInfo(Long customerId) {
+    public CustomerInfo getCustomerInfo(Long customerId) {
         return client.findById(customerId).getBody();
     }
 }

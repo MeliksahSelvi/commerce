@@ -2,7 +2,7 @@ package com.commerce.order.service.adapters.order.rest;
 
 import com.commerce.order.service.common.rest.client.CustomerHttpClient;
 import com.commerce.order.service.order.port.rest.InnerRestPort;
-import com.commerce.order.service.order.usecase.CustomerResponse;
+import com.commerce.order.service.order.usecase.CustomerInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class InnerRestClientAdapter implements InnerRestPort {
+public class RestClientAdapter implements InnerRestPort {
 
     private final CustomerHttpClient client;
 
-    public InnerRestClientAdapter(CustomerHttpClient client) {
+    public RestClientAdapter(CustomerHttpClient client) {
         this.client = client;
     }
 
     @Override
-    public CustomerResponse getCustomerInfo(Long customerId) {
+    public CustomerInfo getCustomerInfo(Long customerId) {
         return client.findById(customerId).getBody();
     }
 }

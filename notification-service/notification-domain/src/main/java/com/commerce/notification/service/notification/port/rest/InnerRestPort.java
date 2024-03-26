@@ -1,6 +1,6 @@
 package com.commerce.notification.service.notification.port.rest;
 
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 
 /**
  * @Author mselvi
@@ -10,5 +10,5 @@ import com.commerce.notification.service.notification.usecase.CustomerResponse;
 
 public interface InnerRestPort {
 
-    CustomerResponse getCustomerInfo(Long customerId);
+    CustomerInfo getCustomerInfo(Long customerId);
 }

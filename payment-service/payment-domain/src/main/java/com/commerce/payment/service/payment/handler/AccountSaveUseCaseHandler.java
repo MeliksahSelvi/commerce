@@ -8,7 +8,7 @@ import com.commerce.payment.service.payment.port.generate.RandomGeneratePort;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
 import com.commerce.payment.service.payment.port.rest.InnerRestPort;
 import com.commerce.payment.service.payment.usecase.AccountSave;
-import com.commerce.payment.service.payment.usecase.CustomerResponse;
+import com.commerce.payment.service.payment.usecase.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,7 @@ public class AccountSaveUseCaseHandler implements UseCaseHandler<Account, Accoun
     }
 
     private void checkCustomer(Long customerId) {
-        CustomerResponse customerInfo = innerRestPort.getCustomerInfo(customerId);
+        CustomerInfo customerInfo = innerRestPort.getCustomerInfo(customerId);
         if (customerInfo == null) {
             throw new PaymentDomainException(String.format("Customer could not found for account save operation by customerId %d", customerId));
         }

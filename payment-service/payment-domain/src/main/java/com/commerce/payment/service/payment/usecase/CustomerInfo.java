@@ -7,5 +7,5 @@ import com.commerce.payment.service.common.model.UseCase;
  * @Created 21.03.2024
  */
 
-public record CustomerResponse(Long id, String firstName, String lastName, String identityNo, String email) implements UseCase {
+public record CustomerInfo(Long id, String firstName, String lastName, String identityNo, String email) implements UseCase {
 }

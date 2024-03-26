@@ -7,5 +7,5 @@ import com.commerce.notification.service.common.model.UseCase;
  * @Created 14.03.2024
  */
 
-public record CustomerResponse(Long id, String firstName, String lastName, String identityNo, String email) implements UseCase {
+public record CustomerInfo(Long id, String firstName, String lastName, String identityNo, String email) implements UseCase {
 }

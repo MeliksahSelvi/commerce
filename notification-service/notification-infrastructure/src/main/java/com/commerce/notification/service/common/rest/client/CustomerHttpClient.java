@@ -1,6 +1,6 @@
 package com.commerce.notification.service.common.rest.client;
 
-import com.commerce.notification.service.notification.usecase.CustomerResponse;
+import com.commerce.notification.service.notification.usecase.CustomerInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.service.annotation.GetExchange;
@@ -13,5 +13,5 @@ import org.springframework.web.service.annotation.GetExchange;
 public interface CustomerHttpClient {
 
     @GetExchange("/customer-service/api/v1/customers/{id}")
-    ResponseEntity<CustomerResponse> findById(@PathVariable Long id);
+    ResponseEntity<CustomerInfo> findById(@PathVariable Long id);
 }
