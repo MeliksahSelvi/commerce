@@ -2,6 +2,7 @@ package com.commerce.inventory.service.saga;
 
 import ch.qos.logback.classic.Level;
 import com.commerce.inventory.service.adapter.FakeInventoryCheckingHelper;
+import com.commerce.inventory.service.adapter.FakeInventoryUpdatingHelper;
 import com.commerce.inventory.service.common.LoggerTest;
 import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
@@ -22,20 +23,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class InventoryCheckingSagaStepTest extends LoggerTest<InventoryCheckingSagaStep> {
+class InventoryUpdatingSagaStepTest extends LoggerTest<InventoryUpdatingSagaStep> {
 
-    InventoryCheckingSagaStep inventoryCheckingSagaStep;
+    InventoryUpdatingSagaStep inventoryUpdatingSagaStep;
 
-    public InventoryCheckingSagaStepTest() {
-        super(InventoryCheckingSagaStep.class);
+    public InventoryUpdatingSagaStepTest() {
+        super(InventoryUpdatingSagaStep.class);
     }
 
     @BeforeEach
     void setUp() {
-        inventoryCheckingSagaStep = new InventoryCheckingSagaStep(new FakeInventoryCheckingHelper());
+        inventoryUpdatingSagaStep = new InventoryUpdatingSagaStep(new FakeInventoryUpdatingHelper());
     }
 
     @AfterEach
+    @Override
     protected void cleanUp() {
         cleanUpActions();
     }
@@ -43,24 +45,24 @@ class InventoryCheckingSagaStepTest extends LoggerTest<InventoryCheckingSagaStep
     @Test
     void should_process(){
         //given
-        InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.CHECKING);
-        String logMessage="Inventory checking process step started with InventoryRequest";
+        InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.UPDATING);
+        String logMessage="Inventory updating process step started with InventoryRequest";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryCheckingSagaStep.process(inventoryRequest));
+        assertDoesNotThrow(() -> inventoryUpdatingSagaStep.process(inventoryRequest));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
     @Test
     void should_rollback(){
         //given
-        InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.CHECKING_ROLLBACK);
-        String logMessage="Inventory checking rollback step started with InventoryRequest";
+        InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.UPDATING_ROLLBACK);
+        String logMessage="Inventory updating rollback step started with InventoryRequest";
 
         //when
         //then
-        assertDoesNotThrow(() -> inventoryCheckingSagaStep.rollback(inventoryRequest));
+        assertDoesNotThrow(() -> inventoryUpdatingSagaStep.rollback(inventoryRequest));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
