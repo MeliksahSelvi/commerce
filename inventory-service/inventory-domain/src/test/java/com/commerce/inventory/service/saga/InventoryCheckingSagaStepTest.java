@@ -44,7 +44,7 @@ class InventoryCheckingSagaStepTest extends LoggerTest<InventoryCheckingSagaStep
     void should_process(){
         //given
         InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.CHECKING);
-        String logMessage="Inventory checking process step started with InventoryRequest";
+        String logMessage="Inventory checking process saga step action started with InventoryRequest";
 
         //when
         //then
@@ -56,7 +56,7 @@ class InventoryCheckingSagaStepTest extends LoggerTest<InventoryCheckingSagaStep
     void should_rollback(){
         //given
         InventoryRequest inventoryRequest = buildInventoryRequest(OrderInventoryStatus.CHECKING_ROLLBACK);
-        String logMessage="Inventory checking rollback step started with InventoryRequest";
+        String logMessage="Inventory checking rollback saga step action started with InventoryRequest";
 
         //when
         //then

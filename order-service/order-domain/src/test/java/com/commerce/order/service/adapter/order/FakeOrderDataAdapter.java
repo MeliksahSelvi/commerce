@@ -42,7 +42,7 @@ public class FakeOrderDataAdapter implements OrderDataPort {
         return Optional.of(
                 Order.builder()
                         .id(orderId)
-                        .cost(new Money(BigDecimal.TEN))
+                        .cost(new Money(BigDecimal.valueOf(17)))
                         .failureMessages(Collections.EMPTY_LIST)
                         .items(List.of(
                                 OrderItem.builder()

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 @DomainComponent
 public class InventoryCheckingSagaStep implements SagaStep<InventoryRequest> {
 
-    private static final Logger logger= LoggerFactory.getLogger(InventoryCheckingSagaStep.class);
+    private static final Logger logger = LoggerFactory.getLogger(InventoryCheckingSagaStep.class);
 
     private final InventoryCheckingHelper inventoryCheckingHelper;
 
@@ -25,13 +25,13 @@ public class InventoryCheckingSagaStep implements SagaStep<InventoryRequest> {
 
     @Override
     public void process(InventoryRequest inventoryRequest) {
-        logger.info("Inventory checking process step started with InventoryRequest");
+        logger.info("Inventory checking process saga step action started with InventoryRequest");
         inventoryCheckingHelper.process(inventoryRequest);
     }
 
     @Override
     public void rollback(InventoryRequest inventoryRequest) {
-        logger.info("Inventory checking rollback step started with InventoryRequest");
+        logger.info("Inventory checking rollback saga step action started with InventoryRequest");
         inventoryCheckingHelper.rollback(inventoryRequest);
     }
 }

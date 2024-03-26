@@ -46,7 +46,7 @@ public class InventoryCheckingHelper {
     }
 
     @Transactional
-    public void process(InventoryRequest inventoryRequest) {
+    public List<String> process(InventoryRequest inventoryRequest) {
         List<String> failureMessages = new ArrayList<>();
 
         logger.info("Items checking action started");
@@ -56,6 +56,7 @@ public class InventoryCheckingHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(inventoryRequest, inventoryStatus, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for inventory checking action by sagaId: {}", inventoryRequest.sagaId());
+        return failureMessages;
     }
 
     private InventoryStatus validateItems(List<OrderItem> items, List<String> failureMessages) {
@@ -107,7 +108,7 @@ public class InventoryCheckingHelper {
     }
 
     @Transactional
-    public void rollback(InventoryRequest inventoryRequest) {
+    public List<String> rollback(InventoryRequest inventoryRequest) {
         List<String> failureMessages = new ArrayList<>();
 
         logger.info("Item quantity payback action started");
@@ -117,6 +118,7 @@ public class InventoryCheckingHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(inventoryRequest, inventoryStatus, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for inventory checking rollback action by sagaId: {}", inventoryRequest.sagaId());
+        return failureMessages;
     }
 
     private InventoryStatus updateCacheThroughOldQuantities(List<OrderItem> items, List<String> failureMessages) {

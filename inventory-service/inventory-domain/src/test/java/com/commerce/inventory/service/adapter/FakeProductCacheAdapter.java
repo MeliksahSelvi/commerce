@@ -16,6 +16,10 @@ public class FakeProductCacheAdapter implements ProductCachePort {
 
     private Map<Long,CachedProduct> cachedProductMap=new ConcurrentHashMap<>();
 
+    public FakeProductCacheAdapter() {
+        cachedProductMap.put(1L,new CachedProduct(1L,10,1));
+    }
+
     @Override
     public void put(Long key, CachedProduct value) {
         cachedProductMap.put(key, value);

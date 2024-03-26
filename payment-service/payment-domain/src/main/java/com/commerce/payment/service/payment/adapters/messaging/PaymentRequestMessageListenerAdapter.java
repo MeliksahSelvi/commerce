@@ -2,11 +2,10 @@ package com.commerce.payment.service.payment.adapters.messaging;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.payment.adapters.messaging.helper.PaymentRequestListenerHelper;
-import com.commerce.payment.service.payment.entity.Payment;
 import com.commerce.payment.service.payment.port.messaging.input.PaymentRequestMessageListener;
 import com.commerce.payment.service.payment.usecase.PaymentRequest;
-
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author mselvi
@@ -16,6 +15,8 @@ import java.util.List;
 @DomainComponent
 public class PaymentRequestMessageListenerAdapter implements PaymentRequestMessageListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(PaymentRequestMessageListenerAdapter.class);
+
     private final PaymentRequestListenerHelper paymentRequestListenerHelper;
 
     public PaymentRequestMessageListenerAdapter(PaymentRequestListenerHelper paymentRequestListenerHelper) {
@@ -23,12 +24,14 @@ public class PaymentRequestMessageListenerAdapter implements PaymentRequestMessa
     }
 
     @Override
-    public List<String> completePayment(PaymentRequest paymentRequest) {
-        return paymentRequestListenerHelper.completePayment(paymentRequest);
+    public void completePayment(PaymentRequest paymentRequest) {
+        logger.info("Payment complete action started with PaymentRequest");
+        paymentRequestListenerHelper.completePayment(paymentRequest);
     }
 
     @Override
-    public List<String> cancelPayment(PaymentRequest paymentRequest) {
-        return paymentRequestListenerHelper.cancelPayment(paymentRequest);
+    public void cancelPayment(PaymentRequest paymentRequest) {
+        logger.info("Payment cancel action started with PaymentRequest");
+        paymentRequestListenerHelper.cancelPayment(paymentRequest);
     }
 }

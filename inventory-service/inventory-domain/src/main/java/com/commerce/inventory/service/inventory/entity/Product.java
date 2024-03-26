@@ -42,14 +42,14 @@ public class Product extends BaseEntity {
 
     private void validateQuantity(OrderItem orderItem, List<String> failureMessages) {
         if (orderItem.quantity().isGreaterThan(quantity)) {
-            String errorMessage = String.format("Product quantity not enough for your wanting count by product Id %", orderItem.productId());
+            String errorMessage = String.format("Product quantity not enough for your wanting count by product Id %d", orderItem.productId());
             failureMessages.add(errorMessage);
         }
     }
 
     public void decreaseQuantity(Quantity difference, List<String> failureMessages) {
         Quantity newQuantity = quantity.substract(difference);
-        if (!newQuantity.isGreaterThanZero()) {
+        if (!newQuantity.isEqualOrGreaterThan(new Quantity(0))) {
             String errorMessage = String.format("Quantity that you want making decrease mustn't be greater than old quantity!");
             failureMessages.add(errorMessage);
         }
