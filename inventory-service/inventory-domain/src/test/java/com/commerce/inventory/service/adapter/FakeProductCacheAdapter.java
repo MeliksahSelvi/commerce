@@ -14,10 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class FakeProductCacheAdapter implements ProductCachePort {
 
-    private Map<Long,CachedProduct> cachedProductMap=new ConcurrentHashMap<>();
+    private Map<Long, CachedProduct> cachedProductMap = new ConcurrentHashMap<>();
+    private Map<Long, Integer> countOfGetProduct = new ConcurrentHashMap<>();
 
     public FakeProductCacheAdapter() {
-        cachedProductMap.put(1L,new CachedProduct(1L,10,1));
+        cachedProductMap.put(1L, new CachedProduct(1L, 10, 0));
+        cachedProductMap.put(10L, new CachedProduct(10L, 10, 0));
+        countOfGetProduct.put(10L, 0);
     }
 
     @Override
@@ -27,6 +30,14 @@ public class FakeProductCacheAdapter implements ProductCachePort {
 
     @Override
     public Optional<CachedProduct> get(Long key) {
+        Integer oldCount = countOfGetProduct.get(key);
+        if (oldCount != null) {
+            Integer newCount = ++oldCount;
+            if (newCount == 2) {
+                return Optional.empty();
+            }
+            countOfGetProduct.put(key, newCount);
+        }
         return Optional.ofNullable(cachedProductMap.get(key));
     }
 

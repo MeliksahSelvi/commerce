@@ -46,7 +46,7 @@ public class InventoryUpdatingHelper {
     }
 
     @Transactional
-    public void process(InventoryRequest inventoryRequest) {
+    public List<String> process(InventoryRequest inventoryRequest) {
         List<OrderItem> items = inventoryRequest.items();
 
         List<String> failureMessages = checkCacheByItems(items);
@@ -58,6 +58,7 @@ public class InventoryUpdatingHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(inventoryRequest, inventoryStatus, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for inventory updating action by sagaId: {}", inventoryRequest.sagaId());
+        return failureMessages;
     }
 
     private List<String> checkCacheByItems(List<OrderItem> items) {
@@ -68,7 +69,7 @@ public class InventoryUpdatingHelper {
                     Optional<CachedProduct> productOptional = productCachePort.get(productId);
                     return productOptional.isEmpty() || (productOptional.isPresent() && isQuantityNotEnoughForOrderItem(orderItem, productOptional));
                 })
-                .map(orderItem -> String.format("Product has already solded by productId: %d", orderItem.productId()))
+                .map(orderItem -> String.format("Product has already sold by productId: %d", orderItem.productId()))
                 .forEach(failureMessages::add);
         return failureMessages;
     }
@@ -98,7 +99,7 @@ public class InventoryUpdatingHelper {
 
             Optional<CachedProduct> cachedProductOptional = productCachePort.get(productId);
             if (cachedProductOptional.isEmpty()) {
-                String errorMessage = String.format("Product could not find on cache by productId: %d", productId);
+                String errorMessage = String.format("Product has already sold by productId: %d", productId);
                 failureMessages.add(errorMessage);
                 logger.error(errorMessage);
                 break;
@@ -134,7 +135,7 @@ public class InventoryUpdatingHelper {
     }
 
     @Transactional
-    public void rollback(InventoryRequest inventoryRequest) {
+    public List<String> rollback(InventoryRequest inventoryRequest) {
         List<String> failureMessages = new ArrayList<>();
 
         Long orderId = inventoryRequest.orderId();
@@ -145,6 +146,7 @@ public class InventoryUpdatingHelper {
         OrderOutbox orderOutbox = buildOrderOutbox(inventoryRequest, inventoryStatus, failureMessages);
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for inventory updating rollback action by sagaId: {}", inventoryRequest.sagaId());
+        return failureMessages;
     }
 
     private InventoryStatus updateProductsByItems(List<OrderItem> items, List<String> failureMessages) {

@@ -22,8 +22,6 @@ public class FakeProductDataAdapter implements ProductDataPort {
 
     private static final Long NOT_EXIST_PRODUCT_ID = 2L;
     private static final Long NOT_AVAILABLE_PRODUCT_ID = 3L;
-    private static final Long NOT_EQUAL_PRICE_PRODUCT_ID = 4L;
-    private static final Long NOT_ENOUGH_QUANTITY_PRODUCT_ID = 5L;
 
     @Override
     public Optional<Product> findById(ProductRetrieve productRetrieve) {
@@ -34,8 +32,8 @@ public class FakeProductDataAdapter implements ProductDataPort {
         return Optional.of(Product.builder()
                 .id(productRetrieve.productId())
                 .name("name1")
-                .price(new Money(NOT_EQUAL_PRICE_PRODUCT_ID != productRetrieve.productId() ? BigDecimal.ONE : BigDecimal.ZERO))
-                .quantity(new Quantity(NOT_ENOUGH_QUANTITY_PRODUCT_ID != productRetrieve.productId() ? 10 : 0))
+                .price(new Money(BigDecimal.ONE))
+                .quantity(new Quantity(10))
                 .availability(new Availability(NOT_AVAILABLE_PRODUCT_ID != productRetrieve.productId()))
                 .build());
     }
