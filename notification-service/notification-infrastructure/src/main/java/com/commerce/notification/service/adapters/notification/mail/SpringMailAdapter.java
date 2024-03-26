@@ -41,7 +41,7 @@ public class SpringMailAdapter implements MailPort {
         String customerFullname = customerResponse.firstName() + customerResponse.lastName();
         try {
             javaMailSender.send(mailMessage);
-            logger.info("Maild sent to customer -> {}", customerFullname);
+            logger.info("Mail sent to customer -> {}", customerFullname);
         } catch (Exception e) {
             logger.error("Mail could not sent to customer -> {}", customerFullname);
         }

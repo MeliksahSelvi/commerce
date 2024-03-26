@@ -1,6 +1,5 @@
 package com.commerce.payment.service.adapters.payment.messaging.publisher;
 
-import com.commerce.kafka.model.InventoryResponseAvroModel;
 import com.commerce.kafka.model.PaymentResponseAvroModel;
 import com.commerce.kafka.model.PaymentStatus;
 import com.commerce.kafka.producer.KafkaProducer;
