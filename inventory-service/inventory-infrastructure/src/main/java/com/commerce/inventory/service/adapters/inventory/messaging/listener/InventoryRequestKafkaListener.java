@@ -57,7 +57,7 @@ public class InventoryRequestKafkaListener implements KafkaConsumer<InventoryReq
                     }
                     case UPDATING, UPDATING_ROLLBACK -> {
                         logger.info("Inventory updating step for order id: {}", inventoryRequest.orderId());
-                        inventoryRequestMessageListener.processing(inventoryRequest);
+                        inventoryRequestMessageListener.updating(inventoryRequest);
                     }
                 }
             } catch (Exception e) {

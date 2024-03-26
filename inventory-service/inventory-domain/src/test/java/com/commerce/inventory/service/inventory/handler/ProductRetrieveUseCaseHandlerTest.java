@@ -1,7 +1,7 @@
 package com.commerce.inventory.service.inventory.handler;
 
 import com.commerce.inventory.service.common.exception.ProductNotFoundException;
-import com.commerce.inventory.service.inventory.handler.adapter.FakeProductDataAdapter;
+import com.commerce.inventory.service.adapter.FakeProductDataAdapter;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -3,7 +3,7 @@ package com.commerce.inventory.service.inventory.handler;
 import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.Quantity;
-import com.commerce.inventory.service.inventory.handler.adapter.FakeProductDataAdapter;
+import com.commerce.inventory.service.adapter.FakeProductDataAdapter;
 import com.commerce.inventory.service.inventory.usecase.ProductSave;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

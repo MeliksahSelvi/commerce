@@ -11,6 +11,6 @@ public interface InventoryRequestMessageListener {
 
     void checking(InventoryRequest inventoryRequest);
 
-    void processing(InventoryRequest inventoryRequest);
+    void updating(InventoryRequest inventoryRequest);
 
 }

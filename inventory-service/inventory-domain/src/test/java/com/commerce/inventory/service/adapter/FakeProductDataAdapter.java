@@ -1,4 +1,4 @@
-package com.commerce.inventory.service.inventory.handler.adapter;
+package com.commerce.inventory.service.adapter;
 
 import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
