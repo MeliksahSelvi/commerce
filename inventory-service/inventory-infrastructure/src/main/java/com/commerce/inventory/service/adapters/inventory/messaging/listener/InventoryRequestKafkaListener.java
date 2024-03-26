@@ -43,7 +43,7 @@ public class InventoryRequestKafkaListener implements KafkaConsumer<InventoryReq
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
 
-        logger.info("{} number of payment requests received with keys:{}, partitions:{} and offsets:{}",
+        logger.info("{} number of messages received with keys:{}, partitions:{} and offsets:{}",
                 messages.size(), keys, partitions, offsets);
 
         for (InventoryRequestAvroModel message : messages) {

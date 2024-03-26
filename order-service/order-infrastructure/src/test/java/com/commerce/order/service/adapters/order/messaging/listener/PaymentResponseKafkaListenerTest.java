@@ -1,14 +1,12 @@
 package com.commerce.order.service.adapters.order.messaging.listener;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.kafka.model.InventoryResponseAvroModel;
-import com.commerce.kafka.model.InventoryStatus;
-import com.commerce.kafka.model.OrderInventoryStatus;
+import com.commerce.kafka.model.PaymentResponseAvroModel;
+import com.commerce.kafka.model.PaymentStatus;
 import com.commerce.order.service.adapters.order.common.LoggerTest;
 import com.commerce.order.service.adapters.order.messaging.listener.common.ListenerCommonData;
-import com.commerce.order.service.order.port.messaging.input.InventoryCheckingResponseMessageListener;
-import com.commerce.order.service.order.port.messaging.input.InventoryUpdatingResponseMessageListener;
-import com.commerce.order.service.order.usecase.InventoryResponse;
+import com.commerce.order.service.common.saga.SagaStep;
+import com.commerce.order.service.order.usecase.PaymentResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,24 +30,22 @@ import static org.mockito.Mockito.verify;
  */
 
 @ExtendWith(MockitoExtension.class)
-class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKafkaListener> {
+class PaymentResponseKafkaListenerTest extends LoggerTest<PaymentResponseKafkaListener> {
 
     @InjectMocks
-    private InventoryResponseKafkaListener kafkaListener;
+    private PaymentResponseKafkaListener kafkaListener;
 
     @Mock
-    private InventoryCheckingResponseMessageListener checkingListener;
-
-    @Mock
-    private InventoryUpdatingResponseMessageListener updatingListener;
+    private SagaStep<PaymentResponse> paymentResponseSagaStep;
 
     private ListenerCommonData listenerCommonData;
     private List<String> keys;
     private List<Integer> partitions;
     private List<Long> offsets;
 
-    public InventoryResponseKafkaListenerTest() {
-        super(InventoryResponseKafkaListener.class);
+
+    public PaymentResponseKafkaListenerTest() {
+        super(PaymentResponseKafkaListener.class);
     }
 
     @BeforeEach
@@ -66,9 +63,9 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
     }
 
     @Test
-    void should_receive_when_order_inventory_status_checking() {
+    void should_receive_when_order_payment_status_completed() {
         //given
-        var messages = buildMessages(OrderInventoryStatus.CHECKING);
+        var messages = buildMessages(PaymentStatus.COMPLETED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
 
         //when
@@ -76,13 +73,13 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
-        verify(checkingListener).checking(any(InventoryResponse.class));
+        verify(paymentResponseSagaStep).process(any(PaymentResponse.class));
     }
 
     @Test
-    void should_receive_when_order_inventory_status_checking_rollback() {
+    void should_receive_when_order_payment_status_cancelled() {
         //given
-        var messages = buildMessages(OrderInventoryStatus.CHECKING_ROLLBACK);
+        var messages = buildMessages(PaymentStatus.CANCELLED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
 
         //when
@@ -90,13 +87,13 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
-        verify(checkingListener).checkingRollback(any(InventoryResponse.class));
+        verify(paymentResponseSagaStep).rollback(any(PaymentResponse.class));
     }
 
     @Test
-    void should_receive_when_order_inventory_status_updating() {
+    void should_receive_when_order_payment_status_failed() {
         //given
-        var messages = buildMessages(OrderInventoryStatus.UPDATING);
+        var messages = buildMessages(PaymentStatus.FAILED);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
 
         //when
@@ -104,37 +101,24 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
-        verify(updatingListener).updating(any(InventoryResponse.class));
+        verify(paymentResponseSagaStep).rollback(any(PaymentResponse.class));
     }
 
-    @Test
-    void should_receive_when_order_inventory_status_updating_rollback() {
-        //given
-        var messages = buildMessages(OrderInventoryStatus.UPDATING_ROLLBACK);
-        var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
-
-        //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
-
-        //then
-        assertTrue(memoryApender.contains(logMessage, Level.INFO));
-        verify(updatingListener).updatingRollback(any(InventoryResponse.class));
-    }
-
-    private List<InventoryResponseAvroModel> buildMessages(OrderInventoryStatus orderInventoryStatus) {
-        var avroModel = buildAvroModel(orderInventoryStatus);
-        List<InventoryResponseAvroModel> messages = new ArrayList<>();
+    private List<PaymentResponseAvroModel> buildMessages(PaymentStatus paymentStatus) {
+        var avroModel = buildAvroModel(paymentStatus);
+        List<PaymentResponseAvroModel> messages = new ArrayList<>();
         messages.add(avroModel);
         return messages;
     }
 
-    private InventoryResponseAvroModel buildAvroModel(OrderInventoryStatus orderInventoryStatus) {
-        return InventoryResponseAvroModel.newBuilder()
+    private PaymentResponseAvroModel buildAvroModel(PaymentStatus paymentStatus) {
+        return PaymentResponseAvroModel.newBuilder()
                 .setSagaId(UUID.randomUUID().toString())
+                .setPaymentId(1L)
+                .setCost(BigDecimal.ONE)
+                .setPaymentStatus(paymentStatus)
                 .setOrderId(1L)
                 .setCustomerId(1L)
-                .setOrderInventoryStatus(orderInventoryStatus)
-                .setInventoryStatus(InventoryStatus.AVAILABLE)
                 .setFailureMessages(new ArrayList<>())
                 .build();
     }
