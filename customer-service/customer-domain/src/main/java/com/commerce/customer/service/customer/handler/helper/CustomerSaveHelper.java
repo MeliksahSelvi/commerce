@@ -27,7 +27,7 @@ public class CustomerSaveHelper {
     }
 
     @Transactional
-    public Customer handle(CustomerSave useCase) {
+    public Customer save(CustomerSave useCase) {
         String encryptedPassword = encryptingPort.encrypt(useCase.password());
         Customer customer = buildCustomer(useCase, encryptedPassword);
         logger.info("Customer Saved for firstname and lastname: {} {}", useCase.firstName(), useCase.lastName());

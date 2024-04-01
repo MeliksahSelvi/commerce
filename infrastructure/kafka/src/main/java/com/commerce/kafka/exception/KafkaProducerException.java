@@ -5,7 +5,7 @@ package com.commerce.kafka.exception;
  * @Created 18.03.2024
  */
 
-public class KafkaProducerException extends RuntimeException{//todo maybe handle
+public class KafkaProducerException extends RuntimeException{
     public KafkaProducerException(String message) {
         super(message);
     }

@@ -24,7 +24,7 @@ public class CustomerEntity extends AbstractEntity {
     @Column(name = "IDENTITY_NO", nullable = false, unique = true)
     private String identityNo;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL", nullable = false,unique = true)
     private String email;
 
     @Column(name = "PASSWORD", nullable = false)

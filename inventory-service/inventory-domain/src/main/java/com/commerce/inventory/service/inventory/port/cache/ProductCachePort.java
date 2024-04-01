@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public interface ProductCachePort {
 
-    void put(Long key, CachedProduct value);
+    void put(Long productId, CachedProduct cachedProduct);
 
-    Optional<CachedProduct> get(Long key);
+    Optional<CachedProduct> get(Long productId);
 
-    void remove(Long key);
+    void remove(Long productId);
 }

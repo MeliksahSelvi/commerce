@@ -25,20 +25,20 @@ public class RedisAdapter implements ProductCachePort {
     }
 
     @Override
-    public void put(Long key, CachedProduct value) {
-        String cachedProductAsJson = jsonPort.convertDataToJson(value);
-        redisTemplate.opsForValue().set(key.toString(), cachedProductAsJson);
+    public void put(Long productId, CachedProduct cachedProduct) {
+        String cachedProductAsJson = jsonPort.convertDataToJson(cachedProduct);
+        redisTemplate.opsForValue().set(productId.toString(), cachedProductAsJson);
     }
 
     @Override
-    public Optional<CachedProduct> get(Long key) {
-        String cachedProductAsJson = redisTemplate.opsForValue().get(key.toString());
+    public Optional<CachedProduct> get(Long productId) {
+        String cachedProductAsJson = redisTemplate.opsForValue().get(productId.toString());
         CachedProduct cachedProduct = jsonPort.exractDataFromJson(cachedProductAsJson, CachedProduct.class);
         return Optional.ofNullable(cachedProduct);
     }
 
     @Override
-    public void remove(Long key) {
-        redisTemplate.delete(key.toString());
+    public void remove(Long productId) {
+        redisTemplate.delete(productId.toString());
     }
 }

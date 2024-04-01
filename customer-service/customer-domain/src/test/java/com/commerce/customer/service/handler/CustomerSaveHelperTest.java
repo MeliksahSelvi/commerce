@@ -29,7 +29,7 @@ class CustomerSaveHelperTest {
         var customerSave = new CustomerSave("Ali", "Demir", "123456789", "email@com", "123");
 
         //when
-        var customer = customerSaveHelper.handle(customerSave);
+        var customer = customerSaveHelper.save(customerSave);
 
         //then
         assertEquals(customerSave.firstName(), customer.getFirstName());

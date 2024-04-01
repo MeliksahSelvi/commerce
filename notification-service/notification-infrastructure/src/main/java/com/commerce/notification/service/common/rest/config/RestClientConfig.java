@@ -27,7 +27,7 @@ public class RestClientConfig {
         return builder.baseUrl("http://localhost:8085")
 //        return builder.baseUrl("http://customer-service")//todo fix
                 .defaultStatusHandler(handler())
-                .build();//todo api gateway url
+                .build();
     }
 
     @Bean

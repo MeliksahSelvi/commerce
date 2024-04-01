@@ -24,25 +24,25 @@ public class FakeProductCacheAdapter implements ProductCachePort {
     }
 
     @Override
-    public void put(Long key, CachedProduct value) {
-        cachedProductMap.put(key, value);
+    public void put(Long productId, CachedProduct cachedProduct) {
+        cachedProductMap.put(productId, cachedProduct);
     }
 
     @Override
-    public Optional<CachedProduct> get(Long key) {
-        Integer oldCount = countOfGetProduct.get(key);
+    public Optional<CachedProduct> get(Long productId) {
+        Integer oldCount = countOfGetProduct.get(productId);
         if (oldCount != null) {
             Integer newCount = ++oldCount;
             if (newCount == 2) {
                 return Optional.empty();
             }
-            countOfGetProduct.put(key, newCount);
+            countOfGetProduct.put(productId, newCount);
         }
-        return Optional.ofNullable(cachedProductMap.get(key));
+        return Optional.ofNullable(cachedProductMap.get(productId));
     }
 
     @Override
-    public void remove(Long key) {
-        cachedProductMap.remove(key);
+    public void remove(Long productId) {
+        cachedProductMap.remove(productId);
     }
 }

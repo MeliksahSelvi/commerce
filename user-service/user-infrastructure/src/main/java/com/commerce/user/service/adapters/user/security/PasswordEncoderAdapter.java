@@ -1,6 +1,6 @@
-package com.commerce.customer.service.adapters.customer.security;
+package com.commerce.user.service.adapters.user.security;
 
-import com.commerce.customer.service.customer.port.security.EncryptingPort;
+import com.commerce.user.service.user.port.security.EncryptingPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @Author mselvi
- * @Created 10.03.2024
+ * @Created 31.03.2024
  */
 
 @Service
