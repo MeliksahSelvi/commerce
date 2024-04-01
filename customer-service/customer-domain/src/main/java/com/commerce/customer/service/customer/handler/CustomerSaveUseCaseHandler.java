@@ -22,6 +22,6 @@ public class CustomerSaveUseCaseHandler implements UseCaseHandler<Customer, Cust
 
     @Override
     public Customer handle(CustomerSave useCase) {
-        return customerSaveHelper.handle(useCase);
+        return customerSaveHelper.save(useCase);
     }
 }
