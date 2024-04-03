@@ -1,7 +1,6 @@
 package com.commerce.order.service.common.rest.handler;
 
-import com.commerce.order.service.common.exception.OrderDomainException;
-import org.springframework.http.HttpStatus;
+import com.commerce.order.service.common.exception.OrderInfraException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
@@ -31,11 +30,7 @@ public class RestClientResponseErrorHandler implements ResponseErrorHandler {
         if (responseStatusCode.is5xxServerError()) {
             throw new RuntimeException();
         } else if (responseStatusCode.is4xxClientError()) {
-            if (responseStatusCode.isSameCodeAs(HttpStatus.BAD_REQUEST)) {
-                throw new OrderDomainException(statusText);
-            } else if (responseStatusCode.isSameCodeAs(HttpStatus.NOT_FOUND)) {
-                throw new OrderDomainException(statusText);
-            }
+            throw new OrderInfraException(statusText);
         }
     }
 }

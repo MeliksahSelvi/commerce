@@ -1,7 +1,7 @@
 package com.commerce.notification.service.common.rest.handler;
 
 import com.commerce.notification.service.common.exception.NotificationDomainException;
-import org.springframework.http.HttpStatus;
+import com.commerce.notification.service.common.exception.NotificationInfraException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
@@ -31,11 +31,7 @@ public class RestClientResponseErrorHandler implements ResponseErrorHandler {
         if (responseStatusCode.is5xxServerError()) {
             throw new RuntimeException();
         } else if (responseStatusCode.is4xxClientError()) {
-            if (responseStatusCode.isSameCodeAs(HttpStatus.BAD_REQUEST)) {
-                throw new NotificationDomainException(statusText);
-            } else if (responseStatusCode.isSameCodeAs(HttpStatus.NOT_FOUND)) {
-                throw new NotificationDomainException(statusText);
-            }
+            throw new NotificationInfraException(statusText);
         }
     }
 }
