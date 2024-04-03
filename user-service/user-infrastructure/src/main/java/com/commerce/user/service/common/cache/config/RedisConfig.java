@@ -30,7 +30,7 @@ public class RedisConfig {
         JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jedisPoolingClientConfigurationBuilder = (
                 JedisClientConfiguration.JedisPoolingClientConfigurationBuilder) JedisClientConfiguration.builder();
 
-        GenericObjectPoolConfig genericObjectPoolConfig=new GenericObjectPoolConfig();
+        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
         genericObjectPoolConfig.setMaxTotal(redisConfigData.maxTotal());
         genericObjectPoolConfig.setMaxIdle(redisConfigData.maxIdle());
         genericObjectPoolConfig.setMinIdle(redisConfigData.minIdle());
@@ -38,22 +38,22 @@ public class RedisConfig {
     }
 
     @Bean
-    public JedisConnectionFactory getJedisConnectionFactory(){
-        RedisStandaloneConfiguration redisStandaloneConfiguration=new RedisStandaloneConfiguration();
+    public JedisConnectionFactory getJedisConnectionFactory() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(redisConfigData.host());
         if (StringUtils.hasText(redisConfigData.password())) {
             redisStandaloneConfiguration.setPassword(RedisPassword.of(redisConfigData.password()));
         }
         redisStandaloneConfiguration.setPort(redisConfigData.port());
-        return new JedisConnectionFactory(redisStandaloneConfiguration,getJedisClientConfiguration());
+        return new JedisConnectionFactory(redisStandaloneConfiguration, getJedisClientConfiguration());
     }
 
     @Bean
-    public RedisTemplate<String,String> redisTemplate(){
-        RedisTemplate<String ,String> redisTemplate=new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(getJedisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
+//        redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
 }
