@@ -5,12 +5,12 @@ package com.commerce.user.service.common.valueobject;
  * @Created 31.03.2024
  */
 
-public enum UserType {
+public enum RoleType {
     ADMIN("ADMIN"), CUSTOMER("CUSTOMER");
 
     private final String type;
 
-    UserType(String type) {
+    RoleType(String type) {
         this.type = type;
     }
 
