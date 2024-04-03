@@ -1,17 +1,20 @@
 package com.commerce.order.service.common.rest.handler;
 
-import com.commerce.order.service.common.exception.InventoryOutboxNotFoundException;
-import com.commerce.order.service.common.exception.OrderDomainException;
-import com.commerce.order.service.common.exception.OrderNotFoundException;
-import com.commerce.order.service.common.exception.PaymentOutboxNotFoundException;
+import com.commerce.order.service.common.exception.*;
 import com.commerce.order.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author mselvi
@@ -53,6 +56,25 @@ public class OrderExceptionHandler {
     public ErrorResponse handleException(PaymentOutboxNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleValidationErrors(MethodArgumentNotValidException exception) {
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+        String errorMessage = String.join(",", errors);
+        logger.error(errorMessage, exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = OrderInfraException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(OrderInfraException exception) {
+        logger.error(exception.getMessage(), exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ResponseBody

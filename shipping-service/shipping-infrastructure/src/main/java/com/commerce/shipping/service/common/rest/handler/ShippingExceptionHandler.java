@@ -1,15 +1,20 @@
 package com.commerce.shipping.service.common.rest.handler;
 
 import com.commerce.shipping.service.common.exception.ShippingDomainException;
+import com.commerce.shipping.service.common.exception.ShippingInfraException;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.List;
 
 /**
  * @Author mselvi
@@ -35,6 +40,25 @@ public class ShippingExceptionHandler {
     public ErrorResponse handleException(ShippingNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleValidationErrors(MethodArgumentNotValidException exception) {
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+        String errorMessage = String.join(",", errors);
+        logger.error(errorMessage, exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = ShippingInfraException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(ShippingInfraException exception) {
+        logger.error(exception.getMessage(), exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ResponseBody

@@ -2,15 +2,20 @@ package com.commerce.payment.service.common.rest.handler;
 
 import com.commerce.payment.service.common.exception.AccountNotFoundException;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
+import com.commerce.payment.service.common.exception.PaymentInfraException;
 import com.commerce.payment.service.common.exception.PaymentNotFoundException;
 import com.commerce.payment.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.List;
 
 /**
  * @Author mselvi
@@ -44,6 +49,25 @@ public class PaymentExceptionHandler {
     public ErrorResponse handleException(AccountNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleValidationErrors(MethodArgumentNotValidException exception) {
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+        String errorMessage = String.join(",", errors);
+        logger.error(errorMessage, exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = PaymentInfraException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(PaymentInfraException exception) {
+        logger.error(exception.getMessage(), exception);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
 
