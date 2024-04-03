@@ -20,7 +20,5 @@ public interface OrderOutboxEntityRepository extends JpaRepository<OrderOutboxEn
 
     Optional<List<OrderOutboxEntity>> findByOutboxStatus(OutboxStatus outboxStatus);
 
-    Optional<OrderOutboxEntity> findBySagaIdAndOrderInventoryStatus(UUID sagaId, OrderInventoryStatus orderInventoryStatus);
-
     void deleteByOutboxStatus(OutboxStatus outboxStatus);
 }

@@ -54,11 +54,11 @@ public class CreateOrderHelper {
         Order savedOrder = orderDataPort.save(order);
         logger.info("Order is persisted with id: {}", savedOrder.getId());
 
-        InventoryOutbox inventoryOutbox = buildInventoryOutbox(order);
+        InventoryOutbox inventoryOutbox = buildInventoryOutbox(savedOrder);
 
         inventoryOutboxDataPort.save(inventoryOutbox);
         logger.info("InventoryOutbox persisted with sagaId: {}", inventoryOutbox.getSagaId());
-        return order;
+        return savedOrder;
     }
 
     private void checkCustomer(Long customerId) {
