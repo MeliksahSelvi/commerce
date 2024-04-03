@@ -31,7 +31,7 @@ public class SpringMailAdapter implements MailPort {
 
     @Override
     public void sendMail(MailContent mailContent) {
-        CustomerInfo customerInfo = mailContent.customerResponse();
+        CustomerInfo customerInfo = mailContent.customerInfo();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(whoSendEmail);
         mailMessage.setSubject(mailContent.notificationType().toString());
@@ -48,7 +48,7 @@ public class SpringMailAdapter implements MailPort {
     }
 
     private String generateMailBody(MailContent mailContent) {
-        CustomerInfo customerInfo = mailContent.customerResponse();
+        CustomerInfo customerInfo = mailContent.customerInfo();
         return String.format("""
                 Hi Mr./Mrs. %s %s
                                 
