@@ -22,7 +22,7 @@ This project will be the biggest project in my software adventure. This adventur
 <ul>
 <li>Hexagonal Architecture</li>
 <li>Event Publishing with Kafka Broker</li>
-<li>Saga Pattern with choreography on Distributed Systems</li>
+<li>Saga Pattern with Choreography on Distributed Systems</li>
 <li>Outbox Pattern with Outbox Schedulers</li>
 <li>Cache Mechanism With Redis</li>
 <li>Externalizing Configuration with Spring Cloud</li>
