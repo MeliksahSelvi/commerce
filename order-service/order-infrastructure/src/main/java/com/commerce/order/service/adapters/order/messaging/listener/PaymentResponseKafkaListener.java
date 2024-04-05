@@ -1,10 +1,10 @@
 package com.commerce.order.service.adapters.order.messaging.listener;
 
-import com.commerce.kafka.consumer.KafkaConsumer;
-import com.commerce.kafka.model.PaymentResponseAvroModel;
+import com.commerce.order.service.common.messaging.kafka.consumer.KafkaConsumer;
+import com.commerce.order.service.common.messaging.kafka.model.PaymentResponseKafkaModel;
 import com.commerce.order.service.common.saga.SagaStep;
 import com.commerce.order.service.common.valueobject.Money;
-import com.commerce.order.service.common.valueobject.PaymentStatus;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.usecase.PaymentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,20 +23,22 @@ import java.util.UUID;
  */
 
 @Component
-public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentResponseAvroModel> {
+public class PaymentResponseKafkaListener implements KafkaConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentResponseKafkaListener.class);
     private final SagaStep<PaymentResponse> paymentResponseSagaStep;
+    private final JsonPort jsonPort;
 
-    public PaymentResponseKafkaListener(SagaStep<PaymentResponse> paymentResponseSagaStep) {
+    public PaymentResponseKafkaListener(SagaStep<PaymentResponse> paymentResponseSagaStep, JsonPort jsonPort) {
         this.paymentResponseSagaStep = paymentResponseSagaStep;
+        this.jsonPort = jsonPort;
     }
 
 
     @Override
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${order-service.payment-response-topic-name}")
-    public void receive(@Payload List<PaymentResponseAvroModel> messages,
+    public void receive(@Payload List<String> messages,
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
@@ -44,10 +46,11 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
         logger.info("{} number of messages received with keys:{}, partitions:{} and offsets:{}",
                 messages.size(), keys, partitions, offsets);
 
-        for (PaymentResponseAvroModel message : messages) {
+        for (String message : messages) {
 
             try {
-                PaymentResponse paymentResponse = buildPaymentResponse(message);
+                PaymentResponseKafkaModel kafkaModel = jsonPort.exractDataFromJson(message, PaymentResponseKafkaModel.class);
+                PaymentResponse paymentResponse = buildPaymentResponse(kafkaModel);
                 switch (paymentResponse.paymentStatus()) {
                     case COMPLETED -> {
                         logger.info("Successful payment for order id: {}", paymentResponse.orderId());
@@ -64,8 +67,8 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
         }
     }
 
-    private PaymentResponse buildPaymentResponse(PaymentResponseAvroModel avroModel) {
-        return new PaymentResponse(UUID.fromString(avroModel.getSagaId()), avroModel.getOrderId(), avroModel.getPaymentId(), avroModel.getCustomerId(),
-                new Money(avroModel.getCost()), PaymentStatus.valueOf(avroModel.getPaymentStatus().name()), avroModel.getFailureMessages());
+    private PaymentResponse buildPaymentResponse(PaymentResponseKafkaModel kafkaModel) {
+        return new PaymentResponse(UUID.fromString(kafkaModel.sagaId()), kafkaModel.orderId(), kafkaModel.paymentId(), kafkaModel.customerId(),
+                new Money(kafkaModel.cost()), kafkaModel.paymentStatus(), kafkaModel.failureMessages());
     }
 }

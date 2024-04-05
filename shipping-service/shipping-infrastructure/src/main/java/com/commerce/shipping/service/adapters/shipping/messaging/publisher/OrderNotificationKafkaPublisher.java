@@ -1,12 +1,12 @@
 package com.commerce.shipping.service.adapters.shipping.messaging.publisher;
 
-import com.commerce.kafka.model.AddressPayload;
-import com.commerce.kafka.model.NotificationRequestAvroModel;
-import com.commerce.kafka.model.NotificationType;
-import com.commerce.kafka.model.OrderItemPayload;
-import com.commerce.kafka.producer.KafkaProducerWithoutCallback;
+import com.commerce.shipping.service.common.exception.ShippingInfraException;
+import com.commerce.shipping.service.common.messaging.kafka.model.NotificationRequestKafkaModel;
+import com.commerce.shipping.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.shipping.service.shipping.port.messaging.output.OrderNotificationMessagePublisher;
 import com.commerce.shipping.service.shipping.usecase.OrderNotificationMessage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,13 +21,15 @@ import org.springframework.stereotype.Component;
 public class OrderNotificationKafkaPublisher implements OrderNotificationMessagePublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderNotificationKafkaPublisher.class);
-    private final KafkaProducerWithoutCallback<String, NotificationRequestAvroModel> kafkaProducer;
+    private final KafkaProducerWithoutCallback kafkaProducer;
+    private final ObjectMapper objectMapper;
 
     @Value("${shipping-service.notification-request-topic-name}")
     private String notificationTopicName;
 
-    public OrderNotificationKafkaPublisher(KafkaProducerWithoutCallback<String, NotificationRequestAvroModel> kafkaProducer) {
+    public OrderNotificationKafkaPublisher(KafkaProducerWithoutCallback kafkaProducer, ObjectMapper objectMapper) {
         this.kafkaProducer = kafkaProducer;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -36,8 +38,8 @@ public class OrderNotificationKafkaPublisher implements OrderNotificationMessage
         logger.info("Received OrderNotificationMessage for order id: {} and customer id: {}", orderId);
 
         try {
-            NotificationRequestAvroModel avroModel = buildAvroModel(orderNotificationMessage);
-            kafkaProducer.send(notificationTopicName, orderId.toString(), avroModel);
+            NotificationRequestKafkaModel kafkaModel = new NotificationRequestKafkaModel(orderNotificationMessage);
+            kafkaProducer.send(notificationTopicName, orderId.toString(), convertDataToJson(kafkaModel));
 
             logger.info("NotificationAvroModel sent to Kafka for order id: {}", orderId);
         } catch (Exception e) {
@@ -45,28 +47,11 @@ public class OrderNotificationKafkaPublisher implements OrderNotificationMessage
         }
     }
 
-    private NotificationRequestAvroModel buildAvroModel(OrderNotificationMessage message) {
-        return NotificationRequestAvroModel.newBuilder()
-                .setOrderId(message.orderId())
-                .setCustomerId(message.customerId())
-                .setAddressPayload(AddressPayload.newBuilder()
-                        .setId(message.address().getId())
-                        .setCity(message.address().getCity())
-                        .setCounty(message.address().getCounty())
-                        .setNeighborhood(message.address().getNeighborhood())
-                        .setStreet(message.address().getStreet())
-                        .setPostalCode(message.address().getPostalCode())
-                        .build())
-                .setMessage(message.message())
-                .setNotificationType(NotificationType.valueOf(message.notificationType().name()))
-                .setItems(message.items().stream().map(orderItem -> OrderItemPayload.newBuilder()
-                        .setId(orderItem.getId())
-                        .setOrderId(orderItem.getOrderId())
-                        .setProductId(orderItem.getProductId())
-                        .setQuantity(orderItem.getQuantity().value())
-                        .setPrice(orderItem.getPrice().amount())
-                        .setTotalPrice(orderItem.getTotalPrice().amount())
-                        .build()).toList())
-                .build();
+    private String convertDataToJson(NotificationRequestKafkaModel userPrincipal) {
+        try {
+            return objectMapper.writeValueAsString(userPrincipal);
+        } catch (JsonProcessingException e) {
+            throw new ShippingInfraException("Could not create NotificationRequestKafkaModel object", e);
+        }
     }
 }

@@ -1,9 +1,9 @@
 package com.commerce.shipping.service;
 
-import com.commerce.kafka.config.KafkaConfigData;
-import com.commerce.kafka.config.KafkaConsumerConfigData;
-import com.commerce.kafka.config.KafkaProducerConfigData;
 import com.commerce.shipping.service.common.DomainComponent;
+import com.commerce.shipping.service.common.messaging.kafka.config.KafkaConfigData;
+import com.commerce.shipping.service.common.messaging.kafka.config.KafkaConsumerConfigData;
+import com.commerce.shipping.service.common.messaging.kafka.config.KafkaProducerConfigData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -28,7 +28,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(
         basePackages = {
                 "com.commerce.shipping.service",
-                "com.commerce.kafka"
         },
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {DomainComponent.class})

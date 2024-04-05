@@ -2,9 +2,9 @@ package com.commerce.inventory.service;
 
 import com.commerce.inventory.service.common.DomainComponent;
 import com.commerce.inventory.service.common.cache.config.RedisConfigData;
-import com.commerce.kafka.config.KafkaConfigData;
-import com.commerce.kafka.config.KafkaConsumerConfigData;
-import com.commerce.kafka.config.KafkaProducerConfigData;
+import com.commerce.inventory.service.common.messaging.kafka.config.KafkaConfigData;
+import com.commerce.inventory.service.common.messaging.kafka.config.KafkaConsumerConfigData;
+import com.commerce.inventory.service.common.messaging.kafka.config.KafkaProducerConfigData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -31,7 +31,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(
         basePackages = {
                 "com.commerce.inventory.service",
-                "com.commerce.kafka"
         },
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {DomainComponent.class})

@@ -1,13 +1,13 @@
 package com.commerce.inventory.service.adapters.inventory.messaging.publisher;
 
 import com.commerce.inventory.service.common.messaging.kafka.helper.KafkaHelper;
+import com.commerce.inventory.service.common.messaging.kafka.model.InventoryResponseKafkaModel;
+import com.commerce.inventory.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
+import com.commerce.inventory.service.inventory.port.json.JsonPort;
 import com.commerce.inventory.service.inventory.port.messaging.output.InventoryResponseMessagePublisher;
 import com.commerce.inventory.service.outbox.entity.OrderOutbox;
 import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
-import com.commerce.kafka.model.InventoryResponseAvroModel;
-import com.commerce.kafka.model.InventoryStatus;
-import com.commerce.kafka.producer.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,15 +25,17 @@ import java.util.function.BiConsumer;
 public class InventoryResponseKafkaPublisher implements InventoryResponseMessagePublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryResponseKafkaPublisher.class);
-    private final KafkaProducer<String, InventoryResponseAvroModel> kafkaProducer;
+    private final KafkaProducer kafkaProducer;
     private final KafkaHelper kafkaHelper;
+    private final JsonPort jsonPort;
 
     @Value("${inventory-service.inventory-response-topic-name}")
     private String inventoryResponseTopicName;
 
-    public InventoryResponseKafkaPublisher(KafkaProducer<String, InventoryResponseAvroModel> kafkaProducer, KafkaHelper kafkaHelper) {
+    public InventoryResponseKafkaPublisher(KafkaProducer kafkaProducer, KafkaHelper kafkaHelper, JsonPort jsonPort) {
         this.kafkaProducer = kafkaProducer;
         this.kafkaHelper = kafkaHelper;
+        this.jsonPort = jsonPort;
     }
 
 
@@ -46,25 +48,14 @@ public class InventoryResponseKafkaPublisher implements InventoryResponseMessage
         logger.info("Received OrderOutbox for order id: {} and saga id: {}", orderId, sagaId);
 
         try {
-            InventoryResponseAvroModel kafkaModel = buildAvroModel(sagaId, payload);
-            kafkaProducer.send(inventoryResponseTopicName, sagaId.toString(), kafkaModel,
+            InventoryResponseKafkaModel kafkaModel = new InventoryResponseKafkaModel(sagaId, payload);
+            kafkaProducer.send(inventoryResponseTopicName, sagaId.toString(), jsonPort.convertDataToJson(kafkaModel),
                     kafkaHelper.getKafkaCallback(kafkaModel, orderOutbox, outboxCallback, orderId));
 
-            logger.info("InventoryResponseAvroModel sent to Kafka for order id: {} and saga id: {}", orderId, sagaId);
+            logger.info("InventoryResponseKafkaModel sent to Kafka for order id: {} and saga id: {}", orderId, sagaId);
         } catch (Exception e) {
-            logger.error("Error while sending InventoryResponseAvroModel to kafka with order id: {} and saga id: {} error: {}",
+            logger.error("Error while sending InventoryResponseKafkaModel to kafka with order id: {} and saga id: {} error: {}",
                     orderId, sagaId, e.getMessage());
         }
-    }
-
-    private InventoryResponseAvroModel buildAvroModel(UUID sagaId, OrderOutboxPayload payload) {
-        return InventoryResponseAvroModel.newBuilder()
-                .setSagaId(sagaId.toString())
-                .setOrderId(payload.orderId())
-                .setCustomerId(payload.customerId())
-                .setInventoryStatus(InventoryStatus.valueOf(payload.inventoryStatus().name()))
-                .setOrderInventoryStatus(com.commerce.kafka.model.OrderInventoryStatus.valueOf(payload.orderInventoryStatus().name()))
-                .setFailureMessages(payload.failureMessages())
-                .build();
     }
 }

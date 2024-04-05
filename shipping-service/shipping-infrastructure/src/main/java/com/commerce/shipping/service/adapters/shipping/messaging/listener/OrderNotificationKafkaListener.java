@@ -1,7 +1,8 @@
 package com.commerce.shipping.service.adapters.shipping.messaging.listener;
 
-import com.commerce.kafka.consumer.KafkaConsumer;
-import com.commerce.kafka.model.NotificationRequestAvroModel;
+import com.commerce.shipping.service.common.exception.ShippingInfraException;
+import com.commerce.shipping.service.common.messaging.kafka.consumer.KafkaConsumer;
+import com.commerce.shipping.service.common.messaging.kafka.model.NotificationRequestKafkaModel;
 import com.commerce.shipping.service.common.valueobject.Money;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
 import com.commerce.shipping.service.common.valueobject.Quantity;
@@ -9,6 +10,8 @@ import com.commerce.shipping.service.shipping.entity.Address;
 import com.commerce.shipping.service.shipping.entity.OrderItem;
 import com.commerce.shipping.service.shipping.port.messaging.input.OrderNotificationMessageListener;
 import com.commerce.shipping.service.shipping.usecase.OrderNotificationMessage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -25,19 +28,21 @@ import java.util.List;
  */
 
 @Component
-public class OrderNotificationKafkaListener implements KafkaConsumer<NotificationRequestAvroModel> {
+public class OrderNotificationKafkaListener implements KafkaConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderNotificationKafkaListener.class);
     private final OrderNotificationMessageListener orderNotificationMessageListener;
+    private final ObjectMapper objectMapper;
 
-    public OrderNotificationKafkaListener(OrderNotificationMessageListener orderNotificationMessageListener) {
+    public OrderNotificationKafkaListener(OrderNotificationMessageListener orderNotificationMessageListener, ObjectMapper objectMapper) {
         this.orderNotificationMessageListener = orderNotificationMessageListener;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     @KafkaListener(id = "${kafka-consumer-config.order-shipping-consumer-group-id}",
             topics = "${shipping-service.notification-request-topic-name}")
-    public void receive(@Payload List<NotificationRequestAvroModel> messages,
+    public void receive(@Payload List<String> messages,
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
@@ -45,17 +50,18 @@ public class OrderNotificationKafkaListener implements KafkaConsumer<Notificatio
         logger.info("{} number of messages received with keys:{}, partitions:{} and offsets:{}",
                 messages.size(), keys, partitions, offsets);
 
-        for (NotificationRequestAvroModel avroModel : messages) {
-            OrderNotificationMessage message = buildUseCase(avroModel);
+        for (String message : messages) {
+            NotificationRequestKafkaModel kafkaModel = exractDataFromJson(message);
+            OrderNotificationMessage orderNotificationMessage = buildUseCase(kafkaModel);
             try {
-                switch (message.notificationType()) {
+                switch (orderNotificationMessage.notificationType()) {
                     case APPROVING -> {
                         logger.info("Notification sending approving action");
-                        orderNotificationMessageListener.approving(message);
+                        orderNotificationMessageListener.approving(orderNotificationMessage);
                     }
                     case CANCELLING -> {
                         logger.info("Notification sending cancelling action");
-                        orderNotificationMessageListener.cancelling(message);
+                        orderNotificationMessageListener.cancelling(orderNotificationMessage);
                     }
                     case DELIVERING, SHIPPING -> logger.warn("Wrong notification type came to shipping");
                 }
@@ -66,24 +72,32 @@ public class OrderNotificationKafkaListener implements KafkaConsumer<Notificatio
 
     }
 
-    private OrderNotificationMessage buildUseCase(NotificationRequestAvroModel avroModel) {
-        return new OrderNotificationMessage(avroModel.getOrderId(), avroModel.getCustomerId(),
+    private NotificationRequestKafkaModel exractDataFromJson(String strAsJson) {
+        try {
+            return objectMapper.readValue(strAsJson, NotificationRequestKafkaModel.class);
+        } catch (JsonProcessingException e) {
+            throw new ShippingInfraException("Could not read NotificationRequestKafkaModel object", e);
+        }
+    }
+
+    private OrderNotificationMessage buildUseCase(NotificationRequestKafkaModel kafkaModel) {
+        return new OrderNotificationMessage(kafkaModel.orderId(), kafkaModel.customerId(),
                 Address.builder()
-                        .city(avroModel.getAddressPayload().getCity())
-                        .county(avroModel.getAddressPayload().getCounty())
-                        .neighborhood(avroModel.getAddressPayload().getNeighborhood())
-                        .street(avroModel.getAddressPayload().getStreet())
-                        .postalCode(avroModel.getAddressPayload().getPostalCode())
+                        .city(kafkaModel.addressKafkaModel().city())
+                        .county(kafkaModel.addressKafkaModel().county())
+                        .neighborhood(kafkaModel.addressKafkaModel().neighborhood())
+                        .street(kafkaModel.addressKafkaModel().street())
+                        .postalCode(kafkaModel.addressKafkaModel().postalCode())
                         .build(),
-                avroModel.getItems().stream()
+                kafkaModel.items().stream()
                         .map(orderItemPayload -> OrderItem.builder()
-                                .orderId(orderItemPayload.getOrderId())
-                                .productId(orderItemPayload.getProductId())
-                                .quantity(new Quantity(orderItemPayload.getQuantity()))
-                                .price(new Money(orderItemPayload.getPrice()))
-                                .totalPrice(new Money(orderItemPayload.getTotalPrice()))
+                                .orderId(orderItemPayload.orderId())
+                                .productId(orderItemPayload.productId())
+                                .quantity(new Quantity(orderItemPayload.quantity()))
+                                .price(new Money(orderItemPayload.price()))
+                                .totalPrice(new Money(orderItemPayload.totalPrice()))
                                 .build())
                         .toList(),
-                NotificationType.valueOf(avroModel.getNotificationType().name()), avroModel.getMessage());
+                NotificationType.valueOf(kafkaModel.notificationType().name()), kafkaModel.message());
     }
 }

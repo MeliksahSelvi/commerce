@@ -1,10 +1,10 @@
 package com.commerce.order.service.adapters.order.messaging.publisher;
 
-import com.commerce.kafka.model.OrderPaymentStatus;
-import com.commerce.kafka.model.PaymentRequestAvroModel;
-import com.commerce.kafka.producer.KafkaProducer;
 import com.commerce.order.service.common.messaging.kafka.helper.KafkaHelper;
+import com.commerce.order.service.common.messaging.kafka.model.PaymentRequestKafkaModel;
+import com.commerce.order.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.order.service.common.outbox.OutboxStatus;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.messaging.output.PaymentRequestMessagePublisher;
 import com.commerce.order.service.outbox.entity.PaymentOutbox;
 import com.commerce.order.service.outbox.entity.PaymentOutboxPayload;
@@ -25,15 +25,17 @@ import java.util.function.BiConsumer;
 public class PaymentRequestKafkaPublisher implements PaymentRequestMessagePublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentRequestKafkaPublisher.class);
-    private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
+    private final KafkaProducer kafkaProducer;
     private final KafkaHelper kafkaHelper;
+    private final JsonPort jsonPort;
 
     @Value("${order-service.payment-request-topic-name}")
     private String paymentRequestTopicName;
 
-    public PaymentRequestKafkaPublisher(KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer, KafkaHelper kafkaHelper) {
+    public PaymentRequestKafkaPublisher(KafkaProducer kafkaProducer, KafkaHelper kafkaHelper, JsonPort jsonPort) {
         this.kafkaProducer = kafkaProducer;
         this.kafkaHelper = kafkaHelper;
+        this.jsonPort = jsonPort;
     }
 
     @Override
@@ -45,24 +47,12 @@ public class PaymentRequestKafkaPublisher implements PaymentRequestMessagePublis
         logger.info("Received PaymentOutbox for order id: {} and saga id: {}", orderId, sagaId);
 
         try {
-            PaymentRequestAvroModel avroModel = buildAvroModel(paymentOutboxPayload);
-            kafkaProducer.send(paymentRequestTopicName, sagaId.toString(), avroModel,
-                    kafkaHelper.getKafkaCallback(avroModel, paymentOutbox, outboxCallback, orderId));
-
-            logger.info("PaymentRequestAvroModel sent to Kafka for order id: {} and saga id: {}", orderId, sagaId);
+            PaymentRequestKafkaModel kafkaModel = new PaymentRequestKafkaModel(paymentOutboxPayload);
+            kafkaProducer.send(paymentRequestTopicName, sagaId.toString(), jsonPort.convertDataToJson(kafkaModel),
+                    kafkaHelper.getKafkaCallback(kafkaModel, paymentOutbox, outboxCallback, orderId));
+            logger.info("PaymentRequestKafkaModel sent to Kafka for order id: {} and saga id: {}", orderId, sagaId);
         } catch (Exception e) {
-            logger.error("Error while sending PaymentRequestAvroModel to Kafka with order id: {} and saga id: {} error: {}", orderId, sagaId, e.getMessage());
+            logger.error("Error while sending PaymentRequestKafkaModel to Kafka with order id: {} and saga id: {} error: {}", orderId, sagaId, e.getMessage());
         }
     }
-
-    private PaymentRequestAvroModel buildAvroModel(PaymentOutboxPayload payload) {
-        return PaymentRequestAvroModel.newBuilder()
-                .setSagaId(payload.sagaId().toString())
-                .setOrderId(payload.orderId())
-                .setCustomerId(payload.customerId())
-                .setCost(payload.cost())
-                .setOrderPaymentStatus(OrderPaymentStatus.valueOf(payload.orderPaymentStatus().name()))
-                .build();
-    }
-
 }

@@ -1,9 +1,8 @@
 package com.commerce.order.service.adapters.order.messaging.listener;
 
-import com.commerce.kafka.consumer.KafkaConsumer;
-import com.commerce.kafka.model.InventoryResponseAvroModel;
-import com.commerce.order.service.common.valueobject.InventoryStatus;
-import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.order.service.common.messaging.kafka.consumer.KafkaConsumer;
+import com.commerce.order.service.common.messaging.kafka.model.InventoryResponseKafkaModel;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.messaging.input.InventoryCheckingResponseMessageListener;
 import com.commerce.order.service.order.port.messaging.input.InventoryUpdatingResponseMessageListener;
 import com.commerce.order.service.order.usecase.InventoryResponse;
@@ -24,22 +23,24 @@ import java.util.UUID;
  */
 
 @Component
-public class InventoryResponseKafkaListener implements KafkaConsumer<InventoryResponseAvroModel> {
+public class InventoryResponseKafkaListener implements KafkaConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryResponseKafkaListener.class);
     private final InventoryCheckingResponseMessageListener inventoryCheckingResponseMessageListener;
     private final InventoryUpdatingResponseMessageListener inventoryUpdatingResponseMessageListener;
+    private final JsonPort jsonPort;
 
     public InventoryResponseKafkaListener(InventoryCheckingResponseMessageListener inventoryCheckingResponseMessageListener,
-                                          InventoryUpdatingResponseMessageListener inventoryUpdatingResponseMessageListener) {
+                                          InventoryUpdatingResponseMessageListener inventoryUpdatingResponseMessageListener, JsonPort jsonPort) {
         this.inventoryCheckingResponseMessageListener = inventoryCheckingResponseMessageListener;
         this.inventoryUpdatingResponseMessageListener = inventoryUpdatingResponseMessageListener;
+        this.jsonPort = jsonPort;
     }
 
     @Override
     @KafkaListener(id = "${kafka-consumer-config.inventory-consumer-group-id}",
             topics = "${order-service.inventory-response-topic-name}")
-    public void receive(@Payload List<InventoryResponseAvroModel> messages,
+    public void receive(@Payload List<String> messages,
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
@@ -47,10 +48,11 @@ public class InventoryResponseKafkaListener implements KafkaConsumer<InventoryRe
         logger.info("{} number of messages received with keys:{}, partitions:{} and offsets:{}",
                 messages.size(), keys, partitions, offsets);
 
-        for (InventoryResponseAvroModel message : messages) {
 
+        for (String message : messages) {
             try {
-                InventoryResponse inventoryResponse = buildInventoryResponse(message);
+                InventoryResponseKafkaModel kafkaModel = jsonPort.exractDataFromJson(message, InventoryResponseKafkaModel.class);
+                InventoryResponse inventoryResponse = buildInventoryResponse(kafkaModel);
                 switch (inventoryResponse.orderInventoryStatus()) {
                     case CHECKING -> {
                         logger.info("InventoryResponse sent to checking action");
@@ -76,9 +78,8 @@ public class InventoryResponseKafkaListener implements KafkaConsumer<InventoryRe
 
     }
 
-    private InventoryResponse buildInventoryResponse(InventoryResponseAvroModel avroModel) {
-        return new InventoryResponse(UUID.fromString(avroModel.getSagaId()), avroModel.getOrderId(), avroModel.getCustomerId(),
-                InventoryStatus.valueOf(avroModel.getInventoryStatus().name()), OrderInventoryStatus.valueOf(avroModel.getOrderInventoryStatus().name()),
-                avroModel.getFailureMessages());
+    private InventoryResponse buildInventoryResponse(InventoryResponseKafkaModel kafkaModel) {
+        return new InventoryResponse(UUID.fromString(kafkaModel.sagaId()), kafkaModel.orderId(), kafkaModel.customerId(),
+                kafkaModel.inventoryStatus(), kafkaModel.orderInventoryStatus(), kafkaModel.failureMessages());
     }
 }

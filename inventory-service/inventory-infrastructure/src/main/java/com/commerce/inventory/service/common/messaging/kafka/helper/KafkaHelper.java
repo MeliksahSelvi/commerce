@@ -34,8 +34,8 @@ public class KafkaHelper {
         }
     }
 
-    public <T, U> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(T kafkaModel, U outboxMessage,
-                                                                                BiConsumer<U, OutboxStatus> outboxCallback, Long orderId) {
+    public <T, U> BiConsumer<SendResult<String, String>, Throwable> getKafkaCallback(T kafkaModel, U outboxMessage,
+                                                                                     BiConsumer<U, OutboxStatus> outboxCallback, Long orderId) {
         return (result, ex) -> {
             if (ex == null) {
                 logger.info("Received successful response from Kafka for order id: {}", orderId);

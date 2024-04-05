@@ -1,10 +1,8 @@
 package com.commerce.order.service.adapters.order.messaging.publisher;
 
-import com.commerce.kafka.model.AddressPayload;
-import com.commerce.kafka.model.NotificationRequestAvroModel;
-import com.commerce.kafka.model.NotificationType;
-import com.commerce.kafka.model.OrderItemPayload;
-import com.commerce.kafka.producer.KafkaProducerWithoutCallback;
+import com.commerce.order.service.common.messaging.kafka.model.NotificationRequestKafkaModel;
+import com.commerce.order.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.messaging.output.OrderNotificationMessagePublisher;
 import com.commerce.order.service.order.usecase.OrderNotificationMessage;
 import org.slf4j.Logger;
@@ -21,14 +19,16 @@ import org.springframework.stereotype.Component;
 public class OrderNotificationKafkaPublisher implements OrderNotificationMessagePublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderNotificationKafkaPublisher.class);
-    private final KafkaProducerWithoutCallback<String, NotificationRequestAvroModel> kafkaProducer;
+    private final KafkaProducerWithoutCallback kafkaProducer;
+    private final JsonPort jsonPort;
 
     @Value("${order-service.notification-request-topic-name}")
     private String notificationTopicName;
 
 
-    public OrderNotificationKafkaPublisher(KafkaProducerWithoutCallback<String, NotificationRequestAvroModel> kafkaProducer) {
+    public OrderNotificationKafkaPublisher(KafkaProducerWithoutCallback kafkaProducer, JsonPort jsonPort) {
         this.kafkaProducer = kafkaProducer;
+        this.jsonPort = jsonPort;
     }
 
     @Override
@@ -37,37 +37,13 @@ public class OrderNotificationKafkaPublisher implements OrderNotificationMessage
         logger.info("Received OrderNotificationMessage for order id: {} and customer id: {}", orderId, orderNotificationMessage.order().getCustomerId());
 
         try {
-            NotificationRequestAvroModel avroModel = convertMessageToKafkaModel(orderNotificationMessage);
-            kafkaProducer.send(notificationTopicName, orderId.toString(), avroModel);
+            NotificationRequestKafkaModel kafkaModel = new NotificationRequestKafkaModel(orderNotificationMessage);
+            kafkaProducer.send(notificationTopicName, orderId.toString(), jsonPort.convertDataToJson(kafkaModel));
 
-            logger.info("NotificationRequestAvroModel sent to Kafka for order id: {}", orderId);
+            logger.info("NotificationRequestKafkaModel sent to Kafka for order id: {}", orderId);
         } catch (Exception e) {
-            logger.error("Error while sending NotificationRequestAvroModel to kafka with order id: {}  error: {}", orderId, e.getMessage());
+            logger.error("Error while sending NotificationRequestKafkaModel to kafka with order id: {}  error: {}", orderId, e.getMessage());
         }
     }
 
-    private NotificationRequestAvroModel convertMessageToKafkaModel(OrderNotificationMessage message) {
-        return NotificationRequestAvroModel.newBuilder()
-                .setOrderId(message.order().getId())
-                .setCustomerId(message.order().getCustomerId())
-                .setMessage(message.message())
-                .setNotificationType(NotificationType.valueOf(message.notificationType().name()))
-                .setAddressPayload(AddressPayload.newBuilder()
-                        .setId(message.order().getDeliveryAddress().getId())
-                        .setCity(message.order().getDeliveryAddress().getCity())
-                        .setCounty(message.order().getDeliveryAddress().getCounty())
-                        .setNeighborhood(message.order().getDeliveryAddress().getNeighborhood())
-                        .setStreet(message.order().getDeliveryAddress().getStreet())
-                        .setPostalCode(message.order().getDeliveryAddress().getPostalCode())
-                        .build())
-                .setItems(message.order().getItems().stream().map(orderItem -> OrderItemPayload.newBuilder()
-                        .setId(orderItem.getId())
-                        .setOrderId(orderItem.getOrderId())
-                        .setProductId(orderItem.getProductId())
-                        .setQuantity(orderItem.getQuantity().value())
-                        .setPrice(orderItem.getPrice().amount())
-                        .setTotalPrice(orderItem.getTotalPrice().amount())
-                        .build()).toList())
-                .build();
-    }
 }
