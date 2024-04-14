@@ -16,10 +16,10 @@ import java.util.List;
 @Table(name = "SHIPPING")
 public class ShippingEntity extends AbstractEntity {
 
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDER_ID",nullable = false)
     private Long orderId;
 
-    @Column(name = "CUSTOMER_ID")
+    @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;
 
     @OneToOne(mappedBy = "shipping", cascade = CascadeType.ALL)
@@ -28,7 +28,7 @@ public class ShippingEntity extends AbstractEntity {
     @OneToMany(mappedBy = "shipping", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
 
-    @Column(name = "DELIVERY_STATUS")
+    @Column(name = "DELIVERY_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 

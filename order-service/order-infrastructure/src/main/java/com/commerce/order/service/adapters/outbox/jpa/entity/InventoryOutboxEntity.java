@@ -19,25 +19,25 @@ import java.util.UUID;
 @Table(name = "INVENTORY_OUTBOX")
 public class InventoryOutboxEntity extends AbstractEntity {
 
-    @Column(name = "SAGA_ID")
+    @Column(name = "SAGA_ID",nullable = false)
     private UUID sagaId;
 
-    @Column(name = "PAYLOAD", length = 4000)
+    @Column(name = "PAYLOAD", length = 4000,nullable = false)
     private String payload;
 
-    @Column(name = "ORDER_INVENTORY_STATUS")
+    @Column(name = "ORDER_INVENTORY_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderInventoryStatus orderInventoryStatus;
 
-    @Column(name = "ORDER_STATUS")
+    @Column(name = "ORDER_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @Column(name = "SAGA_STATUS")
+    @Column(name = "SAGA_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private SagaStatus sagaStatus;
 
-    @Column(name = "OUTBOX_STATUS")
+    @Column(name = "OUTBOX_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private OutboxStatus outboxStatus;
 

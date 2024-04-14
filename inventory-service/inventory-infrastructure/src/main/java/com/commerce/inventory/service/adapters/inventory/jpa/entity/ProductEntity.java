@@ -20,16 +20,16 @@ import java.math.BigDecimal;
 @Table(name = "PRODUCT")
 public class ProductEntity extends AbstractEntity {
 
-    @Column(name = "NAME")
+    @Column(name = "NAME",nullable = false)
     private String name;
 
-    @Column(name = "PRICE", precision = 15, scale = 2)
+    @Column(name = "PRICE",nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "QUANTITY",nullable = false)
     private int quantity;
 
-    @Column(name = "AVAILABILITY")
+    @Column(name = "AVAILABILITY",nullable = false)
     private boolean availability;
 
     public Product toModel() {

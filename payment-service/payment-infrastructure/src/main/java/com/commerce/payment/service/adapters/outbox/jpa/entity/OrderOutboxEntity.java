@@ -2,6 +2,7 @@ package com.commerce.payment.service.adapters.outbox.jpa.entity;
 
 import com.commerce.payment.service.common.model.AbstractEntity;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.common.valueobject.PaymentStatus;
 import com.commerce.payment.service.outbox.entity.OrderOutbox;
 import jakarta.persistence.*;
 
@@ -26,12 +27,16 @@ public class OrderOutboxEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private OutboxStatus outboxStatus;
 
+    @Column(name = "PAYMENT_STATUS",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     public OrderOutbox toModel() {
         return OrderOutbox.builder()
                 .id(getId())
                 .sagaId(sagaId)
                 .payload(payload)
+                .paymentStatus(paymentStatus)
                 .outboxStatus(outboxStatus)
                 .build();
     }
@@ -54,6 +59,14 @@ public class OrderOutboxEntity extends AbstractEntity {
 
     public OutboxStatus getOutboxStatus() {
         return outboxStatus;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public void setOutboxStatus(OutboxStatus outboxStatus) {

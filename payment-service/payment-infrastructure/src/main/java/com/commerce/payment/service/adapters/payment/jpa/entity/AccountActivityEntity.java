@@ -18,19 +18,19 @@ import java.time.LocalDateTime;
 @Table(name = "ACCOUNT_ACTIVITY")
 public class AccountActivityEntity extends AbstractEntity {
 
-    @Column(name = "ACCOUNT_ID")
+    @Column(name = "ACCOUNT_ID", nullable = false)
     private Long accountId;
 
-    @Column(name = "AMOUNT", precision = 15, scale = 2)
+    @Column(name = "AMOUNT", precision = 15, scale = 2, nullable = false)
     private BigDecimal cost;
 
-    @Column(name = "TRANSACTION_DATE")
+    @Column(name = "TRANSACTION_DATE", nullable = false)
     private LocalDateTime transactionDate;
 
-    @Column(name = "CURRENT_BALANCE", precision = 15, scale = 2)
+    @Column(name = "CURRENT_BALANCE", precision = 15, scale = 2, nullable = false)
     private BigDecimal currentBalance;
 
-    @Column(name = "ACTIVITY_TYPE")
+    @Column(name = "ACTIVITY_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 

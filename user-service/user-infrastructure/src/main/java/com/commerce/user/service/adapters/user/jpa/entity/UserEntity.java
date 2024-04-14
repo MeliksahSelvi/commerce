@@ -24,7 +24,7 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "CUSTOMER_ID", unique = true)
     private Long customerId;
 
-    @Column(name = "ROLE_ID")
+    @Column(name = "ROLE_ID",nullable = false)
     private Long roleId;
 
     public User toModel() {

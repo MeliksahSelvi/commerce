@@ -17,16 +17,16 @@ import java.math.BigDecimal;
 @Table(name = "PAYMENT")
 public class PaymentEntity extends AbstractEntity {
 
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDER_ID",nullable = false)
     private Long orderId;
 
-    @Column(name = "CUSTOMER_ID")
+    @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;
 
-    @Column(name = "COST", precision = 15, scale = 2)
+    @Column(name = "COST",nullable = false, precision = 15, scale = 2)
     private BigDecimal cost;
 
-    @Column(name = "PAYMENT_STATUS")
+    @Column(name = "PAYMENT_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 

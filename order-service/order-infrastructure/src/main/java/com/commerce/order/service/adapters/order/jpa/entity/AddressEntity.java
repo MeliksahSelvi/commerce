@@ -14,19 +14,19 @@ import jakarta.persistence.*;
 public class AddressEntity extends AbstractEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "ORDER_ID",nullable = false,unique = true)
     private OrderEntity order;
 
-    @Column(name = "CITY", length = 50)
+    @Column(name = "CITY", length = 50,nullable = false)
     private String city;
 
-    @Column(name = "COUNTY", length = 50)
+    @Column(name = "COUNTY", length = 50,nullable = false)
     private String county;
 
-    @Column(name = "NEIGHBORHOOD", length = 50)
+    @Column(name = "NEIGHBORHOOD", length = 50,nullable = false)
     private String neighborhood;
 
-    @Column(name = "STREET", length = 100)
+    @Column(name = "STREET", length = 100,nullable = false)
     private String street;
 
     @Column(name = "POSTAL_CODE", length = 5)

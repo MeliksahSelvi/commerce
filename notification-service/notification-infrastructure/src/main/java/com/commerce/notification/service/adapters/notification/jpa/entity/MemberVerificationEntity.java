@@ -15,10 +15,10 @@ import jakarta.persistence.Table;
 @Table(name = "MEMBER_VERIFICATION")
 public class MemberVerificationEntity extends AbstractEntity {
 
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID",nullable = false)
     private Long userId;
 
-    @Column(name = "URL",unique = true, nullable = false)
+    @Column(name = "URL",nullable = false)
     private String url;
 
     public MemberVerification toModel() {

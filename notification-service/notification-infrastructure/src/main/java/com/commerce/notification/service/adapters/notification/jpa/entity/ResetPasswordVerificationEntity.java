@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 @Table(name = "RESET_PASSWORD_VERIFICATION")
 public class ResetPasswordVerificationEntity extends AbstractEntity {
 
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID",nullable = false)
     private Long userId;
 
-    @Column(name = "URL",unique = true, nullable = false)
+    @Column(name = "URL",nullable = false)
     private String url;
 
     @Column(name = "EXPIRATION_DATE",nullable = false)

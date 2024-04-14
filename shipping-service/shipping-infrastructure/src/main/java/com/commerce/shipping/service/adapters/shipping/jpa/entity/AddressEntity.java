@@ -14,22 +14,22 @@ import jakarta.persistence.*;
 public class AddressEntity extends AbstractEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SHIPPING_ID")
+    @JoinColumn(name = "SHIPPING_ID",nullable = false)
     private ShippingEntity shipping;
 
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDER_ID",nullable = false)
     private Long orderId;
 
-    @Column(name = "CITY", length = 50)
+    @Column(name = "CITY", length = 50,nullable = false)
     private String city;
 
-    @Column(name = "COUNTY", length = 50)
+    @Column(name = "COUNTY", length = 50,nullable = false)
     private String county;
 
-    @Column(name = "NEIGHBORHOOD", length = 50)
+    @Column(name = "NEIGHBORHOOD", length = 50,nullable = false)
     private String neighborhood;
 
-    @Column(name = "STREET", length = 100)
+    @Column(name = "STREET", length = 100,nullable = false)
     private String street;
 
     @Column(name = "POSTAL_CODE", length = 5)

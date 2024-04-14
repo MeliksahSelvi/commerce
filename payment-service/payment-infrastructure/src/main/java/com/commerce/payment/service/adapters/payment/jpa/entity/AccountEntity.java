@@ -18,17 +18,17 @@ import java.time.LocalDateTime;
 @Table(name = "ACCOUNT")
 public class AccountEntity extends AbstractEntity {
 
-    @Column(name = "CUSTOMER_ID")
+    @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;
 
-    @Column(name = "CURRENT_BALANCE", precision = 15, scale = 2)
+    @Column(name = "CURRENT_BALANCE", precision = 15, scale = 2,nullable = false)
     private BigDecimal currentBalance;
 
-    @Column(name = "CURRENCY_TYPE")
+    @Column(name = "CURRENCY_TYPE",nullable = false)
     @Enumerated(EnumType.STRING)
     private CurrencyType currencyType;
 
-    @Column(name = "IBAN_NO", length = 26)
+    @Column(name = "IBAN_NO", length = 26,nullable = false)
     private String ibanNo;
 
     @Column(name = "CANCEL_DATE")

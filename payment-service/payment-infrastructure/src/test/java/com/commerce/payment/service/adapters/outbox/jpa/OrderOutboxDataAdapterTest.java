@@ -3,6 +3,7 @@ package com.commerce.payment.service.adapters.outbox.jpa;
 import com.commerce.payment.service.adapters.outbox.jpa.entity.OrderOutboxEntity;
 import com.commerce.payment.service.adapters.outbox.jpa.repository.OrderOutboxEntityRepository;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.common.valueobject.PaymentStatus;
 import com.commerce.payment.service.outbox.entity.OrderOutbox;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,6 +103,7 @@ class OrderOutboxDataAdapterTest {
                 .sagaId(UUID.randomUUID())
                 .outboxStatus(OutboxStatus.COMPLETED)
                 .payload("payload")
+                .paymentStatus(PaymentStatus.COMPLETED)
                 .build();
     }
 }

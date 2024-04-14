@@ -18,13 +18,13 @@ import java.util.UUID;
 @Table(name = "ORDER_OUTBOX")
 public class OrderOutboxEntity extends AbstractEntity {
 
-    @Column(name = "SAGA_ID")
+    @Column(name = "SAGA_ID",nullable = false)
     private UUID sagaId;
 
-    @Column(name = "PAYLOAD", length = 4000)
+    @Column(name = "PAYLOAD", length = 4000,nullable = false)
     private String payload;
 
-    @Column(name = "OUTBOX_STATUS")
+    @Column(name = "OUTBOX_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private OutboxStatus outboxStatus;
 

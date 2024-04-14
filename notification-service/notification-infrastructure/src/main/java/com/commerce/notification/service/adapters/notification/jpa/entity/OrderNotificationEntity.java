@@ -14,17 +14,17 @@ import jakarta.persistence.*;
 @Table(name = "ORDER_NOTIFICATION")
 public class OrderNotificationEntity extends AbstractEntity {
 
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDER_ID",unique = true,nullable = false)
     private Long orderId;
 
-    @Column(name = "CUSTOMER_ID")
+    @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;
 
-    @Column(name = "NOTIFICATION_TYPE")
+    @Column(name = "NOTIFICATION_TYPE",nullable = false)
     @Enumerated(EnumType.STRING)
     private NotificationStatus notificationStatus;
 
-    @Column(name = "MESSAGE")
+    @Column(name = "MESSAGE",length = 4000)
     private String message;
 
     public OrderNotification toModel() {

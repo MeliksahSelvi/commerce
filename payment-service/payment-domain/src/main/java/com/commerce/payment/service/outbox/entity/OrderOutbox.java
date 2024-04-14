@@ -2,6 +2,7 @@ package com.commerce.payment.service.outbox.entity;
 
 import com.commerce.payment.service.common.model.BaseEntity;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.common.valueobject.PaymentStatus;
 
 import java.util.UUID;
 
@@ -14,12 +15,14 @@ public class OrderOutbox extends BaseEntity {
 
     private final UUID sagaId;
     private final String payload;
+    private PaymentStatus paymentStatus;
     private OutboxStatus outboxStatus;
 
     private OrderOutbox(Builder builder) {
         this.setId(builder.id);
         this.sagaId = builder.sagaId;
         this.payload = builder.payload;
+        this.paymentStatus=builder.paymentStatus;
         this.outboxStatus = builder.outboxStatus;
     }
 
@@ -35,6 +38,10 @@ public class OrderOutbox extends BaseEntity {
         return payload;
     }
 
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
     public OutboxStatus getOutboxStatus() {
         return outboxStatus;
     }
@@ -47,6 +54,7 @@ public class OrderOutbox extends BaseEntity {
         private Long id;
         private UUID sagaId;
         private String payload;
+        private PaymentStatus paymentStatus;
         private OutboxStatus outboxStatus;
 
         private Builder() {
@@ -64,6 +72,11 @@ public class OrderOutbox extends BaseEntity {
 
         public Builder payload(String val) {
             payload = val;
+            return this;
+        }
+
+        public Builder paymentStatus(PaymentStatus val) {
+            paymentStatus = val;
             return this;
         }
 

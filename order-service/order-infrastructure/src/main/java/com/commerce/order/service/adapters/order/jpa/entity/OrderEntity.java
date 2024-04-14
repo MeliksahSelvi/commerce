@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "ORDERS")
 public class OrderEntity extends AbstractEntity {
 
-    @Column(name = "CUSTOMER_ID")
+    @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
@@ -29,10 +29,10 @@ public class OrderEntity extends AbstractEntity {
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
 
-    @Column(name = "COST", precision = 15, scale = 2)
+    @Column(name = "COST",nullable = false, precision = 15, scale = 2)
     private BigDecimal cost;
 
-    @Column(name = "ORDER_STATUS")
+    @Column(name = "ORDER_STATUS",nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 

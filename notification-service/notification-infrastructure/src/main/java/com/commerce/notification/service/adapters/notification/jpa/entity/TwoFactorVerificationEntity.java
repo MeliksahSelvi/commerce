@@ -18,10 +18,10 @@ import java.time.LocalDateTime;
 @Table(name = "TWO_FACTOR_VERIFICATION")
 public class TwoFactorVerificationEntity extends AbstractEntity {
 
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID",nullable = false)
     private Long userId;
 
-    @Column(name = "CODE", length = 10, unique = true, nullable = false)
+    @Column(name = "CODE", length = 10, nullable = false)
     private String code;
 
     @Column(name = "EXPIRATION_DATE", nullable = false)

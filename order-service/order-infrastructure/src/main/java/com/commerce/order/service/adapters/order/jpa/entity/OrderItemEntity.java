@@ -18,19 +18,19 @@ import java.math.BigDecimal;
 public class OrderItemEntity extends AbstractEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "ORDER_ID",nullable = false)
     private OrderEntity order;
 
-    @Column(name = "PRODUCT_ID")
+    @Column(name = "PRODUCT_ID",nullable = false)
     private Long productId;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "QUANTITY",nullable = false)
     private int quantity;
 
-    @Column(name = "PRICE", precision = 15, scale = 2)
+    @Column(name = "PRICE",nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "TOTAL_PRICE", precision = 15, scale = 2)
+    @Column(name = "TOTAL_PRICE",nullable = false, precision = 15, scale = 2)
     private BigDecimal totalPrice;
 
     public OrderItem toModel() {

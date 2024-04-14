@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 @Table(name = "ROLE")
 public class RoleEntity extends AbstractEntity {
 
-    @Column(name = "ROLE_TYPE")
+    @Column(name = "ROLE_TYPE",nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
