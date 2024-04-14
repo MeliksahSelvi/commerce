@@ -19,4 +19,6 @@ public interface CustomerDataPort {
     Optional<Customer> findById(CustomerRetrieve customerRetrieve);
 
     Customer save(Customer customer);
+
+    Optional<Customer> findByEmailAndIdentityNo(String email,String identityNo);
 }

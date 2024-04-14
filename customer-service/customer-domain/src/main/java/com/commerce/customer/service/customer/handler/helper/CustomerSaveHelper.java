@@ -1,6 +1,7 @@
 package com.commerce.customer.service.customer.handler.helper;
 
 import com.commerce.customer.service.common.DomainComponent;
+import com.commerce.customer.service.common.exception.CustomerDomainException;
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.customer.service.customer.port.security.EncryptingPort;
@@ -8,6 +9,8 @@ import com.commerce.customer.service.customer.usecase.CustomerSave;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * @Author mselvi
@@ -28,10 +31,18 @@ public class CustomerSaveHelper {
 
     @Transactional
     public Customer save(CustomerSave useCase) {
+        validateCustomerUniqueness(useCase);
         String encryptedPassword = encryptingPort.encrypt(useCase.password());
         Customer customer = buildCustomer(useCase, encryptedPassword);
         logger.info("Customer Saved for firstname and lastname: {} {}", useCase.firstName(), useCase.lastName());
         return customerDataPort.save(customer);
+    }
+
+    private void validateCustomerUniqueness(CustomerSave useCase) {
+        Optional<Customer> customerOptional = customerDataPort.findByEmailAndIdentityNo(useCase.email(), useCase.identityNo());
+        if (customerOptional.isPresent()) {
+            throw new CustomerDomainException("Email and Identity No must be unique!");
+        }
     }
 
     private Customer buildCustomer(CustomerSave useCase, String encryptedPassword) {
