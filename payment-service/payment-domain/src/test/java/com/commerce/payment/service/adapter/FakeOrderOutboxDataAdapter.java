@@ -1,6 +1,7 @@
 package com.commerce.payment.service.adapter;
 
 import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.common.valueobject.PaymentStatus;
 import com.commerce.payment.service.outbox.entity.OrderOutbox;
 import com.commerce.payment.service.outbox.port.jpa.OrderOutboxDataPort;
 
@@ -25,6 +26,7 @@ public class FakeOrderOutboxDataAdapter implements OrderOutboxDataPort {
                 .sagaId(orderOutbox.getSagaId())
                 .outboxStatus(orderOutbox.getOutboxStatus())
                 .payload(orderOutbox.getPayload())
+                .paymentStatus(orderOutbox.getPaymentStatus())
                 .build();
     }
 
@@ -39,18 +41,21 @@ public class FakeOrderOutboxDataAdapter implements OrderOutboxDataPort {
                         .sagaId(UUID.randomUUID())
                         .outboxStatus(outboxStatus)
                         .payload("payload")
+                        .paymentStatus(PaymentStatus.COMPLETED)
                         .build(),
                 OrderOutbox.builder()
                         .id(2L)
                         .sagaId(UUID.randomUUID())
                         .outboxStatus(outboxStatus)
                         .payload("payload2")
+                        .paymentStatus(PaymentStatus.COMPLETED)
                         .build(),
                 OrderOutbox.builder()
                         .id(3L)
                         .sagaId(UUID.randomUUID())
                         .outboxStatus(outboxStatus)
                         .payload("payload3")
+                        .paymentStatus(PaymentStatus.COMPLETED)
                         .build()
         ));
     }

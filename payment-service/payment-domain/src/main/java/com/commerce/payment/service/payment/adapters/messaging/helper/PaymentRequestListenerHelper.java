@@ -150,6 +150,7 @@ public class PaymentRequestListenerHelper {
         return OrderOutbox.builder()
                 .sagaId(sagaId)
                 .payload(jsonPort.convertDataToJson(orderOutboxPayload))
+                .paymentStatus(payment.getPaymentStatus())
                 .outboxStatus(OutboxStatus.STARTED)
                 .build();
     }
