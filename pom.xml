@@ -39,7 +39,6 @@
         <jasypt-spring.version>3.0.5</jasypt-spring.version>
         <apache-commons.version>3.12.0</apache-commons.version>
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
-        <h2-db.version>2.2.224</h2-db.version>
         <javab-bind.version>2.3.1</javab-bind.version>
     </properties>
 
@@ -119,12 +118,6 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2-db.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
