@@ -101,7 +101,7 @@ class ProductControllerTest {
     }
 
     private ProductSaveCommand buildSaveCommand() {
-        return new ProductSaveCommand("product-1", BigDecimal.valueOf(100), 1, true);
+        return new ProductSaveCommand(null,"product-1", BigDecimal.valueOf(100), 1, true);
     }
 
     private MvcResult saveProduct(ProductSaveCommand productSaveCommand) throws Exception {
