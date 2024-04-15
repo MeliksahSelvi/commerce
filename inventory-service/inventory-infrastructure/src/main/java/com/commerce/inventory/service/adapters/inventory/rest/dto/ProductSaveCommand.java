@@ -15,10 +15,10 @@ import java.math.BigDecimal;
  * @Created 12.03.2024
  */
 
-public record ProductSaveCommand(@NotEmpty String name, @NotNull @Positive BigDecimal price,
+public record ProductSaveCommand(Long productId,@NotEmpty String name, @NotNull @Positive BigDecimal price,
                                  @NotNull @Positive Integer quantity, @NotNull Boolean availability) {
 
     public ProductSave toModel() {
-        return new ProductSave(name, new Money(price), new Quantity(quantity), new Availability(availability));
+        return new ProductSave(productId,name, new Money(price), new Quantity(quantity), new Availability(availability));
     }
 }

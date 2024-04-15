@@ -10,5 +10,5 @@ import com.commerce.inventory.service.common.valueobject.Quantity;
  * @Created 12.03.2024
  */
 
-public record ProductSave(String name, Money price, Quantity quantity, Availability availability) implements UseCase {
+public record ProductSave(Long productId,String name, Money price, Quantity quantity, Availability availability) implements UseCase {
 }

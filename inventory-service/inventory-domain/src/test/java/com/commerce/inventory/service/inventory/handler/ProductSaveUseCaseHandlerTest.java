@@ -31,7 +31,7 @@ class ProductSaveUseCaseHandlerTest {
     @Test
     void should_save() {
         //given
-        var productSave = new ProductSave("Ali", new Money(BigDecimal.TEN), new Quantity(2), new Availability(true));
+        var productSave = new ProductSave(null,"Ali", new Money(BigDecimal.TEN), new Quantity(2), new Availability(true));
 
         //when
         var product = productSaveUseCaseHandler.handle(productSave);

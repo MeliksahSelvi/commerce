@@ -13,10 +13,10 @@ import java.math.BigDecimal;
  * @Created 12.03.2024
  */
 
-public record AccountSaveCommand(@NotNull @Positive Long customerId, @NotNull @Positive BigDecimal currentBalance,
+public record AccountSaveCommand(Long accountId,@NotNull @Positive Long customerId, @NotNull @Positive BigDecimal currentBalance,
                                  @NotNull CurrencyType currencyType) {
 
     public AccountSave toModel() {
-        return new AccountSave(customerId, new Money(currentBalance), currencyType);
+        return new AccountSave(accountId,customerId, new Money(currentBalance), currencyType);
     }
 }

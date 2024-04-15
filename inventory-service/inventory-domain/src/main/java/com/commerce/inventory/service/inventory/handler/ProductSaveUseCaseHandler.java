@@ -26,6 +26,7 @@ public class ProductSaveUseCaseHandler implements UseCaseHandler<Product, Produc
     @Override
     public Product handle(ProductSave useCase) {
         Product product = Product.builder()
+                .id(useCase.productId())
                 .name(useCase.name())
                 .quantity(useCase.quantity())
                 .availability(useCase.availability())

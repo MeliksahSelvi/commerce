@@ -55,6 +55,7 @@ public class AccountSaveUseCaseHandler implements UseCaseHandler<Account, Accoun
 
     private Account buildAccount(AccountSave useCase) {
         return Account.builder()
+                .id(useCase.accountId())
                 .customerId(useCase.customerId())
                 .currencyType(useCase.currencyType())
                 .currentBalance(useCase.currentBalance())

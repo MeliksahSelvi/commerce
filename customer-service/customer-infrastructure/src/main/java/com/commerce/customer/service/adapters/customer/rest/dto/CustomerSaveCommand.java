@@ -9,10 +9,10 @@ import jakarta.validation.constraints.NotEmpty;
  * @Created 10.03.2024
  */
 
-public record CustomerSaveCommand(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String identityNo,
+public record CustomerSaveCommand(Long customerId,@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String identityNo,
                                   @Email @NotEmpty String email, @NotEmpty String password) {
 
     public CustomerSave toModel() {
-        return new CustomerSave(firstName, lastName, identityNo, email, password);
+        return new CustomerSave(customerId,firstName, lastName, identityNo, email, password);
     }
 }

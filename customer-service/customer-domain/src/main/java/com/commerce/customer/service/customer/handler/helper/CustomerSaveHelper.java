@@ -47,6 +47,7 @@ public class CustomerSaveHelper {
 
     private Customer buildCustomer(CustomerSave useCase, String encryptedPassword) {
         return Customer.builder()
+                .id(useCase.customerId())
                 .firstName(useCase.firstName())
                 .lastName(useCase.lastName())
                 .identityNo(useCase.identityNo())

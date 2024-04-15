@@ -25,7 +25,7 @@ class CustomerSaveUseCaseHandlerTest {
     @Test
     void should_save() {
         //given
-        var customerSave = new CustomerSave("Ali", "Demir", "123456789", "email@com", "123");
+        var customerSave = new CustomerSave(null,"Ali", "Demir", "123456789", "email@com", "123");
 
         //when
         var customer = customerSaveUseCaseHandler.handle(customerSave);

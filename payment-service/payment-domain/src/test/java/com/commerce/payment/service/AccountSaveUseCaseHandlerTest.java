@@ -32,7 +32,7 @@ class AccountSaveUseCaseHandlerTest {
     @Test
     void should_save() {
         //given
-        var accountSave = new AccountSave(1L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
+        var accountSave = new AccountSave(null,1L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
 
         //when
         //then
@@ -45,7 +45,7 @@ class AccountSaveUseCaseHandlerTest {
     @Test
     void should_save_fail_when_customer_is_not_exist() {
         //given
-        var accountSave = new AccountSave(2L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
+        var accountSave = new AccountSave(1L,2L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
 
 
         //when
