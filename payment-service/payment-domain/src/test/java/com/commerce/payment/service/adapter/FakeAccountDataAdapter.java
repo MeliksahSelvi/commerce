@@ -4,6 +4,7 @@ import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
 import com.commerce.payment.service.payment.entity.Account;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
+import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;
 
@@ -100,5 +101,10 @@ public class FakeAccountDataAdapter implements AccountDataPort {
                         .ibanNo("iban")
                         .build()
         );
+    }
+
+    @Override
+    public void deleteById(AccountDelete accountDelete) {
+
     }
 }

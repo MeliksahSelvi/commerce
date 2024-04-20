@@ -67,7 +67,7 @@ class CustomerControllerTest {
     @Test
     void should_findById() throws Exception {
         Long id = 1L;
-        MvcResult findMvc = mockMvc.perform(
+        var findMvc = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
@@ -79,10 +79,10 @@ class CustomerControllerTest {
 
     @Test
     void should_save() throws Exception {
-        CustomerSaveCommand customerSaveCommand = buildSaveCommand();
+        var customerSaveCommand = buildSaveCommand();
 
         String saveCommandAsStr = objectMapper.writeValueAsString(customerSaveCommand);
-        MvcResult mvcResult=mockMvc.perform(
+        var mvcResult=mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andReturn();
 
@@ -103,12 +103,12 @@ class CustomerControllerTest {
     @Test
     void should_deleteByEmail() throws Exception {
         Long id = 2L;
-        MvcResult deleteMvcResult = mockMvc.perform(
+        var deleteMvcResult = mockMvc.perform(
                 delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
 
-        MvcResult findMvcResult = mockMvc.perform(
+        var findMvcResult = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError()).andReturn();
 

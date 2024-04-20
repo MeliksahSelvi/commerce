@@ -4,6 +4,7 @@ import com.commerce.payment.service.adapters.payment.jpa.entity.AccountEntity;
 import com.commerce.payment.service.adapters.payment.jpa.repository.AccountEntityRepository;
 import com.commerce.payment.service.payment.entity.Account;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
+import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;
 import org.springframework.data.domain.Page;
@@ -58,5 +59,10 @@ public class AccountDataAdapter implements AccountDataPort {
         PageRequest pageRequest = PageRequest.of(accountRetrieveAll.page().orElse(DEFAULT_PAGE), accountRetrieveAll.size().orElse(DEFAULT_SIZE));
         Page<AccountEntity> accountEntities = repository.findAll(pageRequest);
         return accountEntities.stream().map(AccountEntity::toModel).toList();
+    }
+
+    @Override
+    public void deleteById(AccountDelete accountDelete) {
+        repository.deleteById(accountDelete.accountId());
     }
 }

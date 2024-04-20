@@ -1,6 +1,7 @@
 package com.commerce.payment.service.payment.port.jpa;
 
 import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;
 
@@ -21,4 +22,6 @@ public interface AccountDataPort {
     Account save(Account account);
 
     List<Account> findAll(AccountRetrieveAll accountRetrieveAll);
+
+    void deleteById(AccountDelete accountDelete);
 }
