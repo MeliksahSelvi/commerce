@@ -5,6 +5,7 @@ import com.commerce.customer.service.adapters.customer.jpa.repository.CustomerEn
 import com.commerce.customer.service.common.valueobject.StatusType;
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.customer.service.customer.usecase.CustomerDelete;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 import org.springframework.data.domain.Page;
@@ -58,5 +59,10 @@ public class CustomerDataAdapter implements CustomerDataPort {
     @Override
     public Optional<Customer> findByEmailAndIdentityNo(String email, String identityNo) {
         return customerEntityRepository.findByEmailAndIdentityNoAndStatusType(email,identityNo, StatusType.ACTIVE).map(CustomerEntity::toModel);
+    }
+
+    @Override
+    public void deleteById(CustomerDelete customerDelete) {
+        customerEntityRepository.deleteById(customerDelete.customerId());
     }
 }

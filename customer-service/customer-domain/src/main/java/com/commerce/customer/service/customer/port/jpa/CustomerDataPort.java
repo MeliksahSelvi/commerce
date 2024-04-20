@@ -1,6 +1,7 @@
 package com.commerce.customer.service.customer.port.jpa;
 
 import com.commerce.customer.service.customer.entity.Customer;
+import com.commerce.customer.service.customer.usecase.CustomerDelete;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 
@@ -20,5 +21,7 @@ public interface CustomerDataPort {
 
     Customer save(Customer customer);
 
-    Optional<Customer> findByEmailAndIdentityNo(String email,String identityNo);
+    Optional<Customer> findByEmailAndIdentityNo(String email, String identityNo);
+
+    void deleteById(CustomerDelete customerDelete);
 }

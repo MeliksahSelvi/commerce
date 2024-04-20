@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,8 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -35,7 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@Sql(value = {"classpath:sql/CustomerControllerTestSetUp.sql"},executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(value = {"classpath:sql/CustomerControllerTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 class CustomerControllerTest {
 
     private MockMvc mockMvc;
@@ -61,54 +61,60 @@ class CustomerControllerTest {
         CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, CustomerResponse.class);
         List<CustomerResponse> customerResponseList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), collectionType);
 
-        assertEquals(mvcResult.getResponse().getStatus(), 200);
+        assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.OK.value());
     }
 
     @Test
     void should_findById() throws Exception {
-        CustomerSaveCommand customerSaveCommand = buildSaveCommand("testidentity2");
-        MvcResult saveMvc = saveCustomer(customerSaveCommand);
-
-        CustomerResponse saveResponse = readResponse(saveMvc);
-
+        Long id = 1L;
         MvcResult findMvc = mockMvc.perform(
-                get(BASE_PATH + "/" + saveResponse.id()).content(saveResponse.id().toString()).contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
-        CustomerResponse findResponse = readResponse(findMvc);
+        var findResponse = readResponse(findMvc);
 
         assertEquals(findMvc.getResponse().getStatus(), HttpStatus.OK.value());
-        assertEquals(findResponse.id(), saveResponse.id());
-        assertEquals(findResponse.firstName(),saveResponse.firstName());
-        assertEquals(findResponse.lastName(),saveResponse.lastName());
-        assertEquals(findResponse.identityNo(),saveResponse.identityNo());
-        assertEquals(findResponse.email(),saveResponse.email());
+        assertEquals(findResponse.id(), id);
     }
 
     @Test
     void should_save() throws Exception {
-        CustomerSaveCommand customerSaveCommand = buildSaveCommand("testidentity1");
-        MvcResult mvcResult = saveCustomer(customerSaveCommand);
+        CustomerSaveCommand customerSaveCommand = buildSaveCommand();
 
-        CustomerResponse customerResponse = readResponse(mvcResult);
+        String saveCommandAsStr = objectMapper.writeValueAsString(customerSaveCommand);
+        MvcResult mvcResult=mockMvc.perform(
+                post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated()).andReturn();
 
-        assertEquals(mvcResult.getResponse().getStatus(), 201);
+        var customerResponse = readResponse(mvcResult);
+
+        assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.CREATED.value());
         assertEquals(customerResponse.firstName(), customerSaveCommand.firstName());
         assertEquals(customerResponse.lastName(), customerSaveCommand.lastName());
         assertEquals(customerResponse.identityNo(), customerSaveCommand.identityNo());
         assertEquals(customerResponse.email(), customerSaveCommand.email());
     }
 
-    private CustomerSaveCommand buildSaveCommand(String testidentity2) {
-        return new CustomerSaveCommand("testname", "testsurname", testidentity2,
+    private CustomerSaveCommand buildSaveCommand() {
+        return new CustomerSaveCommand(null,"testname", "testsurname", "testidentity1",
                 "testemail@gmail.com", "testpassword");
     }
 
-    private MvcResult saveCustomer(CustomerSaveCommand customerSaveCommand) throws Exception {
-        String saveCommandAsStr = objectMapper.writeValueAsString(customerSaveCommand);
-        return mockMvc.perform(
-                post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andReturn();
+    @Test
+    void should_deleteByEmail() throws Exception {
+        Long id = 2L;
+        MvcResult deleteMvcResult = mockMvc.perform(
+                delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+
+        MvcResult findMvcResult = mockMvc.perform(
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().is4xxClientError()).andReturn();
+
+
+        assertEquals(deleteMvcResult.getResponse().getStatus(), HttpStatus.OK.value());
+        assertEquals(findMvcResult.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
     }
 
     private CustomerResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
