@@ -3,11 +3,15 @@ package com.commerce.customer.service.adapters.customer.rest;
 import com.commerce.customer.service.adapters.customer.rest.dto.CustomerResponse;
 import com.commerce.customer.service.adapters.customer.rest.dto.CustomerSaveCommand;
 import com.commerce.customer.service.common.handler.UseCaseHandler;
+import com.commerce.customer.service.common.handler.VoidUseCaseHandler;
 import com.commerce.customer.service.customer.entity.Customer;
+import com.commerce.customer.service.customer.usecase.CustomerDelete;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 import com.commerce.customer.service.customer.usecase.CustomerSave;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +30,16 @@ public class CustomerController {
 
     private final UseCaseHandler<List<Customer>, CustomerRetrieveAll> customerRetrieveAllUseCaseHandler;
     private final UseCaseHandler<Customer, CustomerRetrieve> customerRetrieveUseCaseHandler;
+    private final VoidUseCaseHandler<CustomerDelete> customerDeleteVoidUseCaseHandler;
     private final UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler;
 
-    public CustomerController(UseCaseHandler<List<Customer>, CustomerRetrieveAll> customerRetrieveAllUseCaseHandler, UseCaseHandler<Customer,
-            CustomerRetrieve> customerRetrieveUseCaseHandler, UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler) {
+    public CustomerController(UseCaseHandler<List<Customer>, CustomerRetrieveAll> customerRetrieveAllUseCaseHandler,
+                              UseCaseHandler<Customer, CustomerRetrieve> customerRetrieveUseCaseHandler,
+                              VoidUseCaseHandler<CustomerDelete> customerDeleteVoidUseCaseHandler,
+                              UseCaseHandler<Customer, CustomerSave> customerSaveUseCaseHandler) {
         this.customerRetrieveAllUseCaseHandler = customerRetrieveAllUseCaseHandler;
         this.customerRetrieveUseCaseHandler = customerRetrieveUseCaseHandler;
+        this.customerDeleteVoidUseCaseHandler = customerDeleteVoidUseCaseHandler;
         this.customerSaveUseCaseHandler = customerSaveUseCaseHandler;
     }
 
@@ -42,7 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> findById(@PathVariable @NotNull @Positive Long id) {
         var customer = customerRetrieveUseCaseHandler.handle(new CustomerRetrieve(id));
         return ResponseEntity.ok(new CustomerResponse(customer));
     }
@@ -51,5 +59,11 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> save(@RequestBody @Valid CustomerSaveCommand customerSaveCommand) {
         var customer = customerSaveUseCaseHandler.handle(customerSaveCommand.toModel());
         return ResponseEntity.status(HttpStatus.CREATED).body(new CustomerResponse(customer));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        customerDeleteVoidUseCaseHandler.handle(new CustomerDelete(id));
+        return ResponseEntity.ok().build();
     }
 }
