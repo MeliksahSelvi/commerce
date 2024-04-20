@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -35,6 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@Sql(value = {"classpath:sql/ProductControllerTestSetUp.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(value = {"classpath:sql/ProductControllerTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 class ProductControllerTest {
 
     private MockMvc mockMvc;
@@ -65,35 +68,31 @@ class ProductControllerTest {
 
     @Test
     void should_findById() throws Exception {
-        ProductSaveCommand productSaveCommand = buildSaveCommand();
-        MvcResult saveMvc = saveProduct(productSaveCommand);
-
-        ProductResponse saveResponse = readResponse(saveMvc);
-
+        Long id = 3L;
         MvcResult findMvc = mockMvc.perform(
-                get(BASE_PATH + "/" + saveResponse.id()).content(saveResponse.id().toString()).contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         var findResponse = readResponse(findMvc);
 
         assertEquals(findMvc.getResponse().getStatus(), HttpStatus.OK.value());
         assertEquals(findResponse.id(), findResponse.id());
-        assertEquals(findResponse.name(), findResponse.name());//todo remove if unnecessary because the point is testing findbyıd action not save action
-        assertEquals(findResponse.price(), findResponse.price());
-        assertEquals(findResponse.quantity(), findResponse.quantity());
     }
 
     @Test
     void should_save() throws Exception {
         //given
         ProductSaveCommand productSaveCommand = buildSaveCommand();
-        MvcResult mvcResult = saveProduct(productSaveCommand);
+        String saveCommandAsStr = objectMapper.writeValueAsString(productSaveCommand);
+        MvcResult mvcResult = mockMvc.perform(
+                post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated()).andReturn();
 
         //when
         var response = readResponse(mvcResult);
 
         //then
-        assertEquals(mvcResult.getResponse().getStatus(),HttpStatus.CREATED.value());
+        assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.CREATED.value());
         assertEquals(response.name(), productSaveCommand.name());
         assertEquals(response.price(), productSaveCommand.price());
         assertEquals(response.quantity(), productSaveCommand.quantity());
@@ -101,14 +100,7 @@ class ProductControllerTest {
     }
 
     private ProductSaveCommand buildSaveCommand() {
-        return new ProductSaveCommand(null,"product-1", BigDecimal.valueOf(100), 1, true);
-    }
-
-    private MvcResult saveProduct(ProductSaveCommand productSaveCommand) throws Exception {
-        String saveCommandAsStr = objectMapper.writeValueAsString(productSaveCommand);
-        return mockMvc.perform(
-                post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andReturn();
+        return new ProductSaveCommand(4L, "product-4", BigDecimal.valueOf(100), 1, true);
     }
 
     private ProductResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
