@@ -28,10 +28,14 @@ public class CustomerRetrieveUseCaseHandler implements UseCaseHandler<Customer, 
 
     @Override
     public Customer handle(CustomerRetrieve useCase) {
-        Long customerId = useCase.customerId();
-        Optional<Customer> customerOptional = customerDataPort.findById(useCase);
-        Customer customer = customerOptional.orElseThrow(() -> new CustomerNotFoundException(String.format("Customer Not Found By id: %d", customerId)));
-        logger.info("Customer Retrieved for id : {}", customerId);
+        Customer customer = findCustomer(useCase);
+        logger.info("Customer Retrieved for id : {}", useCase.customerId());
         return customer;
+    }
+
+    private Customer findCustomer(CustomerRetrieve useCase) {
+        Optional<Customer> customerOptional = customerDataPort.findById(useCase);
+        return customerOptional.orElseThrow(
+                () -> new CustomerNotFoundException(String.format("Customer Not Found By id: %d", useCase.customerId())));
     }
 }

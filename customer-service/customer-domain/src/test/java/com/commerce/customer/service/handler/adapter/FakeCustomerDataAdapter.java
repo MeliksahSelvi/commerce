@@ -98,6 +98,6 @@ public class FakeCustomerDataAdapter implements CustomerDataPort {
 
     @Override
     public void deleteById(CustomerDelete customerDelete) {
-        //todo implement
+
     }
 }

@@ -5,6 +5,8 @@ import com.commerce.customer.service.common.handler.UseCaseHandler;
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.handler.helper.CustomerSaveHelper;
 import com.commerce.customer.service.customer.usecase.CustomerSave;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author mselvi
@@ -14,6 +16,8 @@ import com.commerce.customer.service.customer.usecase.CustomerSave;
 @DomainComponent
 public class CustomerSaveUseCaseHandler implements UseCaseHandler<Customer, CustomerSave> {
 
+    private static final Logger logger= LoggerFactory.getLogger(CustomerSaveUseCaseHandler.class);
+
     private final CustomerSaveHelper customerSaveHelper;
 
     public CustomerSaveUseCaseHandler(CustomerSaveHelper customerSaveHelper) {
@@ -22,6 +26,7 @@ public class CustomerSaveUseCaseHandler implements UseCaseHandler<Customer, Cust
 
     @Override
     public Customer handle(CustomerSave useCase) {
+        logger.info("Customer save action started by email: {}",useCase.email());
         return customerSaveHelper.save(useCase);
     }
 }
