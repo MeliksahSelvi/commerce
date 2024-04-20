@@ -39,9 +39,9 @@ public class CustomerSaveHelper {
     }
 
     private void validateCustomerUniqueness(CustomerSave useCase) {
-        Optional<Customer> customerOptional = customerDataPort.findByEmailAndIdentityNo(useCase.email(), useCase.identityNo());
+        Optional<Customer> customerOptional = customerDataPort.findByEmailOrIdentityNo(useCase.email(), useCase.identityNo());
         if (customerOptional.isPresent()) {
-            throw new CustomerDomainException("Email and Identity No must be unique!");
+            throw new CustomerDomainException("Email or Identity No must be unique!");
         }
     }
 

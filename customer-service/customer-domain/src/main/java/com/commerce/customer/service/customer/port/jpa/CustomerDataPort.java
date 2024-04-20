@@ -21,7 +21,7 @@ public interface CustomerDataPort {
 
     Customer save(Customer customer);
 
-    Optional<Customer> findByEmailAndIdentityNo(String email, String identityNo);
+    Optional<Customer> findByEmailOrIdentityNo(String email, String identityNo);
 
     void deleteById(CustomerDelete customerDelete);
 }
