@@ -28,7 +28,7 @@ public class AccountEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private CurrencyType currencyType;
 
-    @Column(name = "IBAN_NO", length = 26,nullable = false)
+    @Column(name = "IBAN_NO", length = 26,nullable = false,unique = true)
     private String ibanNo;
 
     @Column(name = "CANCEL_DATE")
