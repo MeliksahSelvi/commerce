@@ -25,8 +25,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -99,8 +98,26 @@ class ProductControllerTest {
         assertEquals(response.availability(), productSaveCommand.availability());
     }
 
+    @Test
+    void should_deleteById() throws Exception {
+        Long id = 4L;
+        MvcResult deleteMvcResult = mockMvc.perform(
+                delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+
+        MvcResult findMvcResult = mockMvc.perform(
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().is4xxClientError()).andReturn();
+
+
+        assertEquals(deleteMvcResult.getResponse().getStatus(), HttpStatus.OK.value());
+        assertEquals(findMvcResult.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
+    }
+
+
     private ProductSaveCommand buildSaveCommand() {
-        return new ProductSaveCommand(4L, "product-4", BigDecimal.valueOf(100), 1, true);
+        return new ProductSaveCommand(5L, "product-4", BigDecimal.valueOf(100), 1, true);
     }
 
     private ProductResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
