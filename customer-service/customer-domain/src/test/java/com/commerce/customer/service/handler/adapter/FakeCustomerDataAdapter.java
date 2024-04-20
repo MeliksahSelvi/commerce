@@ -2,6 +2,7 @@ package com.commerce.customer.service.handler.adapter;
 
 import com.commerce.customer.service.customer.entity.Customer;
 import com.commerce.customer.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.customer.service.customer.usecase.CustomerDelete;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class FakeCustomerDataAdapter implements CustomerDataPort {
 
     private static final Long EXIST_CUSTOMER_ID = 1L;
+    private static final String EXIST_CUSTOMER_EMAIL = "email@com";
+    private static final String EXIST_CUSTOMER_IDENTITY_NO = "123456789";
+
 
     @Override
     public List<Customer> findAll(CustomerRetrieveAll customerRetrieveAll) {
@@ -75,5 +79,25 @@ public class FakeCustomerDataAdapter implements CustomerDataPort {
                 .email(customer.getEmail())
                 .password(customer.getEmail())
                 .build();
+    }
+
+    @Override
+    public Optional<Customer> findByEmailOrIdentityNo(String email, String identityNo) {
+        if (EXIST_CUSTOMER_EMAIL.equals(email) || EXIST_CUSTOMER_IDENTITY_NO.equals(identityNo)){
+            return Optional.of(Customer.builder()
+                    .id(EXIST_CUSTOMER_ID)
+                    .firstName("name1")
+                    .lastName("surname1")
+                    .identityNo(identityNo)
+                    .email(email)
+                    .password("password1")
+                    .build());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(CustomerDelete customerDelete) {
+        //todo implement
     }
 }

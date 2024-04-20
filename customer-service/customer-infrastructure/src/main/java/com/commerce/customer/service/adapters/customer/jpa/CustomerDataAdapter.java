@@ -57,8 +57,8 @@ public class CustomerDataAdapter implements CustomerDataPort {
     }
 
     @Override
-    public Optional<Customer> findByEmailAndIdentityNo(String email, String identityNo) {
-        return customerEntityRepository.findByEmailAndIdentityNoAndStatusType(email,identityNo, StatusType.ACTIVE).map(CustomerEntity::toModel);
+    public Optional<Customer> findByEmailOrIdentityNo(String email, String identityNo) {
+        return customerEntityRepository.findByEmailOrIdentityNo(email,identityNo).map(CustomerEntity::toModel);
     }
 
     @Override
