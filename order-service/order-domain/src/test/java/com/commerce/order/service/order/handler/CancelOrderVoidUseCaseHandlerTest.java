@@ -6,8 +6,7 @@ import com.commerce.order.service.order.usecase.CancelOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author mselvi
@@ -37,9 +36,11 @@ class CancelOrderVoidUseCaseHandlerTest {
     void should_cancel_fail_order_not_exist() {
         //given
         var cancelOrder = new CancelOrder(7L);
+        var errorMessage="Could not find order with id: 7";
 
         //when
         //then
-        assertThrows(OrderNotFoundException.class,() -> cancelOrderVoidUseCaseHandler.handle(cancelOrder));
+        var exception = assertThrows(OrderNotFoundException.class, () -> cancelOrderVoidUseCaseHandler.handle(cancelOrder));
+        assertTrue(exception.getMessage().contains(errorMessage));
     }
 }
