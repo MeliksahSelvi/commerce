@@ -1,7 +1,8 @@
-package com.commerce.customer.service.adapters.customer.rest;
+package com.commerce.payment.service.adapters.payment.rest;
 
-import com.commerce.customer.service.adapters.customer.rest.dto.CustomerResponse;
-import com.commerce.customer.service.adapters.customer.rest.dto.CustomerSaveCommand;
+import com.commerce.payment.service.adapters.payment.rest.dto.AccountResponse;
+import com.commerce.payment.service.adapters.payment.rest.dto.AccountSaveCommand;
+import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,19 +31,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * @Author mselvi
- * @Created 25.03.2024
+ * @Created 15.04.2024
  */
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-@Sql(value = {"classpath:sql/CustomerControllerTestSetUp.sql"},executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-@Sql(value = {"classpath:sql/CustomerControllerTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
-class CustomerControllerTest {
+@Sql(value = {"classpath:sql/AccountControllerTestSetUp.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(value = {"classpath:sql/AccountControllerTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+class AccountControllerTest {
+
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
-    private static final String BASE_PATH = "/api/v1/customers";
+    private static final String BASE_PATH = "/api/v1/accounts";
 
     @Autowired
     private WebApplicationContext context;
@@ -58,11 +61,11 @@ class CustomerControllerTest {
                 get(BASE_PATH).content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
-        var collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, CustomerResponse.class);
-        List<CustomerResponse> customerResponseList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), collectionType);
+        CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, AccountResponse.class);
+        List<AccountResponse> accountResponseList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), collectionType);
 
         assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.OK.value());
-        assertNotNull(customerResponseList);
+        assertNotNull(accountResponseList);
     }
 
     @Test
@@ -80,25 +83,26 @@ class CustomerControllerTest {
 
     @Test
     void should_save() throws Exception {
-        var customerSaveCommand = buildSaveCommand();
-
-        String saveCommandAsStr = objectMapper.writeValueAsString(customerSaveCommand);
-        var mvcResult=mockMvc.perform(
+        var accountSaveCommand = buildSaveCommand();
+        //todo doesnt working because customer-service doesn't alive
+        String saveCommandAsStr = objectMapper.writeValueAsString(accountSaveCommand);
+        var mvcResult = mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andReturn();
 
-        var customerResponse = readResponse(mvcResult);
+        var accountResponse = readResponse(mvcResult);
 
         assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.CREATED.value());
-        assertEquals(customerResponse.firstName(), customerSaveCommand.firstName());
-        assertEquals(customerResponse.lastName(), customerSaveCommand.lastName());
-        assertEquals(customerResponse.identityNo(), customerSaveCommand.identityNo());
-        assertEquals(customerResponse.email(), customerSaveCommand.email());
+        assertEquals(accountResponse.id(), accountSaveCommand.accountId());
+        assertEquals(accountResponse.customerId(), accountSaveCommand.customerId());
+        assertEquals(accountResponse.currentBalance(), accountSaveCommand.currentBalance());
+        assertEquals(accountResponse.currencyType(), accountSaveCommand.currencyType());
+        assertNotNull(accountResponse.ibanNo());
+        assertNull(accountResponse.cancelDate());
     }
 
-    private CustomerSaveCommand buildSaveCommand() {
-        return new CustomerSaveCommand(null,"testname", "testsurname", "testidentity1",
-                "testemail@gmail.com", "testpassword");
+    private AccountSaveCommand buildSaveCommand() {
+        return new AccountSaveCommand(3L, 1L, BigDecimal.TEN, CurrencyType.TL);
     }
 
     @Test
@@ -118,7 +122,7 @@ class CustomerControllerTest {
         assertEquals(findMvcResult.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
     }
 
-    private CustomerResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
-        return objectMapper.readValue(mvcResult.getResponse().getContentAsString(), CustomerResponse.class);
+    private AccountResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AccountResponse.class);
     }
 }

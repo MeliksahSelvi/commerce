@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,20 +56,21 @@ class ProductControllerTest {
 
     @Test
     void should_findAll() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 get(BASE_PATH).content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
-        CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, ProductResponse.class);
+        var collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, ProductResponse.class);
         List<ProductResponse> productResponseList = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), collectionType);
 
         assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.OK.value());
+        assertNotNull(productResponseList);
     }
 
     @Test
     void should_findById() throws Exception {
         Long id = 3L;
-        MvcResult findMvc = mockMvc.perform(
+        var findMvc = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
@@ -81,9 +83,9 @@ class ProductControllerTest {
     @Test
     void should_save() throws Exception {
         //given
-        ProductSaveCommand productSaveCommand = buildSaveCommand();
+        var productSaveCommand = buildSaveCommand();
         String saveCommandAsStr = objectMapper.writeValueAsString(productSaveCommand);
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andReturn();
 
@@ -101,12 +103,12 @@ class ProductControllerTest {
     @Test
     void should_deleteById() throws Exception {
         Long id = 4L;
-        MvcResult deleteMvcResult = mockMvc.perform(
+        var deleteMvcResult = mockMvc.perform(
                 delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
 
-        MvcResult findMvcResult = mockMvc.perform(
+        var findMvcResult = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError()).andReturn();
 

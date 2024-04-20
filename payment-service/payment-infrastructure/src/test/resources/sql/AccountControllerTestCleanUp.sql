@@ -1,0 +1,1 @@
+delete from "payment".account where id in(1,2,3);
