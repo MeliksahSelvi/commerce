@@ -4,6 +4,7 @@ import com.commerce.inventory.service.adapters.inventory.jpa.entity.ProductEntit
 import com.commerce.inventory.service.adapters.inventory.jpa.repository.ProductEntityRepository;
 import com.commerce.inventory.service.inventory.entity.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
+import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 import org.springframework.data.domain.Page;
@@ -53,5 +54,10 @@ public class ProductDataAdapter implements ProductDataPort {
         return productEntities.stream()
                 .map(ProductEntity::toModel)
                 .toList();
+    }
+
+    @Override
+    public void deleteById(ProductDelete productDelete) {
+        productEntityRepository.deleteById(productDelete.productId());
     }
 }

@@ -1,6 +1,7 @@
 package com.commerce.inventory.service.inventory.port.jpa;
 
 import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 
@@ -19,4 +20,6 @@ public interface ProductDataPort {
     Product save(Product product);
 
     List<Product> findAll(ProductRetrieveAll useCase);
+
+    void deleteById(ProductDelete productDelete);
 }

@@ -3,11 +3,15 @@ package com.commerce.inventory.service.adapters.inventory.rest;
 import com.commerce.inventory.service.adapters.inventory.rest.dto.ProductResponse;
 import com.commerce.inventory.service.adapters.inventory.rest.dto.ProductSaveCommand;
 import com.commerce.inventory.service.common.handler.UseCaseHandler;
+import com.commerce.inventory.service.common.handler.VoidUseCaseHandler;
 import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 import com.commerce.inventory.service.inventory.usecase.ProductSave;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +30,15 @@ public class ProductController {
 
     private final UseCaseHandler<List<Product>, ProductRetrieveAll> productRetrieveAllUseCaseHandler;
     private final UseCaseHandler<Product, ProductRetrieve> productRetrieveUseCaseHandler;
+    private final VoidUseCaseHandler<ProductDelete> productDeleteVoidUseCaseHandler;
     private final UseCaseHandler<Product, ProductSave> productSaveUseCaseHandler;
 
     public ProductController(UseCaseHandler<List<Product>, ProductRetrieveAll> productRetrieveAllUseCaseHandler,
                              UseCaseHandler<Product, ProductRetrieve> productRetrieveUseCaseHandler,
-                             UseCaseHandler<Product, ProductSave> productSaveUseCaseHandler) {
+                             VoidUseCaseHandler<ProductDelete> productDeleteVoidUseCaseHandler, UseCaseHandler<Product, ProductSave> productSaveUseCaseHandler) {
         this.productRetrieveAllUseCaseHandler = productRetrieveAllUseCaseHandler;
         this.productRetrieveUseCaseHandler = productRetrieveUseCaseHandler;
+        this.productDeleteVoidUseCaseHandler = productDeleteVoidUseCaseHandler;
         this.productSaveUseCaseHandler = productSaveUseCaseHandler;
     }
 
@@ -43,7 +49,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> findById(@PathVariable @NotNull @Positive Long id) {
         var product = productRetrieveUseCaseHandler.handle(new ProductRetrieve(id));
         return ResponseEntity.ok(new ProductResponse(product));
     }
@@ -52,5 +58,11 @@ public class ProductController {
     public ResponseEntity<ProductResponse> save(@RequestBody @Valid ProductSaveCommand productSaveCommand) {
         var product = productSaveUseCaseHandler.handle(productSaveCommand.toModel());
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductResponse(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        productDeleteVoidUseCaseHandler.handle(new ProductDelete(id));
+        return ResponseEntity.ok().build();
     }
 }

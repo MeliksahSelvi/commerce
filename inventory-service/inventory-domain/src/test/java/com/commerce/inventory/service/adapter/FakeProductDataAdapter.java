@@ -5,6 +5,7 @@ import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.Quantity;
 import com.commerce.inventory.service.inventory.entity.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
+import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 
@@ -76,5 +77,10 @@ public class FakeProductDataAdapter implements ProductDataPort {
                         .quantity(new Quantity(3))
                         .availability(new Availability(false))
                         .build());
+    }
+
+    @Override
+    public void deleteById(ProductDelete productDelete) {
+
     }
 }
