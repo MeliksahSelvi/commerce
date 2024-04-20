@@ -1,4 +1,4 @@
-package com.commerce.payment.service;
+package com.commerce.payment.service.payment.adapters.messaging;
 
 import com.commerce.payment.service.adapter.FakePaymentRequestListenerHelper;
 import com.commerce.payment.service.common.exception.AccountNotFoundException;

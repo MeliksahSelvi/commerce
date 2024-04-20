@@ -1,4 +1,4 @@
-package com.commerce.payment.service;
+package com.commerce.payment.service.payment.adapters.messaging;
 
 import ch.qos.logback.classic.Level;
 import com.commerce.payment.service.adapter.FakePaymentRequestListenerHelper;
