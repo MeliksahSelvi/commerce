@@ -45,10 +45,11 @@ class CustomerSaveHelperTest {
     void should_save_fail_when_customer_not_unique() {
         //given
         var customerSave = new CustomerSave(null,"Ali", "Demir", "123456789", "email@com", "123");
+        var errorMessage="Email or Identity No must be unique!";
 
         //when
         //then
         var exception = assertThrows(CustomerDomainException.class, () -> customerSaveHelper.save(customerSave));
-        assertTrue(exception.getMessage().contains("Email or Identity No must be unique!"));
+        assertTrue(exception.getMessage().contains(errorMessage));
     }
 }

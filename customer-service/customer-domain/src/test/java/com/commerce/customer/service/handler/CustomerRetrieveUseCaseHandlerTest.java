@@ -41,10 +41,11 @@ class CustomerRetrieveUseCaseHandlerTest {
     void should_retrieve_empty() {
         //given
         var customerRetrieve = new CustomerRetrieve(0L);
+        var errorMessage="Customer Not Found By id: 0";
 
         //when
         //then
         var customerNotFoundException = assertThrows(CustomerNotFoundException.class, () -> retrieveUseCaseHandler.handle(customerRetrieve));
-        assertTrue(customerNotFoundException.getMessage().contains("Customer Not Found"));
+        assertTrue(customerNotFoundException.getMessage().contains(errorMessage));
     }
 }

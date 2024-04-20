@@ -51,11 +51,12 @@ class CustomerDeleteHelperTest extends LoggerTest<CustomerDeleteHelper> {
     void should_delete_fail_when_customer_not_exist() {
         //given
         var customerDelete = new CustomerDelete(5L);
+        var errorMessage="Customer Not Found By id: 5";
 
         //when
         //then
         var exception = assertThrows(CustomerNotFoundException.class, () -> deleteHelper.delete(customerDelete));
-        assertTrue(exception.getMessage().contains("Customer Not Found By id: 5"));
+        assertTrue(exception.getMessage().contains(errorMessage));
     }
 
 

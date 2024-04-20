@@ -53,11 +53,12 @@ class CustomerDeleteVoidUseCaseHandlerTest extends LoggerTest<CustomerDeleteVoid
         //given
         var customerDelete = new CustomerDelete(5L);
         var logMessage="Customer delete action started by id: 5";
+        var errorMessage="Customer Not Found By id: 5";
 
         //when
         //then
         var customerNotFoundException = assertThrows(CustomerNotFoundException.class, () -> handler.handle(customerDelete));
-        assertTrue(customerNotFoundException.getMessage().contains("Customer Not Found By id: 5"));
+        assertTrue(customerNotFoundException.getMessage().contains(errorMessage));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 }
