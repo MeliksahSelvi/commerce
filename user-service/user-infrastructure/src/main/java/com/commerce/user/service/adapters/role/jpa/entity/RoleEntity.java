@@ -14,11 +14,11 @@ import jakarta.persistence.*;
 @Table(name = "ROLE")
 public class RoleEntity extends AbstractEntity {
 
-    @Column(name = "ROLE_TYPE",nullable = false)
+    @Column(name = "ROLE_TYPE",nullable = false,unique = true)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    @Column(name = "PERMISSIONS")
+    @Column(name = "PERMISSIONS",nullable = false)
     private String permissions;
 
     public Role toModel(){

@@ -1,5 +1,6 @@
 package com.commerce.user.service.adapters.role.rest;
 
+import com.commerce.user.service.adapters.role.rest.dto.RoleResponse;
 import com.commerce.user.service.adapters.role.rest.dto.RoleSaveCommand;
 import com.commerce.user.service.adapters.role.rest.dto.RoleSaveResponse;
 import com.commerce.user.service.common.valueobject.RoleType;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,10 +23,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -34,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@Sql(value = {"classpath:sql/RoleControllerTestSetUp.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(value = {"classpath:sql/RoleControllerTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 class RoleControllerTest {
 
     private MockMvc mockMvc;
@@ -51,30 +53,58 @@ class RoleControllerTest {
     }
 
     @Test
-    void should_save() throws Exception {
-        RoleType roleType = RoleType.CUSTOMER;
-
-        MvcResult deleteMvc = mockMvc.perform(
-                delete(BASE_PATH + "/" + roleType).content(roleType.toString()).contentType(MediaType.APPLICATION_JSON)
+    void should_findById() throws Exception {
+        Long id = 1L;
+        var findMvc = mockMvc.perform(
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
-        RoleSaveCommand roleSaveCommand = new RoleSaveCommand(null, roleType, "");
+        var findResponse = readResponse(findMvc, RoleResponse.class);
+
+        assertEquals(findMvc.getResponse().getStatus(), HttpStatus.OK.value());
+        assertEquals(findResponse.id(), id);
+    }
+
+    @Test
+    void should_save() throws Exception {
+        RoleSaveCommand roleSaveCommand = buildSaveCommand();
 
         String saveCommandAsStr = objectMapper.writeValueAsString(roleSaveCommand);
         MvcResult mvcResult = mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andReturn();
 
-        var customerResponse = readResponse(mvcResult);
+        var roleSaveResponse = readResponse(mvcResult, RoleSaveResponse.class);
 
-        assertEquals(deleteMvc.getResponse().getStatus(),HttpStatus.OK.value());
         assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.CREATED.value());
-        assertNotNull(customerResponse.roleId());
-        assertEquals(customerResponse.roleType(), roleSaveCommand.roleType());
-        assertEquals(customerResponse.permissions(), roleSaveCommand.permissions());
+        assertNotNull(roleSaveResponse.roleId());
+        assertNotEquals(roleSaveResponse.roleId(), roleSaveCommand.roleId());
+        assertEquals(roleSaveResponse.roleType(), roleSaveCommand.roleType());
+        assertEquals(roleSaveResponse.permissions(), roleSaveCommand.permissions());
     }
 
-    private RoleSaveResponse readResponse(MvcResult mvcResult) throws JsonProcessingException, UnsupportedEncodingException {
-        return objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleSaveResponse.class);
+    @Test
+    void should_delete() throws Exception {
+        Long id = 2L;
+        var deleteMvcResult = mockMvc.perform(
+                delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+
+        var findMvcResult = mockMvc.perform(
+                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().is4xxClientError()).andReturn();
+
+
+        assertEquals(deleteMvcResult.getResponse().getStatus(), HttpStatus.OK.value());
+        assertEquals(findMvcResult.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
+    }
+
+    private RoleSaveCommand buildSaveCommand() {
+        return new RoleSaveCommand(null, RoleType.MANAGER, "SAVE");
+    }
+
+    private <T> T readResponse(MvcResult mvcResult, Class<T> outputType) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(mvcResult.getResponse().getContentAsString(), outputType);
     }
 }

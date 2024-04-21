@@ -5,6 +5,8 @@ import com.commerce.user.service.adapters.role.jpa.repository.RoleEntityReposito
 import com.commerce.user.service.common.valueobject.RoleType;
 import com.commerce.user.service.role.entity.Role;
 import com.commerce.user.service.role.port.RoleDataPort;
+import com.commerce.user.service.role.usecase.RoleDelete;
+import com.commerce.user.service.role.usecase.RoleRetrieve;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +27,7 @@ public class RoleDataAdapter implements RoleDataPort {
 
     @Override
     public Role save(Role role) {
-        var roleEntity=new RoleEntity();
+        var roleEntity = new RoleEntity();
         roleEntity.setId(role.getId());
         roleEntity.setRoleType(role.getRoleType());
         roleEntity.setPermissions(role.getPermissions());
@@ -36,5 +38,15 @@ public class RoleDataAdapter implements RoleDataPort {
     public Optional<Role> findByRoleType(RoleType roleType) {
         Optional<RoleEntity> roleEntityOptional = repository.findByRoleType(roleType);
         return roleEntityOptional.map(RoleEntity::toModel);
+    }
+
+    @Override
+    public void deleteById(RoleDelete roleDelete) {
+        repository.deleteById(roleDelete.roleId());
+    }
+
+    @Override
+    public Optional<Role> findById(RoleRetrieve roleRetrieve) {
+        return repository.findById(roleRetrieve.roleId()).map(RoleEntity::toModel);
     }
 }

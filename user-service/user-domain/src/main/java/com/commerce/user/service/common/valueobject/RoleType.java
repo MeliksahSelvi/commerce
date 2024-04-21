@@ -6,7 +6,7 @@ package com.commerce.user.service.common.valueobject;
  */
 
 public enum RoleType {
-    ADMIN("ADMIN"), CUSTOMER("CUSTOMER");
+    ADMIN("ADMIN"), MANAGER("MANAGER"),CUSTOMER("CUSTOMER");
 
     private final String type;
 
