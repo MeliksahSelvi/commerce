@@ -25,7 +25,7 @@ public class RoleSaveUseCaseHandler implements UseCaseHandler<Role, RoleSave> {
 
     @Override
     public Role handle(RoleSave useCase) {
-        logger.info("Role save action is started by roleType: {}",useCase.roleType());
+        logger.info("Role save action started by roleType: {}",useCase.roleType());
         return roleSaveHelper.save(useCase);
     }
 }
