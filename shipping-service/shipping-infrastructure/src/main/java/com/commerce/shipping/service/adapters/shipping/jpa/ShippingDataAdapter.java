@@ -37,6 +37,7 @@ public class ShippingDataAdapter implements ShippingDataPort {
         shippingEntity.setDeliveryStatus(shipping.getDeliveryStatus());
         shippingEntity.setItems(shipping.getItems().stream().map(this::buildOrderItemEntity).toList());
         shippingEntity.getAddress().setShipping(shippingEntity);
+        shippingEntity.getAddress().setOrderId(shipping.getOrderId());
         shippingEntity.getItems().forEach(orderItemEntity -> {
             orderItemEntity.setShipping(shippingEntity);
             orderItemEntity.setOrderId(shippingEntity.getOrderId());
