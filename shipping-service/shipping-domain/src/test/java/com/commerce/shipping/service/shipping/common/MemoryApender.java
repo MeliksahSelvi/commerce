@@ -1,4 +1,4 @@
-package com.commerce.shipping.service.shipping.appender;
+package com.commerce.shipping.service.shipping.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;

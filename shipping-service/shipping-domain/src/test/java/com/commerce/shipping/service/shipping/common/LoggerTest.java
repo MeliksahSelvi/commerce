@@ -3,7 +3,6 @@ package com.commerce.shipping.service.shipping.common;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.shipping.service.shipping.appender.MemoryApender;
 import org.junit.jupiter.api.AfterEach;
 import org.slf4j.LoggerFactory;
 

@@ -3,9 +3,10 @@ package com.commerce.shipping.service.shipping;
 import ch.qos.logback.classic.Level;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.adapters.FakeForwardProcessHelper;
+import com.commerce.shipping.service.shipping.adapters.FakeForwardShippingDataAdapter;
+import com.commerce.shipping.service.shipping.adapters.FakeOrderNotificationMessagePublisherAdapter;
 import com.commerce.shipping.service.shipping.common.LoggerTest;
-import com.commerce.shipping.service.shipping.handler.ForwardProcessUseCaseHandler;
+import com.commerce.shipping.service.shipping.handler.helper.ForwardProcessHelper;
 import com.commerce.shipping.service.shipping.usecase.ForwardProcess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,20 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author mselvi
- * @Created 21.03.2024
+ * @Created 15.04.2024
  */
 
-class ForwardProcessUseCaseHandlerTest extends LoggerTest<ForwardProcessUseCaseHandler> {
+public class ForwardProcessHelperTest extends LoggerTest<ForwardProcessHelper> {
 
-    ForwardProcessUseCaseHandler forwardProcessUseCaseHandler;
+    ForwardProcessHelper forwardProcessHelper;
 
-    public ForwardProcessUseCaseHandlerTest() {
-        super(ForwardProcessUseCaseHandler.class);
+    public ForwardProcessHelperTest() {
+        super(ForwardProcessHelper.class);
     }
 
     @BeforeEach
     void setUp() {
-        forwardProcessUseCaseHandler = new ForwardProcessUseCaseHandler(new FakeForwardProcessHelper());
+        forwardProcessHelper = new ForwardProcessHelper(new FakeOrderNotificationMessagePublisherAdapter(), new FakeForwardShippingDataAdapter());
     }
 
     @AfterEach
@@ -40,12 +41,13 @@ class ForwardProcessUseCaseHandlerTest extends LoggerTest<ForwardProcessUseCaseH
     void should_forward() {
         //given
         var forwardProcess = new ForwardProcess(1L, DeliveryStatus.APPROVED, DeliveryStatus.SHIPPED);
-        var logMessage = "Forward process action started by orderId: 1";
+        var logMessage = "Notification has sent to notification service by delivery status: SHIPPED";
 
         //when
         //then
-        var shipping = assertDoesNotThrow(() -> forwardProcessUseCaseHandler.handle(forwardProcess));
+        var shipping = assertDoesNotThrow(() -> forwardProcessHelper.forward(forwardProcess));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
+        assertEquals(forwardProcess.newStatus(), shipping.getDeliveryStatus());
     }
 
     @Test
@@ -56,8 +58,7 @@ class ForwardProcessUseCaseHandlerTest extends LoggerTest<ForwardProcessUseCaseH
 
         //when
         //then
-        var exception = assertThrows(ShippingNotFoundException.class, () -> forwardProcessUseCaseHandler.handle(forwardProcess));
+        var exception = assertThrows(ShippingNotFoundException.class, () -> forwardProcessHelper.forward(forwardProcess));
         assertTrue(exception.getMessage().contains(errorMessage));
     }
-
 }
