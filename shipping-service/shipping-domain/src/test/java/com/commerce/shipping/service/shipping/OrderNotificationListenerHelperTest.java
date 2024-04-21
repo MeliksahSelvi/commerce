@@ -5,8 +5,8 @@ import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.valueobject.Money;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
 import com.commerce.shipping.service.common.valueobject.Quantity;
-import com.commerce.shipping.service.shipping.adapters.FakeOrderNotificationListenerHelper;
-import com.commerce.shipping.service.shipping.adapters.messaging.OrderNotificationMessageListenerAdapter;
+import com.commerce.shipping.service.shipping.adapters.FakeOrderNotificationShippingDataAdapter;
+import com.commerce.shipping.service.shipping.adapters.messaging.OrderNotificationListenerHelper;
 import com.commerce.shipping.service.shipping.common.LoggerTest;
 import com.commerce.shipping.service.shipping.entity.Address;
 import com.commerce.shipping.service.shipping.entity.OrderItem;
@@ -22,22 +22,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author mselvi
- * @Created 21.03.2024
+ * @Created 15.04.2024
  */
 
-class OrderNotificationMessageListenerAdapterTest extends LoggerTest<OrderNotificationMessageListenerAdapter> {
+class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationListenerHelper> {
 
+    private static final Long ALREADY_SENT_ORDER_ID = 2L;
     private static final Long ORDER_ID = 1L;
 
-    OrderNotificationMessageListenerAdapter orderNotificationMessageListenerAdapter;
+    OrderNotificationListenerHelper orderNotificationListenerHelper;
 
-    public OrderNotificationMessageListenerAdapterTest() {
-        super(OrderNotificationMessageListenerAdapter.class);
+    public OrderNotificationListenerHelperTest() {
+        super(OrderNotificationListenerHelper.class);
     }
 
     @BeforeEach
     void setUp() {
-        orderNotificationMessageListenerAdapter = new OrderNotificationMessageListenerAdapter(new FakeOrderNotificationListenerHelper());
+        orderNotificationListenerHelper = new OrderNotificationListenerHelper(new FakeOrderNotificationShippingDataAdapter());
     }
 
     @AfterEach
@@ -49,52 +50,49 @@ class OrderNotificationMessageListenerAdapterTest extends LoggerTest<OrderNotifi
     void should_approving() {
         //given
         var message = new OrderNotificationMessage(ORDER_ID, 1L, buildAddres(), buildItems(), NotificationType.SHIPPING, "message");
-        var logMessage = String.format("Order approving action started by orderId: %d", ORDER_ID);
+        var logMessage = String.format("Shipping persisted for approving by orderId: %d", ORDER_ID);
 
         //when
         //then
-        assertDoesNotThrow(() -> orderNotificationMessageListenerAdapter.approving(message));
+        assertDoesNotThrow(() -> orderNotificationListenerHelper.approving(message));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
-//    @Test
-//    void should_approving_fail_when_notification_already_sent() {
-//        //given
-//        var message = new OrderNotificationMessage(ALREADY_SENT_ORDER_ID, 1L, buildAddres(), buildItems(), NotificationType.SHIPPING, "message");
-//        var shouldExistLogMessage = String.format("This order shipping has already processed by orderId: %d", ALREADY_SENT_ORDER_ID);
-//
-//        //when
-//        orderNotificationMessageListenerAdapter.approving(message);
-//
-//        //then
-//        assertTrue(memoryApender.contains(shouldExistLogMessage, Level.INFO));
-//    }
+    @Test
+    void should_approving_fail_when_notification_already_sent() {
+        //given
+        var message = new OrderNotificationMessage(ALREADY_SENT_ORDER_ID, 1L, buildAddres(), buildItems(), NotificationType.SHIPPING, "message");
+        var shouldExistLogMessage = String.format("This order shipping has already processed by orderId: %d", ALREADY_SENT_ORDER_ID);
+
+        //when
+        //then
+        assertDoesNotThrow(() -> orderNotificationListenerHelper.approving(message));
+        assertTrue(memoryApender.contains(shouldExistLogMessage, Level.INFO));
+    }
 
     @Test
     void should_cancelling() {
         //given
         var message = new OrderNotificationMessage(ORDER_ID, 1L, buildAddres(), buildItems(), NotificationType.CANCELLING, "message");
-        var logMessage = String.format("Order cancelling action started by orderId: %d", ORDER_ID);
+        var logMessage = String.format("Shipping updated for cancelling by orderId: %d", ORDER_ID);
 
         //when
         //then
-        assertDoesNotThrow(() -> orderNotificationMessageListenerAdapter.cancelling(message));
+        assertDoesNotThrow(() -> orderNotificationListenerHelper.cancelling(message));
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
     @Test
-    void should_cancelling_failed_when_shipping_not_exist_by_order_id() {
+    void should_cancelling_failed_when_shipping_not_exist_by_order_id(){
         //given
         var orderNotificationMessage = new OrderNotificationMessage(3L, 1L, buildAddres(), buildItems(), NotificationType.CANCELLING, "message");
-        var logMessage = "Order cancelling action started by orderId: 3";
-        var errorMessage = "Shipping could not find by order id: 3";
+        var errorMessage="Shipping could not find by order id: 3";
 
         //when
         //then
         var exception =
-                assertThrows(ShippingNotFoundException.class, () -> orderNotificationMessageListenerAdapter.cancelling(orderNotificationMessage));
+                assertThrows(ShippingNotFoundException.class, () -> orderNotificationListenerHelper.cancelling(orderNotificationMessage));
         assertTrue(exception.getMessage().contains(errorMessage));
-        assertTrue(memoryApender.contains(logMessage, Level.INFO));
     }
 
     private Address buildAddres() {

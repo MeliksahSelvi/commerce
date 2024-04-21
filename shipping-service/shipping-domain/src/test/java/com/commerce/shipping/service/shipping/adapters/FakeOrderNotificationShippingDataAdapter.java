@@ -37,7 +37,7 @@ public class FakeOrderNotificationShippingDataAdapter implements ShippingDataPor
     @Override
     public Optional<Shipping> findByOrderId(Long orderId) {
         if (EXIST_ORDER_ID != orderId) {
-            Optional.empty();
+            return Optional.empty();
         }
         return Optional.of(
                 Shipping.builder()
