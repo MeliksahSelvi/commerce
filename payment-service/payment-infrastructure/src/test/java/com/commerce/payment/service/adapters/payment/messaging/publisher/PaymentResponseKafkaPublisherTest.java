@@ -1,12 +1,13 @@
 package com.commerce.payment.service.adapters.payment.messaging.publisher;
 
-import com.commerce.kafka.model.PaymentResponseAvroModel;
-import com.commerce.kafka.model.PaymentStatus;
-import com.commerce.kafka.producer.KafkaProducer;
 import com.commerce.payment.service.common.messaging.kafka.helper.KafkaHelper;
+import com.commerce.payment.service.common.messaging.kafka.model.PaymentResponseKafkaModel;
+import com.commerce.payment.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
+import com.commerce.payment.service.common.valueobject.PaymentStatus;
 import com.commerce.payment.service.outbox.entity.OrderOutbox;
 import com.commerce.payment.service.outbox.entity.OrderOutboxPayload;
+import com.commerce.payment.service.payment.port.json.JsonPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,13 @@ class PaymentResponseKafkaPublisherTest {
     private PaymentResponseKafkaPublisher kafkaPublisher;
 
     @Mock
-    private KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
     @Mock
     private KafkaHelper kafkaHelper;
+
+    @Mock
+    private JsonPort jsonPort;
 
     private ObjectMapper objectMapper;
 
@@ -59,11 +63,12 @@ class PaymentResponseKafkaPublisherTest {
         BiConsumer<OrderOutbox, OutboxStatus> outboxCallback = (result, ex) -> {
         };
 
-        PaymentResponseAvroModel avroModel = buildAvroModel();
+        PaymentResponseKafkaModel kafkaModel = buildKafkaModel();
 
         when(kafkaHelper.getPayload(orderOutbox.getPayload(), OrderOutboxPayload.class)).thenReturn(payload);
-        when(kafkaHelper.getKafkaCallback(avroModel, orderOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
+        when(kafkaHelper.getKafkaCallback(kafkaModel, orderOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
         });
+        when(jsonPort.convertDataToJson(kafkaModel)).thenReturn(objectMapper.writeValueAsString(kafkaModel));
 
         //when
         kafkaPublisher.publish(orderOutbox, outboxCallback);
@@ -88,15 +93,8 @@ class PaymentResponseKafkaPublisherTest {
                 .build();
     }
 
-    private PaymentResponseAvroModel buildAvroModel() {
-        return PaymentResponseAvroModel.newBuilder()
-                .setPaymentId(1L)
-                .setPaymentStatus(PaymentStatus.COMPLETED)
-                .setCost(BigDecimal.TEN)
-                .setFailureMessages(Collections.EMPTY_LIST)
-                .setSagaId(UUID.randomUUID().toString())
-                .setOrderId(1L)
-                .setCustomerId(1L)
-                .build();
+    private PaymentResponseKafkaModel buildKafkaModel() {
+        return new PaymentResponseKafkaModel(UUID.randomUUID().toString(), 1L, 1L, 1L, BigDecimal.TEN,
+                PaymentStatus.COMPLETED, Collections.EMPTY_LIST);
     }
 }

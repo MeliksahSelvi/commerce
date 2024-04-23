@@ -1,16 +1,13 @@
 package com.commerce.order.service.adapters.order.messaging.publisher;
 
-import com.commerce.kafka.model.InventoryRequestAvroModel;
-import com.commerce.kafka.model.OrderPaymentStatus;
-import com.commerce.kafka.model.PaymentRequestAvroModel;
-import com.commerce.kafka.producer.KafkaProducer;
 import com.commerce.order.service.common.messaging.kafka.helper.KafkaHelper;
+import com.commerce.order.service.common.messaging.kafka.model.PaymentRequestKafkaModel;
+import com.commerce.order.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
-import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.order.service.common.valueobject.OrderPaymentStatus;
 import com.commerce.order.service.common.valueobject.OrderStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutbox;
-import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.outbox.entity.PaymentOutbox;
 import com.commerce.order.service.outbox.entity.PaymentOutboxPayload;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
@@ -42,10 +37,13 @@ class PaymentRequestKafkaPublisherTest {
     private PaymentRequestKafkaPublisher kafkaPublisher;
 
     @Mock
-    private KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
     @Mock
     private KafkaHelper kafkaHelper;
+
+    @Mock
+    private JsonPort jsonPort;
 
     private ObjectMapper objectMapper;
 
@@ -67,11 +65,12 @@ class PaymentRequestKafkaPublisherTest {
         BiConsumer<PaymentOutbox, OutboxStatus> outboxCallback = (result, ex) -> {
         };
 
-        PaymentRequestAvroModel avroModel = buildAvroModel();
+        PaymentRequestKafkaModel kafkaModel = buildKafkaModel();
 
         when(kafkaHelper.getPayload(paymentOutbox.getPayload(), PaymentOutboxPayload.class)).thenReturn(payload);
-        when(kafkaHelper.getKafkaCallback(avroModel, paymentOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
+        when(kafkaHelper.getKafkaCallback(kafkaModel, paymentOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
         });
+        when(jsonPort.convertDataToJson(kafkaModel)).thenReturn(objectMapper.writeValueAsString(kafkaModel));
 
         //when
         kafkaPublisher.publish(paymentOutbox, outboxCallback);
@@ -94,16 +93,10 @@ class PaymentRequestKafkaPublisherTest {
     }
 
     private PaymentOutboxPayload buildPayload(UUID sagaId) {
-        return new PaymentOutboxPayload(sagaId,1L, 1L, BigDecimal.TEN, com.commerce.order.service.common.valueobject.OrderPaymentStatus.PENDING);
+        return new PaymentOutboxPayload(sagaId, 1L, 1L, BigDecimal.TEN, com.commerce.order.service.common.valueobject.OrderPaymentStatus.PENDING);
     }
 
-    private PaymentRequestAvroModel buildAvroModel() {
-        return PaymentRequestAvroModel.newBuilder()
-                .setOrderPaymentStatus(OrderPaymentStatus.PENDING)
-                .setSagaId(UUID.randomUUID().toString())
-                .setCost(BigDecimal.ONE)
-                .setOrderId(1L)
-                .setCustomerId(1L)
-                .build();
+    private PaymentRequestKafkaModel buildKafkaModel() {
+        return new PaymentRequestKafkaModel(UUID.randomUUID().toString(), 1L, 1L, BigDecimal.ONE, OrderPaymentStatus.PENDING);
     }
 }
