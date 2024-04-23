@@ -9,6 +9,6 @@ import com.commerce.user.service.user.handler.helper.UserLoginHelper;
 
 public class FakeUserLoginHelper extends UserLoginHelper {
     public FakeUserLoginHelper() {
-        super(new FakeUserDataAdapter(), new FakeTokenCachePort(), new FakeTokenGenerateAdapter());
+        super(new FakeUserDataAdapter(), new FakeTokenCacheAdapter(), new FakeTokenGenerateAdapter());
     }
 }

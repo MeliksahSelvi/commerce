@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Created 23.04.2024
  */
 
-public class FakeTokenCachePort implements TokenCachePort {
+public class FakeTokenCacheAdapter implements TokenCachePort {
 
     private Map<Long, JwtToken> tokenMap = new ConcurrentHashMap<>();
 

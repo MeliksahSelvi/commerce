@@ -43,7 +43,7 @@ public class UserLoginHelper {
         logger.info("JwtToken generated for userId: {}", userId);
 
         tokenCachePort.put(userId, jwtToken);
-        logger.info("JwtToken has written to cache with userId", userId);
+        logger.info("JwtToken has written to cache with userId: {}", userId);
         return jwtToken;
     }
 
