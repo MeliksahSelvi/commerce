@@ -4,6 +4,8 @@ import com.commerce.user.service.adapters.user.jpa.entity.UserEntity;
 import com.commerce.user.service.adapters.user.jpa.repository.UserEntityRepository;
 import com.commerce.user.service.user.entity.User;
 import com.commerce.user.service.user.port.jpa.UserDataPort;
+import com.commerce.user.service.user.usecase.UserDelete;
+import com.commerce.user.service.user.usecase.UserRetrieve;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -37,5 +39,15 @@ public class UserDataAdapter implements UserDataPort {
         userEntity.setPassword(user.getPassword());
         userEntity.setRoleId(user.getRoleId());
         return repository.save(userEntity).toModel();
+    }
+
+    @Override
+    public void deleteById(UserDelete userDelete) {
+        repository.deleteById(userDelete.userId());
+    }
+
+    @Override
+    public Optional<User> findById(UserRetrieve userRetrieve) {
+        return repository.findById(userRetrieve.userId()).map(UserEntity::toModel);
     }
 }
