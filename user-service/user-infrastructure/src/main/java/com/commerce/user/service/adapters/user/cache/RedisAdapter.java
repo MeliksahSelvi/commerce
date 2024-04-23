@@ -6,6 +6,7 @@ import com.commerce.user.service.user.usecase.JwtToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
  */
 
 @Service
+@Profile("!test")
 public class RedisAdapter implements TokenCachePort {
 
     @Value("${commerce.jwt.security.key}")
