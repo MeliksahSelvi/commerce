@@ -1,13 +1,14 @@
 package com.commerce.inventory.service.adapters.inventory.messaging.publisher;
 
 import com.commerce.inventory.service.common.messaging.kafka.helper.KafkaHelper;
+import com.commerce.inventory.service.common.messaging.kafka.model.InventoryResponseKafkaModel;
+import com.commerce.inventory.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
 import com.commerce.inventory.service.common.valueobject.InventoryStatus;
 import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.inventory.service.inventory.port.json.JsonPort;
 import com.commerce.inventory.service.outbox.entity.OrderOutbox;
 import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
-import com.commerce.kafka.model.InventoryResponseAvroModel;
-import com.commerce.kafka.producer.KafkaProducer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,13 @@ class InventoryResponseKafkaPublisherTest {
     private InventoryResponseKafkaPublisher kafkaPublisher;
 
     @Mock
-    private KafkaProducer<String, InventoryResponseAvroModel> kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
     @Mock
     private KafkaHelper kafkaHelper;
+
+    @Mock
+    private JsonPort jsonPort;
 
     private ObjectMapper objectMapper;
 
@@ -59,11 +63,12 @@ class InventoryResponseKafkaPublisherTest {
         BiConsumer<OrderOutbox, OutboxStatus> outboxCallback = (result, ex) -> {
         };
 
-        InventoryResponseAvroModel avroModel = buildAvroModel();
+        InventoryResponseKafkaModel kafkaModel = buildKafkaModel();
 
         when(kafkaHelper.getPayload(orderOutbox.getPayload(), OrderOutboxPayload.class)).thenReturn(payload);
-        when(kafkaHelper.getKafkaCallback(avroModel, orderOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
+        when(kafkaHelper.getKafkaCallback(kafkaModel, orderOutbox, outboxCallback, 1L)).thenReturn((result, ex) -> {
         });
+        when(jsonPort.convertDataToJson(kafkaModel)).thenReturn(objectMapper.writeValueAsString(kafkaModel));
 
         //when
         kafkaPublisher.publish(orderOutbox, outboxCallback);
@@ -87,14 +92,7 @@ class InventoryResponseKafkaPublisherTest {
                 .build();
     }
 
-    private InventoryResponseAvroModel buildAvroModel() {
-        return InventoryResponseAvroModel.newBuilder()
-                .setFailureMessages(Collections.EMPTY_LIST)
-                .setInventoryStatus(com.commerce.kafka.model.InventoryStatus.AVAILABLE)
-                .setOrderInventoryStatus(com.commerce.kafka.model.OrderInventoryStatus.CHECKING)
-                .setSagaId(UUID.randomUUID().toString())
-                .setOrderId(1L)
-                .setCustomerId(1L)
-                .build();
+    private InventoryResponseKafkaModel buildKafkaModel() {
+        return new InventoryResponseKafkaModel(UUID.randomUUID().toString(), 1L, 1L, InventoryStatus.AVAILABLE, OrderInventoryStatus.CHECKING, Collections.EMPTY_LIST);
     }
 }

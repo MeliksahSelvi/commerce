@@ -1,13 +1,14 @@
 package com.commerce.shipping.service.adapters.shipping.messaging.publisher;
 
-import com.commerce.kafka.model.NotificationRequestAvroModel;
-import com.commerce.kafka.producer.KafkaProducerWithoutCallback;
+import com.commerce.shipping.service.common.messaging.kafka.model.NotificationRequestKafkaModel;
+import com.commerce.shipping.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
 import com.commerce.shipping.service.shipping.entity.Address;
 import com.commerce.shipping.service.shipping.entity.Shipping;
 import com.commerce.shipping.service.shipping.usecase.OrderNotificationMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @Author mselvi
@@ -30,17 +32,25 @@ class OrderNotificationKafkaPublisherTest {
     private OrderNotificationKafkaPublisher kafkaPublisher;
 
     @Mock
-    private KafkaProducerWithoutCallback<String, NotificationRequestAvroModel> kafkaProducer;
+    private KafkaProducerWithoutCallback kafkaProducer;
+
+    @Mock
+    private ObjectMapper mockObjectMapper;
+
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        objectMapper = new ObjectMapper();
     }
 
     @Test
     void should_publish() throws JsonProcessingException {
         //given
         OrderNotificationMessage orderNotificationMessage = buildOrderNotificationMessage();
+        NotificationRequestKafkaModel kafkaModel=new NotificationRequestKafkaModel(orderNotificationMessage);
+        when(mockObjectMapper.writeValueAsString(kafkaModel)).thenReturn(objectMapper.writeValueAsString(kafkaModel));
 
         //when
         kafkaPublisher.publish(orderNotificationMessage);
