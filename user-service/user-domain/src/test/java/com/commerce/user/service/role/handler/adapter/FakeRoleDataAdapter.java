@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class FakeRoleDataAdapter implements RoleDataPort {
 
-    private static Long EXIST_ROLE_ID = 1L;
-    private static RoleType ALREADY_EXIST_ROLE_TYPE = RoleType.ADMIN;
+    private static final Long EXIST_ROLE_ID = 1L;
+    private static final RoleType ALREADY_EXIST_ROLE_TYPE = RoleType.ADMIN;
 
     @Override
     public Role save(Role role) {

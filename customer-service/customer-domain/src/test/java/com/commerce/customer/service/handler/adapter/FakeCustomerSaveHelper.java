@@ -9,6 +9,6 @@ import com.commerce.customer.service.customer.handler.helper.CustomerSaveHelper;
 
 public class FakeCustomerSaveHelper extends CustomerSaveHelper {
     public FakeCustomerSaveHelper() {
-        super(new FakeCustomerDataAdapter(), new FakeEncrptingAdapter());
+        super(new FakeCustomerDataAdapter(), new FakeEncryptingAdapter());
     }
 }

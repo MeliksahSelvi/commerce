@@ -4,7 +4,7 @@ import com.commerce.customer.service.common.exception.CustomerDomainException;
 import com.commerce.customer.service.customer.handler.helper.CustomerSaveHelper;
 import com.commerce.customer.service.customer.usecase.CustomerSave;
 import com.commerce.customer.service.handler.adapter.FakeCustomerDataAdapter;
-import com.commerce.customer.service.handler.adapter.FakeEncrptingAdapter;
+import com.commerce.customer.service.handler.adapter.FakeEncryptingAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class CustomerSaveHelperTest {
 
     @BeforeEach
     void setUp() {
-        customerSaveHelper = new CustomerSaveHelper(new FakeCustomerDataAdapter(), new FakeEncrptingAdapter());
+        customerSaveHelper = new CustomerSaveHelper(new FakeCustomerDataAdapter(), new FakeEncryptingAdapter());
     }
 
     @Test
