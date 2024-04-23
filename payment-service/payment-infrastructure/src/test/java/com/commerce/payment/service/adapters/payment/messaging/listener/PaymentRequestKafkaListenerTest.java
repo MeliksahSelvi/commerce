@@ -1,11 +1,15 @@
 package com.commerce.payment.service.adapters.payment.messaging.listener;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.kafka.model.OrderPaymentStatus;
-import com.commerce.kafka.model.PaymentRequestAvroModel;
 import com.commerce.payment.service.adapters.payment.common.LoggerTest;
+import com.commerce.payment.service.common.messaging.kafka.model.PaymentRequestKafkaModel;
+import com.commerce.payment.service.common.valueobject.OrderPaymentStatus;
+import com.commerce.payment.service.payment.port.json.JsonPort;
 import com.commerce.payment.service.payment.port.messaging.input.PaymentRequestMessageListener;
 import com.commerce.payment.service.payment.usecase.PaymentRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @Author mselvi
@@ -37,6 +42,10 @@ class PaymentRequestKafkaListenerTest extends LoggerTest<PaymentRequestKafkaList
     @Mock
     private PaymentRequestMessageListener paymentListener;
 
+    @Mock
+    private JsonPort jsonPort;
+
+    private ObjectMapper objectMapper;
     private List<String> keys;
     private List<Integer> partitions;
     private List<Long> offsets;
@@ -47,9 +56,10 @@ class PaymentRequestKafkaListenerTest extends LoggerTest<PaymentRequestKafkaList
 
     @BeforeEach
     void setUp() {
-        keys = buildKeys();
-        partitions = buildPartitions();
-        offsets = buildOffsets();
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        this.keys = buildKeys();
+        this.partitions = buildPartitions();
+        this.offsets = buildOffsets();
     }
 
     @AfterEach
@@ -63,9 +73,11 @@ class PaymentRequestKafkaListenerTest extends LoggerTest<PaymentRequestKafkaList
         //given
         var messages = buildMessages(OrderPaymentStatus.PENDING);
         var logMessage = buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), PaymentRequestKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
@@ -77,30 +89,41 @@ class PaymentRequestKafkaListenerTest extends LoggerTest<PaymentRequestKafkaList
         //given
         var messages = buildMessages(OrderPaymentStatus.CANCELLED);
         var logMessage = buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), PaymentRequestKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
         verify(paymentListener).cancelPayment(any(PaymentRequest.class));
     }
 
-    private List<PaymentRequestAvroModel> buildMessages(OrderPaymentStatus orderPaymentStatus) {
-        var avroModel = buildAvroModel(orderPaymentStatus);
-        List<PaymentRequestAvroModel> messages = new ArrayList<>();
-        messages.add(avroModel);
+    private List<PaymentRequestKafkaModel> buildMessages(OrderPaymentStatus orderPaymentStatus) {
+        var kafkaModel = buildKafkaModel(orderPaymentStatus);
+        List<PaymentRequestKafkaModel> messages = new ArrayList<>();
+        messages.add(kafkaModel);
         return messages;
     }
 
-    private PaymentRequestAvroModel buildAvroModel(OrderPaymentStatus orderPaymentStatus) {
-        return PaymentRequestAvroModel.newBuilder()
-                .setOrderPaymentStatus(orderPaymentStatus)
-                .setSagaId(UUID.randomUUID().toString())
-                .setCost(BigDecimal.ONE)
-                .setOrderId(1L)
-                .setCustomerId(1L)
-                .build();
+    private PaymentRequestKafkaModel buildKafkaModel(OrderPaymentStatus orderPaymentStatus) {
+        return new PaymentRequestKafkaModel(UUID.randomUUID().toString(), 1L, 1L, BigDecimal.ONE, orderPaymentStatus);
+    }
+
+    private String buildLogMessage(List<PaymentRequestKafkaModel> messages, List<String> keys, List<Integer> partitions, List<Long> offsets) {
+        return String.format("%d number of messages received with keys:[%s], partitions:[%d] and offsets:[%d]"
+                , messages.size(), keys.get(0), partitions.get(0), offsets.get(0));
+    }
+
+    private List<String> convertKafkaModelListToJsonList(List<PaymentRequestKafkaModel> kafkaModelList) {
+        return kafkaModelList.stream().map(kafkaModel -> {
+            try {
+                return objectMapper.writeValueAsString(kafkaModel);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 
     private List<String> buildKeys() {
@@ -121,8 +144,5 @@ class PaymentRequestKafkaListenerTest extends LoggerTest<PaymentRequestKafkaList
         return offsets;
     }
 
-    private String buildLogMessage(List messages, List<String> keys, List<Integer> partitions, List<Long> offsets) {
-        return String.format("%d number of messages received with keys:[%s], partitions:[%d] and offsets:[%d]"
-                , messages.size(), keys.get(0), partitions.get(0), offsets.get(0));
-    }
+
 }

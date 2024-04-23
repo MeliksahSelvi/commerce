@@ -133,13 +133,13 @@ class InventoryRequestKafkaListenerTest extends LoggerTest<InventoryRequestKafka
     }
 
     private List<InventoryRequestKafkaModel> buildMessages(OrderInventoryStatus orderInventoryStatus) {
-        var kafkaModel = buildAvroModel(orderInventoryStatus);
+        var kafkaModel = buildKafkaModel(orderInventoryStatus);
         List<InventoryRequestKafkaModel> messages = new ArrayList<>();
         messages.add(kafkaModel);
         return messages;
     }
 
-    private InventoryRequestKafkaModel buildAvroModel(OrderInventoryStatus orderInventoryStatus) {
+    private InventoryRequestKafkaModel buildKafkaModel(OrderInventoryStatus orderInventoryStatus) {
         return new InventoryRequestKafkaModel(UUID.randomUUID().toString(), 1L, 1L, BigDecimal.ONE, orderInventoryStatus, new ArrayList<>());
     }
 

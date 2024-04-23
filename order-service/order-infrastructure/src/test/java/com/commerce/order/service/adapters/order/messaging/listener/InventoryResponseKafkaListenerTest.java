@@ -1,14 +1,18 @@
 package com.commerce.order.service.adapters.order.messaging.listener;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.kafka.model.InventoryResponseAvroModel;
-import com.commerce.kafka.model.InventoryStatus;
-import com.commerce.kafka.model.OrderInventoryStatus;
 import com.commerce.order.service.adapters.order.common.LoggerTest;
 import com.commerce.order.service.adapters.order.messaging.listener.common.ListenerCommonData;
+import com.commerce.order.service.common.messaging.kafka.model.InventoryResponseKafkaModel;
+import com.commerce.order.service.common.valueobject.InventoryStatus;
+import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
+import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.port.messaging.input.InventoryCheckingResponseMessageListener;
 import com.commerce.order.service.order.port.messaging.input.InventoryUpdatingResponseMessageListener;
 import com.commerce.order.service.order.usecase.InventoryResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +28,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @Author mselvi
@@ -42,7 +47,11 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
     @Mock
     private InventoryUpdatingResponseMessageListener updatingListener;
 
+    @Mock
+    private JsonPort jsonPort;
+
     private ListenerCommonData listenerCommonData;
+    private ObjectMapper objectMapper;
     private List<String> keys;
     private List<Integer> partitions;
     private List<Long> offsets;
@@ -53,10 +62,11 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
 
     @BeforeEach
     void setUp() {
-        listenerCommonData = new ListenerCommonData();
-        keys = listenerCommonData.buildKeys();
-        partitions = listenerCommonData.buildPartitions();
-        offsets = listenerCommonData.buildOffsets();
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        this.listenerCommonData = new ListenerCommonData();
+        this.keys = listenerCommonData.buildKeys();
+        this.partitions = listenerCommonData.buildPartitions();
+        this.offsets = listenerCommonData.buildOffsets();
     }
 
     @AfterEach
@@ -70,9 +80,11 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
         //given
         var messages = buildMessages(OrderInventoryStatus.CHECKING);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), InventoryResponseKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
@@ -84,9 +96,11 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
         //given
         var messages = buildMessages(OrderInventoryStatus.CHECKING_ROLLBACK);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), InventoryResponseKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
@@ -98,9 +112,11 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
         //given
         var messages = buildMessages(OrderInventoryStatus.UPDATING);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), InventoryResponseKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
@@ -112,30 +128,35 @@ class InventoryResponseKafkaListenerTest extends LoggerTest<InventoryResponseKaf
         //given
         var messages = buildMessages(OrderInventoryStatus.UPDATING_ROLLBACK);
         var logMessage = listenerCommonData.buildLogMessage(messages, keys, partitions, offsets);
+        List<String> messagesAsStr = convertKafkaModelListToJsonList(messages);
+        when(jsonPort.exractDataFromJson(messagesAsStr.get(0), InventoryResponseKafkaModel.class)).thenReturn(messages.get(0));
 
         //when
-        kafkaListener.receive(messages, keys, partitions, offsets);
+        kafkaListener.receive(messagesAsStr, keys, partitions, offsets);
 
         //then
         assertTrue(memoryApender.contains(logMessage, Level.INFO));
         verify(updatingListener).updatingRollback(any(InventoryResponse.class));
     }
 
-    private List<InventoryResponseAvroModel> buildMessages(OrderInventoryStatus orderInventoryStatus) {
-        var avroModel = buildAvroModel(orderInventoryStatus);
-        List<InventoryResponseAvroModel> messages = new ArrayList<>();
-        messages.add(avroModel);
+    private List<InventoryResponseKafkaModel> buildMessages(OrderInventoryStatus orderInventoryStatus) {
+        var kafkaModel = buildKafkaModel(orderInventoryStatus);
+        List<InventoryResponseKafkaModel> messages = new ArrayList<>();
+        messages.add(kafkaModel);
         return messages;
     }
 
-    private InventoryResponseAvroModel buildAvroModel(OrderInventoryStatus orderInventoryStatus) {
-        return InventoryResponseAvroModel.newBuilder()
-                .setSagaId(UUID.randomUUID().toString())
-                .setOrderId(1L)
-                .setCustomerId(1L)
-                .setOrderInventoryStatus(orderInventoryStatus)
-                .setInventoryStatus(InventoryStatus.AVAILABLE)
-                .setFailureMessages(new ArrayList<>())
-                .build();
+    private InventoryResponseKafkaModel buildKafkaModel(OrderInventoryStatus orderInventoryStatus) {
+        return new InventoryResponseKafkaModel(UUID.randomUUID().toString(), 1L, 1L, InventoryStatus.AVAILABLE, orderInventoryStatus, new ArrayList<>());
+    }
+
+    private List<String> convertKafkaModelListToJsonList(List<InventoryResponseKafkaModel> kafkaModelList) {
+        return kafkaModelList.stream().map(kafkaModel -> {
+            try {
+                return objectMapper.writeValueAsString(kafkaModel);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 }
