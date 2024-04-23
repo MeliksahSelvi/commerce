@@ -3,6 +3,7 @@ package com.commerce.customer.service.adapters.customer.jpa;
 import com.commerce.customer.service.adapters.customer.jpa.entity.CustomerEntity;
 import com.commerce.customer.service.adapters.customer.jpa.repository.CustomerEntityRepository;
 import com.commerce.customer.service.customer.entity.Customer;
+import com.commerce.customer.service.customer.usecase.CustomerDelete;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieve;
 import com.commerce.customer.service.customer.usecase.CustomerRetrieveAll;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @Author mselvi
@@ -118,6 +118,19 @@ class CustomerDataAdapterTest {
         assertEquals(customer.getIdentityNo(),savedCustomer.getIdentityNo());
         assertEquals(customer.getEmail(),savedCustomer.getEmail());
         assertEquals(customer.getPassword(),savedCustomer.getPassword());
+    }
+
+    @Test
+    void should_deleteById() {
+        //given
+        var customerDelete = new CustomerDelete(1L);
+
+        //when
+        customerDataAdapter.deleteById(customerDelete);
+
+        //then
+        assertEquals(Optional.empty(),customerDataAdapter.findById(new CustomerRetrieve(1L)));
+        verify(customerEntityRepository).deleteById(customerDelete.customerId());
     }
 
     private List<CustomerEntity> buildCustomerEntities() {

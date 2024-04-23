@@ -6,6 +6,7 @@ import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.Quantity;
 import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @Author mselvi
@@ -124,6 +124,19 @@ class ProductDataAdapterTest {
         assertEquals(product.getPrice(), savedProduct.getPrice());
         assertEquals(product.getQuantity(), savedProduct.getQuantity());
         assertEquals(product.getAvailability(), savedProduct.getAvailability());
+    }
+
+    @Test
+    void should_deleteById() {
+        //given
+        var productDelete = new ProductDelete(1L);
+
+        //when
+        productDataAdapter.deleteById(productDelete);
+
+        //then
+        assertEquals(Optional.empty(),productDataAdapter.findById(new ProductRetrieve(1L)));
+        verify(productEntityRepository).deleteById(productDelete.productId());
     }
 
     private Product buildProduct() {

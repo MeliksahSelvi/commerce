@@ -5,6 +5,7 @@ import com.commerce.payment.service.adapters.payment.jpa.repository.AccountEntit
 import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
 import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @Author mselvi
@@ -155,6 +155,19 @@ class AccountDataAdapterTest {
 
         //then
         assertTrue(accountOptional.isEmpty());
+    }
+
+    @Test
+    void should_deleteById() {
+        //given
+        var accountDelete = new AccountDelete(1L);
+
+        //when
+        adapter.deleteById(accountDelete);
+
+        //then
+        assertEquals(Optional.empty(),adapter.findById(new AccountRetrieve(1L)));
+        verify(repository).deleteById(accountDelete.accountId());
     }
 
     private Account buildAccount(){
