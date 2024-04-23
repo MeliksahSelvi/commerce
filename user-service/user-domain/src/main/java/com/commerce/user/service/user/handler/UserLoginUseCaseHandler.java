@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 @DomainComponent
 public class UserLoginUseCaseHandler implements UseCaseHandler<JwtToken, UserLogin> {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserRegisterUseCaseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserLoginUseCaseHandler.class);
     private final UserLoginHelper userLoginHelper;
 
     public UserLoginUseCaseHandler(UserLoginHelper userLoginHelper) {
@@ -25,7 +25,7 @@ public class UserLoginUseCaseHandler implements UseCaseHandler<JwtToken, UserLog
 
     @Override
     public JwtToken handle(UserLogin useCase) {
-        logger.info("User login action is started for email: {}", useCase.email());
+        logger.info("User login action started for email: {}", useCase.email());
         return userLoginHelper.login(useCase);
     }
 }
