@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Created 21.03.2024
  */
 
-class PaymentRequestListenerHelperTest { //todo add customer not found scenario
+class PaymentRequestListenerHelperTest {
 
     PaymentRequestListenerHelper paymentRequestListenerHelper;
 

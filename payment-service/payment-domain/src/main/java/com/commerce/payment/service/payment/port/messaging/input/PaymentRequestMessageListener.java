@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PaymentRequestMessageListener {
 
-    void completePayment(PaymentRequest paymentRequest);
+    List<String> completePayment(PaymentRequest paymentRequest);
 
-    void cancelPayment(PaymentRequest paymentRequest);
+    List<String> cancelPayment(PaymentRequest paymentRequest);
 }

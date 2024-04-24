@@ -7,6 +7,8 @@ import com.commerce.payment.service.payment.usecase.PaymentRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * @Author mselvi
  * @Created 07.03.2024
@@ -24,14 +26,14 @@ public class PaymentRequestMessageListenerAdapter implements PaymentRequestMessa
     }
 
     @Override
-    public void completePayment(PaymentRequest paymentRequest) {
+    public List<String> completePayment(PaymentRequest paymentRequest) {
         logger.info("Payment complete action started with PaymentRequest");
-        paymentRequestListenerHelper.completePayment(paymentRequest);
+        return paymentRequestListenerHelper.completePayment(paymentRequest);
     }
 
     @Override
-    public void cancelPayment(PaymentRequest paymentRequest) {
+    public List<String> cancelPayment(PaymentRequest paymentRequest) {
         logger.info("Payment cancel action started with PaymentRequest");
-        paymentRequestListenerHelper.cancelPayment(paymentRequest);
+        return paymentRequestListenerHelper.cancelPayment(paymentRequest);
     }
 }

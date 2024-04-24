@@ -2,7 +2,7 @@ package com.commerce.payment.service.payment.handler;
 
 import ch.qos.logback.classic.Level;
 import com.commerce.payment.service.common.LoggerTest;
-import com.commerce.payment.service.common.exception.PaymentDomainException;
+import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
 import com.commerce.payment.service.customer.adapter.FakeCustomerDataAdapter;
@@ -58,14 +58,14 @@ class AccountSaveHelperTest extends LoggerTest<AccountSaveHelper> {
     }
 
     @Test
-    void should_save_fail_when_customer_is_not_exist() { //todo update if necessary
+    void should_save_fail_when_customer_is_not_exist() {
         //given
         var accountSave = new AccountSave(1L, 2L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
         var errorMessage = "Customer could not found for account save operation by customerId: 2";
 
         //when
         //then
-        var exception = assertThrows(PaymentDomainException.class, () -> accountSaveHelper.save(accountSave));
+        var exception = assertThrows(CustomerNotFoundException.class, () -> accountSaveHelper.save(accountSave));
         assertTrue(exception.getMessage().contains(errorMessage));
     }
 }

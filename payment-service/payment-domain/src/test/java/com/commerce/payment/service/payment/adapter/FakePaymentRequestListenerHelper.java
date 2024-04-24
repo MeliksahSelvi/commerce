@@ -1,6 +1,5 @@
 package com.commerce.payment.service.payment.adapter;
 
-import com.commerce.payment.service.customer.adapter.FakeCustomerDataAdapter;
 import com.commerce.payment.service.payment.adapters.messaging.helper.PaymentRequestListenerHelper;
 
 /**
@@ -11,6 +10,6 @@ import com.commerce.payment.service.payment.adapters.messaging.helper.PaymentReq
 public class FakePaymentRequestListenerHelper extends PaymentRequestListenerHelper {
     public FakePaymentRequestListenerHelper() {
         super(new FakeAccountActivityDataAdapter(), new FakeOrderOutboxDataAdapter(),
-                new FakeCustomerDataAdapter(), new FakeAccountDataAdapter(), new FakePaymentDataAdapter(), new FakeJsonAdapter());
+                new FakeAccountDataAdapter(), new FakePaymentDataAdapter(), new FakeJsonAdapter());
     }
 }

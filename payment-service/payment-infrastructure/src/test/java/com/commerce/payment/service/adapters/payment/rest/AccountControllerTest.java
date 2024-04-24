@@ -70,7 +70,7 @@ class AccountControllerTest {
 
     @Test
     void should_findById() throws Exception {
-        Long id = 1L;
+        Long id = 100L;
         var findMvc = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
@@ -84,7 +84,6 @@ class AccountControllerTest {
     @Test
     void should_save() throws Exception {
         var accountSaveCommand = buildSaveCommand();
-        //todo create customer table in db and add dummy data to accountcontrollertest set up sql file
         String saveCommandAsStr = objectMapper.writeValueAsString(accountSaveCommand);
         var mvcResult = mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)
@@ -93,21 +92,21 @@ class AccountControllerTest {
         var accountResponse = readResponse(mvcResult);
 
         assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.CREATED.value());
-        assertEquals(accountResponse.id(), accountSaveCommand.accountId());
         assertEquals(accountResponse.customerId(), accountSaveCommand.customerId());
         assertEquals(accountResponse.currentBalance(), accountSaveCommand.currentBalance());
         assertEquals(accountResponse.currencyType(), accountSaveCommand.currencyType());
+        assertNotNull(accountResponse.id());
         assertNotNull(accountResponse.ibanNo());
         assertNull(accountResponse.cancelDate());
     }
 
     private AccountSaveCommand buildSaveCommand() {
-        return new AccountSaveCommand(3L, 1L, BigDecimal.TEN, CurrencyType.TL);
+        return new AccountSaveCommand(null, 1L, BigDecimal.TEN, CurrencyType.TL);
     }
 
     @Test
     void should_deleteById() throws Exception {
-        Long id = 2L;
+        Long id = 101L;
         var deleteMvcResult = mockMvc.perform(
                 delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();

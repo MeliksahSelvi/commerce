@@ -1,11 +1,7 @@
 package com.commerce.payment.service.payment.adapters.messaging.helper;
 
-import com.commerce.payment.service.account.entity.Customer;
-import com.commerce.payment.service.account.port.jpa.CustomerDataPort;
-import com.commerce.payment.service.account.usecase.CustomerRetrieve;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.AccountNotFoundException;
-import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.common.exception.PaymentNotFoundException;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
 import com.commerce.payment.service.common.valueobject.ActivityType;
@@ -28,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -42,17 +37,14 @@ public class PaymentRequestListenerHelper {
     private static final Logger logger = LoggerFactory.getLogger(PaymentRequestListenerHelper.class);
     private final AccountActivityDataPort accountActivityDataPort;
     private final OrderOutboxDataPort orderOutboxDataPort;
-    private final CustomerDataPort customerDataPort;
     private final AccountDataPort accountDataPort;
     private final PaymentDataPort paymentDataPort;
     private final JsonPort jsonPort;
 
     public PaymentRequestListenerHelper(AccountActivityDataPort accountActivityDataPort, OrderOutboxDataPort orderOutboxDataPort,
-                                        CustomerDataPort customerDataPort, AccountDataPort accountDataPort,
-                                        PaymentDataPort paymentDataPort, JsonPort jsonPort) {
+                                        AccountDataPort accountDataPort, PaymentDataPort paymentDataPort, JsonPort jsonPort) {
         this.accountActivityDataPort = accountActivityDataPort;
         this.orderOutboxDataPort = orderOutboxDataPort;
-        this.customerDataPort = customerDataPort;
         this.accountDataPort = accountDataPort;
         this.paymentDataPort = paymentDataPort;
         this.jsonPort = jsonPort;
@@ -65,14 +57,9 @@ public class PaymentRequestListenerHelper {
         Long orderId = paymentRequest.orderId();
         Long customerId = paymentRequest.customerId();
         Money cost = paymentRequest.cost();
-
-        List<String> failureMessages = new ArrayList<>();
-
-        logger.info("Checking customer by id: {}", customerId);
-        checkCustomer(customerId, failureMessages);
-
         logger.info("Received payment request for order id: {}", orderId);
 
+        List<String> failureMessages = new ArrayList<>();
 
         Account account = findAccountByCustomerId(customerId);
         account.validateCurrentBalance(cost, customerId, failureMessages);
@@ -92,15 +79,6 @@ public class PaymentRequestListenerHelper {
         orderOutboxDataPort.save(orderOutbox);
         logger.info("OrderOutbox persisted for payment request with paymentId", savedPayment.getId());
         return failureMessages;
-    }
-
-    private void checkCustomer(Long customerId, List<String> failureMessages) {
-        Optional<Customer> customerOptional = customerDataPort.findById(new CustomerRetrieve(customerId));
-        if (customerOptional.isEmpty()) {
-            String errorMessage = String.format("Could not find customer with id: %d", customerId);
-            failureMessages.add(errorMessage);
-            throw new CustomerNotFoundException(errorMessage);
-        }
     }
 
     private Payment buildPayment(PaymentRequest paymentRequest, List<String> failureMessages) {

@@ -52,7 +52,7 @@ public class AccountSaveHelper {
     private void checkCustomer(Long customerId) {
         Optional<Customer> customerOptional = customerDataPort.findById(new CustomerRetrieve(customerId));
         if (customerOptional.isEmpty()) {
-            throw new CustomerNotFoundException(String.format("Could not find customer with id: %d", customerId));
+            throw new CustomerNotFoundException(String.format("Customer could not found for account save operation by customerId: %d", customerId));
         }
     }
 
