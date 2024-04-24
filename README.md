@@ -29,13 +29,13 @@ This project will be the biggest project in my software adventure. This adventur
 <li>Authentication with Jwt Token</li>
 <li>Encryption with Jasypt</li>
 <li>Unit Tests</li>
+<li>Integration Tests</li>
 </ul>
 
 ## These Features and Patterns be going to add on future times.
 
 <ul>
 <li>Command Query Responsibility Segregation(CQRS) Pattern</li>
-<li>Integration Tests</li>
 <li>Adding Java and Spring Boot version features</li>
 </ul>
 
