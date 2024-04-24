@@ -12,6 +12,6 @@ import org.springframework.web.service.annotation.GetExchange;
 
 public interface CustomerHttpClient {
 
-    @GetExchange("/customer-service/api/v1/customers/{id}")
+    @GetExchange("/payment-service/api/v1/customers/{id}")
     ResponseEntity<CustomerInfo> findById(@PathVariable Long id);
 }
