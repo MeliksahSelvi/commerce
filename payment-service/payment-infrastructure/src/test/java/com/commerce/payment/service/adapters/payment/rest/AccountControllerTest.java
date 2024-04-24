@@ -84,7 +84,7 @@ class AccountControllerTest {
     @Test
     void should_save() throws Exception {
         var accountSaveCommand = buildSaveCommand();
-        //todo doesnt working because customer-service doesn't alive
+        //todo create customer table in db and add dummy data to accountcontrollertest set up sql file
         String saveCommandAsStr = objectMapper.writeValueAsString(accountSaveCommand);
         var mvcResult = mockMvc.perform(
                 post(BASE_PATH).content(saveCommandAsStr).contentType(MediaType.APPLICATION_JSON)

@@ -1,7 +1,7 @@
 package com.commerce.payment.service.payment.handler;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.payment.service.adapter.FakeAccountSaveHelper;
+import com.commerce.payment.service.payment.adapter.FakeAccountSaveHelper;
 import com.commerce.payment.service.common.LoggerTest;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
 import com.commerce.payment.service.common.valueobject.CurrencyType;
@@ -55,7 +55,7 @@ class AccountSaveUseCaseHandlerTest extends LoggerTest<AccountSaveUseCaseHandler
     }
 
     @Test
-    void should_save_fail_when_customer_is_not_exist() {
+    void should_save_fail_when_customer_is_not_exist() { //todo update if necessary
         //given
         var accountSave = new AccountSave(1L, 2L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
         var logMessage = "Account save action started by customerId: 2";

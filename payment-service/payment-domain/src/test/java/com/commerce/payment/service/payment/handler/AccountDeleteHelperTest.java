@@ -1,7 +1,7 @@
 package com.commerce.payment.service.payment.handler;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.payment.service.adapter.FakeAccountDataAdapter;
+import com.commerce.payment.service.payment.adapter.FakeAccountDataAdapter;
 import com.commerce.payment.service.common.LoggerTest;
 import com.commerce.payment.service.common.exception.AccountNotFoundException;
 import com.commerce.payment.service.payment.handler.helper.AccountDeleteHelper;

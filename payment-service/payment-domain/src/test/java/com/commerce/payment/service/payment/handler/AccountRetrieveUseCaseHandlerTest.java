@@ -1,8 +1,7 @@
 package com.commerce.payment.service.payment.handler;
 
-import com.commerce.payment.service.adapter.FakeAccountDataAdapter;
+import com.commerce.payment.service.payment.adapter.FakeAccountDataAdapter;
 import com.commerce.payment.service.common.exception.AccountNotFoundException;
-import com.commerce.payment.service.payment.handler.AccountRetrieveUseCaseHandler;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

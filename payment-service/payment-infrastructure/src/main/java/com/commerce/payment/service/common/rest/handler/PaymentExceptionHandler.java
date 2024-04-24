@@ -1,9 +1,6 @@
 package com.commerce.payment.service.common.rest.handler;
 
-import com.commerce.payment.service.common.exception.AccountNotFoundException;
-import com.commerce.payment.service.common.exception.PaymentDomainException;
-import com.commerce.payment.service.common.exception.PaymentInfraException;
-import com.commerce.payment.service.common.exception.PaymentNotFoundException;
+import com.commerce.payment.service.common.exception.*;
 import com.commerce.payment.service.common.rest.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +36,14 @@ public class PaymentExceptionHandler {
     @ExceptionHandler(value = PaymentNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleException(PaymentNotFoundException exception) {
+        logger.error(exception.getMessage(), exception);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = CustomerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleException(CustomerNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }

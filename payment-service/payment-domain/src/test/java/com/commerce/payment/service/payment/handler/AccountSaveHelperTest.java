@@ -1,15 +1,13 @@
 package com.commerce.payment.service.payment.handler;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.payment.service.adapter.FakeAccountDataAdapter;
-import com.commerce.payment.service.adapter.FakeAccountSaveHelper;
-import com.commerce.payment.service.adapter.FakeInnerRestAdapter;
-import com.commerce.payment.service.adapter.FakeRandomGenerateAdapter;
 import com.commerce.payment.service.common.LoggerTest;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
 import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
-import com.commerce.payment.service.payment.handler.helper.AccountDeleteHelper;
+import com.commerce.payment.service.customer.adapter.FakeCustomerDataAdapter;
+import com.commerce.payment.service.payment.adapter.FakeAccountDataAdapter;
+import com.commerce.payment.service.payment.adapter.FakeRandomGenerateAdapter;
 import com.commerce.payment.service.payment.handler.helper.AccountSaveHelper;
 import com.commerce.payment.service.payment.usecase.AccountSave;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @Author mselvi
@@ -36,7 +33,7 @@ class AccountSaveHelperTest extends LoggerTest<AccountSaveHelper> {
 
     @BeforeEach
     void setUp() {
-        accountSaveHelper = new AccountSaveHelper(new FakeRandomGenerateAdapter(),new FakeAccountDataAdapter(),new FakeInnerRestAdapter());
+        accountSaveHelper = new AccountSaveHelper(new FakeRandomGenerateAdapter(), new FakeCustomerDataAdapter(), new FakeAccountDataAdapter());
     }
 
     @AfterEach
@@ -61,10 +58,10 @@ class AccountSaveHelperTest extends LoggerTest<AccountSaveHelper> {
     }
 
     @Test
-    void should_save_fail_when_customer_is_not_exist() {
+    void should_save_fail_when_customer_is_not_exist() { //todo update if necessary
         //given
         var accountSave = new AccountSave(1L, 2L, new Money(BigDecimal.valueOf(1000)), CurrencyType.TL);
-        var errorMessage="Customer could not found for account save operation by customerId: 2";
+        var errorMessage = "Customer could not found for account save operation by customerId: 2";
 
         //when
         //then

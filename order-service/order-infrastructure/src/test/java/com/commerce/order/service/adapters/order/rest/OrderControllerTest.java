@@ -55,7 +55,7 @@ class OrderControllerTest {
 
     @Test
     void should_trackOrder() throws Exception {
-        Long id = 1L;
+        Long id = 100L;
         var findMvc = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
@@ -68,7 +68,7 @@ class OrderControllerTest {
 
     @Test
     void should_createOrder() throws Exception {
-        var orderCreateCommand = buildOrderCreateCommand();//todo doesnt working because customer-service doesn't alive
+        var orderCreateCommand = buildOrderCreateCommand();
 
         String createCommandAsJson = objectMapper.writeValueAsString(orderCreateCommand);
         var mvcResult = mockMvc.perform(
@@ -87,7 +87,7 @@ class OrderControllerTest {
 
     @Test
     void should_cancelOrder() throws Exception {
-        Long id = 2L;
+        Long id = 101L;
         var patchMvc = mockMvc.perform(
                 patch(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();

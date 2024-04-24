@@ -1,6 +1,5 @@
 package com.commerce.order.service.order.handler;
 
-import com.commerce.order.service.adapter.FakeInnerRestAdapter;
 import com.commerce.order.service.adapter.FakeJsonAdapter;
 import com.commerce.order.service.adapter.helper.FakeSagaHelper;
 import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
@@ -27,7 +26,7 @@ class CreateOrderHelperTest {
     @BeforeEach
     void setUp() {
         createOrderHelper = new CreateOrderHelper(new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(),
-                new FakeSagaHelper(), new FakeJsonAdapter(), new FakeInnerRestAdapter());
+                new FakeSagaHelper(), new FakeJsonAdapter());
 
         createOrderCommonData = new CreateOrderCommonData();
     }
@@ -107,18 +106,6 @@ class CreateOrderHelperTest {
         //then
         var orderDomainException = assertThrows(OrderDomainException.class, () -> createOrderHelper.createOrder(createOrder));
         assertTrue(orderDomainException.getMessage().contains("not equal Order Items total"));
-    }
-
-    @Test
-    void should_create_fail_when_customer_not_exist() {
-        //given
-        var createOrder = new CreateOrder(2L, createOrderCommonData.correctCost(),
-                createOrderCommonData.buildOrderItemsCorrect(), createOrderCommonData.buildAddress());
-
-        //when
-        //then
-        var orderDomainException = assertThrows(OrderDomainException.class, () -> createOrderHelper.createOrder(createOrder));
-        assertTrue(orderDomainException.getMessage().contains("Could not find customer"));
     }
 
 }

@@ -1,16 +1,19 @@
 package com.commerce.payment.service.payment.handler.helper;
 
+import com.commerce.payment.service.account.entity.Customer;
+import com.commerce.payment.service.account.port.jpa.CustomerDataPort;
+import com.commerce.payment.service.account.usecase.CustomerRetrieve;
 import com.commerce.payment.service.common.DomainComponent;
-import com.commerce.payment.service.common.exception.PaymentDomainException;
+import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.payment.entity.Account;
 import com.commerce.payment.service.payment.port.generate.RandomGeneratePort;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
-import com.commerce.payment.service.payment.port.rest.InnerRestPort;
 import com.commerce.payment.service.payment.usecase.AccountSave;
-import com.commerce.payment.service.payment.usecase.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * @Author mselvi
@@ -20,20 +23,20 @@ import org.springframework.transaction.annotation.Transactional;
 @DomainComponent
 public class AccountSaveHelper {
 
-    private static final Logger logger= LoggerFactory.getLogger(AccountSaveHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountSaveHelper.class);
 
     private final RandomGeneratePort randomGeneratePort;
+    private final CustomerDataPort customerDataPort;
     private final AccountDataPort accountDataPort;
-    private final InnerRestPort innerRestPort;
 
-    public AccountSaveHelper(RandomGeneratePort randomGeneratePort, AccountDataPort accountDataPort, InnerRestPort innerRestPort) {
+    public AccountSaveHelper(RandomGeneratePort randomGeneratePort, CustomerDataPort customerDataPort, AccountDataPort accountDataPort) {
         this.randomGeneratePort = randomGeneratePort;
+        this.customerDataPort = customerDataPort;
         this.accountDataPort = accountDataPort;
-        this.innerRestPort = innerRestPort;
     }
 
     @Transactional
-    public Account save(AccountSave useCase){
+    public Account save(AccountSave useCase) {
         Long customerId = useCase.customerId();
         logger.info("Checking customer by id: {]", useCase.customerId());
         checkCustomer(customerId);
@@ -47,9 +50,9 @@ public class AccountSaveHelper {
     }
 
     private void checkCustomer(Long customerId) {
-        CustomerInfo customerInfo = innerRestPort.getCustomerInfo(customerId);
-        if (customerInfo == null) {
-            throw new PaymentDomainException(String.format("Customer could not found for account save operation by customerId: %d", customerId));
+        Optional<Customer> customerOptional = customerDataPort.findById(new CustomerRetrieve(customerId));
+        if (customerOptional.isEmpty()) {
+            throw new CustomerNotFoundException(String.format("Could not find customer with id: %d", customerId));
         }
     }
 

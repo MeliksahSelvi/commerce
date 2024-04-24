@@ -101,17 +101,4 @@ class CreateOrderUseCaseHandlerTest {
         var orderDomainException = assertThrows(OrderDomainException.class, () -> createOrderUseCaseHandler.handle(createOrder));
         assertTrue(orderDomainException.getMessage().contains("not equal Order Items total"));
     }
-
-    @Test
-    void should_create_fail_when_customer_not_exist() {
-        //given
-        var createOrder = new CreateOrder(2L, createOrderCommonData.correctCost(),
-                createOrderCommonData.buildOrderItemsCorrect(), createOrderCommonData.buildAddress());
-
-        //when
-        //then
-        var orderDomainException = assertThrows(OrderDomainException.class, () -> createOrderUseCaseHandler.handle(createOrder));
-        assertTrue(orderDomainException.getMessage().contains("Could not find customer"));
-    }
-
 }
