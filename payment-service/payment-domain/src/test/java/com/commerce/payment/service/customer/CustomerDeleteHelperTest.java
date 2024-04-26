@@ -1,8 +1,8 @@
 package com.commerce.payment.service.customer;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.payment.service.account.handler.helper.CustomerDeleteHelper;
-import com.commerce.payment.service.account.usecase.CustomerDelete;
+import com.commerce.payment.service.customer.handler.helper.CustomerDeleteHelper;
+import com.commerce.payment.service.customer.usecase.CustomerDelete;
 import com.commerce.payment.service.common.LoggerTest;
 import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.customer.adapter.FakeCustomerDataAdapter;

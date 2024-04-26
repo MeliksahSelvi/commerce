@@ -1,4 +1,4 @@
-package com.commerce.payment.service.account.port.security;
+package com.commerce.payment.service.customer.port.security;
 
 /**
  * @Author mselvi

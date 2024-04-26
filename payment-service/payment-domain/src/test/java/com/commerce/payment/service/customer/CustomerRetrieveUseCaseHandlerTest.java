@@ -1,7 +1,7 @@
 package com.commerce.payment.service.customer;
 
-import com.commerce.payment.service.account.handler.CustomerRetrieveUseCaseHandler;
-import com.commerce.payment.service.account.usecase.CustomerRetrieve;
+import com.commerce.payment.service.customer.handler.CustomerRetrieveUseCaseHandler;
+import com.commerce.payment.service.customer.usecase.CustomerRetrieve;
 import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.customer.adapter.FakeCustomerDataAdapter;
 import org.junit.jupiter.api.BeforeEach;

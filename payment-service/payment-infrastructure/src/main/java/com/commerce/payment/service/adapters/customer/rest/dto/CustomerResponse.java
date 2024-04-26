@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.rest.dto;
 
-import com.commerce.payment.service.account.entity.Customer;
+import com.commerce.payment.service.customer.entity.Customer;
 
 /**
  * @Author mselvi

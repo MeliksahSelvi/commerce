@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.jpa.entity;
 
-import com.commerce.payment.service.account.entity.Customer;
+import com.commerce.payment.service.customer.entity.Customer;
 import com.commerce.payment.service.common.model.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.commerce.payment.service.account.usecase;
+package com.commerce.payment.service.customer.usecase;
 
 import com.commerce.payment.service.common.model.UseCase;
 

@@ -1,8 +1,8 @@
-package com.commerce.payment.service.account.handler;
+package com.commerce.payment.service.customer.handler;
 
-import com.commerce.payment.service.account.entity.Customer;
-import com.commerce.payment.service.account.port.jpa.CustomerDataPort;
-import com.commerce.payment.service.account.usecase.CustomerRetrieveAll;
+import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.payment.service.customer.usecase.CustomerRetrieveAll;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.handler.UseCaseHandler;
 import org.slf4j.Logger;

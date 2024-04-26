@@ -1,4 +1,4 @@
-package com.commerce.payment.service.account.entity;
+package com.commerce.payment.service.customer.entity;
 
 import com.commerce.payment.service.common.model.BaseEntity;
 

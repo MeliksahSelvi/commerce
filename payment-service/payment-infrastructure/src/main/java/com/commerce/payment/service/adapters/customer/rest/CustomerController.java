@@ -1,10 +1,10 @@
 package com.commerce.payment.service.adapters.customer.rest;
 
-import com.commerce.payment.service.account.entity.Customer;
-import com.commerce.payment.service.account.usecase.CustomerDelete;
-import com.commerce.payment.service.account.usecase.CustomerRetrieve;
-import com.commerce.payment.service.account.usecase.CustomerRetrieveAll;
-import com.commerce.payment.service.account.usecase.CustomerSave;
+import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.usecase.CustomerDelete;
+import com.commerce.payment.service.customer.usecase.CustomerRetrieve;
+import com.commerce.payment.service.customer.usecase.CustomerRetrieveAll;
+import com.commerce.payment.service.customer.usecase.CustomerSave;
 import com.commerce.payment.service.adapters.customer.rest.dto.CustomerResponse;
 import com.commerce.payment.service.adapters.customer.rest.dto.CustomerSaveCommand;
 import com.commerce.payment.service.common.handler.UseCaseHandler;

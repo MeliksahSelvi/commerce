@@ -1,7 +1,7 @@
-package com.commerce.payment.service.account.handler;
+package com.commerce.payment.service.customer.handler;
 
-import com.commerce.payment.service.account.handler.helper.CustomerDeleteHelper;
-import com.commerce.payment.service.account.usecase.CustomerDelete;
+import com.commerce.payment.service.customer.handler.helper.CustomerDeleteHelper;
+import com.commerce.payment.service.customer.usecase.CustomerDelete;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.handler.VoidUseCaseHandler;
 import org.slf4j.Logger;

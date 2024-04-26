@@ -1,16 +1,19 @@
-package com.commerce.payment.service.account.handler.helper;
+package com.commerce.payment.service.customer.handler.helper;
 
-import com.commerce.payment.service.account.entity.Customer;
-import com.commerce.payment.service.account.port.jpa.CustomerDataPort;
-import com.commerce.payment.service.account.port.security.EncryptingPort;
-import com.commerce.payment.service.account.usecase.CustomerSave;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
+import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.payment.service.customer.port.security.EncryptingPort;
+import com.commerce.payment.service.customer.usecase.CustomerInfo;
+import com.commerce.payment.service.customer.usecase.CustomerSave;
+import com.commerce.payment.service.payment.port.messaging.output.CustomerCommandMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @Author mselvi
@@ -21,10 +24,13 @@ import java.util.Optional;
 public class CustomerSaveHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerSaveHelper.class);
+    private final CustomerCommandMessagePublisher customerCommandMessagePublisher;
     private final CustomerDataPort customerDataPort;
     private final EncryptingPort encryptingPort;
 
-    public CustomerSaveHelper(CustomerDataPort customerDataPort, EncryptingPort encryptingPort) {
+    public CustomerSaveHelper(CustomerCommandMessagePublisher customerCommandMessagePublisher, CustomerDataPort customerDataPort,
+                              EncryptingPort encryptingPort) {
+        this.customerCommandMessagePublisher = customerCommandMessagePublisher;
         this.customerDataPort = customerDataPort;
         this.encryptingPort = encryptingPort;
     }
@@ -34,8 +40,10 @@ public class CustomerSaveHelper {
         validateCustomerUniqueness(useCase);
         String encryptedPassword = encryptingPort.encrypt(useCase.password());
         Customer customer = buildCustomer(useCase, encryptedPassword);
-        logger.info("Customer Saved for firstname and lastname: {} {}", useCase.firstName(), useCase.lastName());
-        return customerDataPort.save(customer);
+        Customer savedCustomer = customerDataPort.save(customer);
+        logger.info("Customer Saved for firstname and lastname: {} {}", savedCustomer.getFirstName(), savedCustomer.getLastName());
+        sendCustomerCommandToQueue(savedCustomer);
+        return savedCustomer;
     }
 
     private void validateCustomerUniqueness(CustomerSave useCase) {
@@ -54,5 +62,9 @@ public class CustomerSaveHelper {
                 .email(useCase.email())
                 .password(encryptedPassword)
                 .build();
+    }
+
+    private void sendCustomerCommandToQueue(Customer savedCustomer) {
+        CompletableFuture.runAsync(() -> customerCommandMessagePublisher.publish(new CustomerInfo(savedCustomer)));
     }
 }

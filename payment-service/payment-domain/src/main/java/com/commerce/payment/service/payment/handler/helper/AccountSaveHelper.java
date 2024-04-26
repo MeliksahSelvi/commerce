@@ -1,8 +1,8 @@
 package com.commerce.payment.service.payment.handler.helper;
 
-import com.commerce.payment.service.account.entity.Customer;
-import com.commerce.payment.service.account.port.jpa.CustomerDataPort;
-import com.commerce.payment.service.account.usecase.CustomerRetrieve;
+import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.payment.service.customer.usecase.CustomerRetrieve;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.CustomerNotFoundException;
 import com.commerce.payment.service.payment.entity.Account;

@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.rest.dto;
 
-import com.commerce.payment.service.account.usecase.CustomerSave;
+import com.commerce.payment.service.customer.usecase.CustomerSave;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
