@@ -1,6 +1,6 @@
 package com.commerce.payment.service.customer.adapter;
 
-import com.commerce.payment.service.account.port.security.EncryptingPort;
+import com.commerce.payment.service.customer.port.security.EncryptingPort;
 
 /**
  * @Author mselvi

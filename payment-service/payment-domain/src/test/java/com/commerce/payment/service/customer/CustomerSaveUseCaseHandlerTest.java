@@ -1,8 +1,8 @@
 package com.commerce.payment.service.customer;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.payment.service.account.handler.CustomerSaveUseCaseHandler;
-import com.commerce.payment.service.account.usecase.CustomerSave;
+import com.commerce.payment.service.customer.handler.CustomerSaveUseCaseHandler;
+import com.commerce.payment.service.customer.usecase.CustomerSave;
 import com.commerce.payment.service.common.LoggerTest;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
 import com.commerce.payment.service.customer.adapter.FakeCustomerSaveHelper;

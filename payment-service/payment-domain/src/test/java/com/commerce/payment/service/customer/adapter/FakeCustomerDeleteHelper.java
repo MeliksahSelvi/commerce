@@ -1,6 +1,6 @@
 package com.commerce.payment.service.customer.adapter;
 
-import com.commerce.payment.service.account.handler.helper.CustomerDeleteHelper;
+import com.commerce.payment.service.customer.handler.helper.CustomerDeleteHelper;
 
 /**
  * @Author mselvi

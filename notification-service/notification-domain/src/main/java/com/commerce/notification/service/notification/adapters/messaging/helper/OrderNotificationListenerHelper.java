@@ -1,14 +1,15 @@
 package com.commerce.notification.service.notification.adapters.messaging.helper;
 
 import com.commerce.notification.service.common.DomainComponent;
-import com.commerce.notification.service.common.exception.NotificationDomainException;
+import com.commerce.notification.service.common.exception.CustomerNotFoundException;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
 import com.commerce.notification.service.common.valueobject.NotificationType;
+import com.commerce.notification.service.notification.entity.Customer;
 import com.commerce.notification.service.notification.entity.OrderNotification;
+import com.commerce.notification.service.notification.port.jpa.CustomerDataPort;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
 import com.commerce.notification.service.notification.port.mail.MailPort;
-import com.commerce.notification.service.notification.port.rest.InnerRestPort;
-import com.commerce.notification.service.notification.usecase.CustomerInfo;
+import com.commerce.notification.service.notification.usecase.CustomerRetrieve;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
 import org.slf4j.Logger;
@@ -28,13 +29,13 @@ public class OrderNotificationListenerHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderNotificationListenerHelper.class);
     private final OrderNotificationDataPort orderNotificationDataPort;
+    private final CustomerDataPort customerDataPort;
     private final MailPort mailPort;
-    private final InnerRestPort innerRestPort;
 
-    public OrderNotificationListenerHelper(OrderNotificationDataPort orderNotificationDataPort, MailPort mailPort, InnerRestPort innerRestPort) {
+    public OrderNotificationListenerHelper(OrderNotificationDataPort orderNotificationDataPort, CustomerDataPort customerDataPort, MailPort mailPort) {
         this.orderNotificationDataPort = orderNotificationDataPort;
+        this.customerDataPort = customerDataPort;
         this.mailPort = mailPort;
-        this.innerRestPort = innerRestPort;
     }
 
     @Transactional
@@ -79,13 +80,15 @@ public class OrderNotificationListenerHelper {
 
     private void sendMail(OrderNotificationMessage message) {
         Long customerId = message.customerId();
-        CustomerInfo customerInfo = innerRestPort.getCustomerInfo(customerId);
-        if (customerInfo == null) {
-            throw new NotificationDomainException(String.format("Could not find customer with id: %d", customerId));
-        }
-        MailContent mailContent = new MailContent(message.orderId(), customerInfo, message.notificationType());
+        Customer customer = findCustomer(customerId);
 
+        MailContent mailContent = new MailContent(message.orderId(), customer, message.notificationType());
         Runnable task = () -> mailPort.sendMail(mailContent);
         CompletableFuture.runAsync(task);
+    }
+
+    private Customer findCustomer(Long customerId) {
+        return customerDataPort.findById(new CustomerRetrieve(customerId))
+                .orElseThrow(() -> new CustomerNotFoundException(String.format("Could not find customer with id: %d", customerId)));
     }
 }

@@ -4,8 +4,8 @@ import com.commerce.notification.service.common.model.UseCase;
 
 /**
  * @Author mselvi
- * @Created 14.03.2024
+ * @Created 26.04.2024
  */
 
-public record CustomerInfo(Long id, String firstName, String lastName, String email) implements UseCase {
+public record CustomerRetrieve(Long customerId) implements UseCase {
 }

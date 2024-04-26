@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.security;
 
-import com.commerce.payment.service.account.port.security.EncryptingPort;
+import com.commerce.payment.service.customer.port.security.EncryptingPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
