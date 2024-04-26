@@ -1,6 +1,6 @@
 package com.commerce.payment.service.customer.adapter;
 
-import com.commerce.payment.service.account.handler.helper.CustomerSaveHelper;
+import com.commerce.payment.service.customer.handler.helper.CustomerSaveHelper;
 
 /**
  * @Author mselvi
@@ -8,6 +8,6 @@ import com.commerce.payment.service.account.handler.helper.CustomerSaveHelper;
  */
 public class FakeCustomerSaveHelper extends CustomerSaveHelper {
     public FakeCustomerSaveHelper() {
-        super(new FakeCustomerDataAdapter(), new FakeEncryptingAdapter());
+        super(new FakeCustomerCommandMessagePublisherAdapter(), new FakeCustomerDataAdapter(), new FakeEncryptingAdapter());
     }
 }

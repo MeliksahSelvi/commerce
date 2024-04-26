@@ -1,5 +1,6 @@
 package com.commerce.notification.service.notification.adapters.messaging.adapter;
 
+import com.commerce.notification.service.customer.adapters.messaging.adapter.FakeCustomerDataAdapter;
 import com.commerce.notification.service.notification.adapters.messaging.helper.OrderNotificationListenerHelper;
 
 /**
@@ -10,6 +11,6 @@ import com.commerce.notification.service.notification.adapters.messaging.helper.
 public class FakeOrderNotificationListenerHelper extends OrderNotificationListenerHelper {
 
     public FakeOrderNotificationListenerHelper() {
-        super(new FakeOrderNotificationDataAdapter(), new FakeMailAdapter(), new FakeInnerRestAdapter());
+        super(new FakeOrderNotificationDataAdapter(), new FakeCustomerDataAdapter(), new FakeMailAdapter());
     }
 }

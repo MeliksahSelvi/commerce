@@ -1,13 +1,13 @@
 package com.commerce.notification.service.notification.adapters.messaging;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.notification.service.common.exception.NotificationDomainException;
+import com.commerce.notification.service.common.LoggerTest;
+import com.commerce.notification.service.common.exception.CustomerNotFoundException;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
 import com.commerce.notification.service.common.valueobject.NotificationType;
-import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeInnerRestAdapter;
+import com.commerce.notification.service.customer.adapters.messaging.adapter.FakeCustomerDataAdapter;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeMailAdapter;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeOrderNotificationDataAdapter;
-import com.commerce.notification.service.notification.adapters.messaging.common.LoggerTest;
 import com.commerce.notification.service.notification.adapters.messaging.helper.OrderNotificationListenerHelper;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
 import org.junit.jupiter.api.AfterEach;
@@ -32,7 +32,7 @@ class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationLi
     @BeforeEach
     void setUp() {
         orderNotificationListenerHelper = new OrderNotificationListenerHelper(
-                new FakeOrderNotificationDataAdapter(), new FakeMailAdapter(), new FakeInnerRestAdapter());
+                new FakeOrderNotificationDataAdapter(), new FakeCustomerDataAdapter(), new FakeMailAdapter());
     }
 
     @AfterEach
@@ -72,7 +72,7 @@ class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationLi
 
         //when
         //then
-        var exception = assertThrows(NotificationDomainException.class,
+        var exception = assertThrows(CustomerNotFoundException.class,
                 () -> orderNotificationListenerHelper.processMessage(message));
         assertTrue(exception.getMessage().contains("Could not find customer with"));
     }
