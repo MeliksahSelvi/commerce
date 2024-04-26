@@ -68,7 +68,7 @@ class CustomerControllerTest {
 
     @Test
     void should_findById() throws Exception {
-        Long id = 1L;
+        Long id = 100L;
         var findMvc = mockMvc.perform(
                 get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
@@ -104,7 +104,7 @@ class CustomerControllerTest {
 
     @Test
     void should_deleteById() throws Exception {
-        Long id = 2L;
+        Long id = 101L;
         var deleteMvcResult = mockMvc.perform(
                 delete(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();

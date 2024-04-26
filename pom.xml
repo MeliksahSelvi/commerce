@@ -9,7 +9,6 @@
         <module>payment-service</module>
         <module>notification-service</module>
         <module>shipping-service</module>
-        <module>customer-service</module>
         <module>config-server</module>
         <module>discovery-server</module>
         <module>api-gateway</module>
