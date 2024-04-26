@@ -74,7 +74,7 @@ class OrderNotificationListenerHelperTest extends LoggerTest<OrderNotificationLi
         //then
         var exception = assertThrows(CustomerNotFoundException.class,
                 () -> orderNotificationListenerHelper.processMessage(message));
-        assertTrue(exception.getMessage().contains("Could not find customer with"));
+        assertTrue(exception.getMessage().contains("Could not find customer with id: 2"));
     }
 
     private NotificationStatus notificationTypeToNotificationStatus(NotificationType notificationType) {
