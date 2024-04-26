@@ -1,6 +1,6 @@
-package com.commerce.notification.service.notification.port.messaging.input;
+package com.commerce.notification.service.customer.port.messaging.input;
 
-import com.commerce.notification.service.notification.usecase.CustomerInfo;
+import com.commerce.notification.service.customer.usecase.CustomerInfo;
 
 /**
  * @Author mselvi

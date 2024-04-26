@@ -1,9 +1,8 @@
-package com.commerce.notification.service.notification.adapters.messaging.common;
+package com.commerce.notification.service.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.commerce.notification.service.notification.adapters.messaging.appender.MemoryApender;
 import org.junit.jupiter.api.AfterEach;
 import org.slf4j.LoggerFactory;
 

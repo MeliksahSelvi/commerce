@@ -1,6 +1,6 @@
 package com.commerce.notification.service.adapters.notification.mail;
 
-import com.commerce.notification.service.notification.entity.Customer;
+import com.commerce.notification.service.customer.entity.Customer;
 import com.commerce.notification.service.notification.port.mail.MailPort;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import org.slf4j.Logger;

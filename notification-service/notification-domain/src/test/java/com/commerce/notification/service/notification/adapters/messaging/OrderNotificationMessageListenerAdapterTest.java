@@ -3,7 +3,7 @@ package com.commerce.notification.service.notification.adapters.messaging;
 import ch.qos.logback.classic.Level;
 import com.commerce.notification.service.common.valueobject.NotificationType;
 import com.commerce.notification.service.notification.adapters.messaging.adapter.FakeOrderNotificationListenerHelper;
-import com.commerce.notification.service.notification.adapters.messaging.common.LoggerTest;
+import com.commerce.notification.service.common.LoggerTest;
 import com.commerce.notification.service.notification.usecase.OrderNotificationMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,9 +1,9 @@
-package com.commerce.notification.service.notification.adapters.messaging;
+package com.commerce.notification.service.customer.adapters.messaging;
 
 import com.commerce.notification.service.common.DomainComponent;
-import com.commerce.notification.service.notification.adapters.messaging.helper.CustomerCommandListenerHelper;
-import com.commerce.notification.service.notification.port.messaging.input.CustomerCommandMessageListener;
-import com.commerce.notification.service.notification.usecase.CustomerInfo;
+import com.commerce.notification.service.customer.adapters.messaging.helper.CustomerCommandListenerHelper;
+import com.commerce.notification.service.customer.port.messaging.input.CustomerCommandMessageListener;
+import com.commerce.notification.service.customer.usecase.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

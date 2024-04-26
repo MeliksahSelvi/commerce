@@ -1,10 +1,10 @@
-package com.commerce.notification.service.adapters.notification.messaging.listener;
+package com.commerce.notification.service.adapters.customer.messaging.listener;
 
 import com.commerce.notification.service.common.exception.NotificationInfraException;
 import com.commerce.notification.service.common.messaging.kafka.consumer.KafkaConsumer;
 import com.commerce.notification.service.common.messaging.kafka.model.CustomerCommandKafkaModel;
-import com.commerce.notification.service.notification.port.messaging.input.CustomerCommandMessageListener;
-import com.commerce.notification.service.notification.usecase.CustomerInfo;
+import com.commerce.notification.service.customer.port.messaging.input.CustomerCommandMessageListener;
+import com.commerce.notification.service.customer.usecase.CustomerInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

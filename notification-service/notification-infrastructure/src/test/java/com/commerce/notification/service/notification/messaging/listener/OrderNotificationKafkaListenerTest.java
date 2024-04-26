@@ -1,7 +1,8 @@
-package com.commerce.notification.service.adapters.notification.messaging.listener;
+package com.commerce.notification.service.notification.messaging.listener;
 
 import ch.qos.logback.classic.Level;
-import com.commerce.notification.service.adapters.notification.common.LoggerTest;
+import com.commerce.notification.service.adapters.notification.messaging.listener.OrderNotificationKafkaListener;
+import com.commerce.notification.service.common.LoggerTest;
 import com.commerce.notification.service.common.messaging.kafka.model.AddressKafkaModel;
 import com.commerce.notification.service.common.messaging.kafka.model.NotificationRequestKafkaModel;
 import com.commerce.notification.service.common.valueobject.NotificationType;

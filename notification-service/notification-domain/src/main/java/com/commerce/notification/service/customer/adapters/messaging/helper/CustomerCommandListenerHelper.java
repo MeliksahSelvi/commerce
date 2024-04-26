@@ -1,9 +1,9 @@
-package com.commerce.notification.service.notification.adapters.messaging.helper;
+package com.commerce.notification.service.customer.adapters.messaging.helper;
 
 import com.commerce.notification.service.common.DomainComponent;
-import com.commerce.notification.service.notification.entity.Customer;
-import com.commerce.notification.service.notification.port.jpa.CustomerDataPort;
-import com.commerce.notification.service.notification.usecase.CustomerInfo;
+import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.port.jpa.CustomerDataPort;
+import com.commerce.notification.service.customer.usecase.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.commerce.notification.service.notification.entity;
+package com.commerce.notification.service.customer.entity;
 
 import com.commerce.notification.service.common.model.BaseEntity;
 

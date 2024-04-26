@@ -1,4 +1,4 @@
-package com.commerce.notification.service.adapters.notification.common;
+package com.commerce.notification.service.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

@@ -1,7 +1,7 @@
-package com.commerce.notification.service.notification.port.jpa;
+package com.commerce.notification.service.customer.port.jpa;
 
-import com.commerce.notification.service.notification.entity.Customer;
-import com.commerce.notification.service.notification.usecase.CustomerRetrieve;
+import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.usecase.CustomerRetrieve;
 
 import java.util.Optional;
 

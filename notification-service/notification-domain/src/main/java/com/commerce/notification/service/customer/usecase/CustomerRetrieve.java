@@ -1,4 +1,4 @@
-package com.commerce.notification.service.notification.usecase;
+package com.commerce.notification.service.customer.usecase;
 
 import com.commerce.notification.service.common.model.UseCase;
 

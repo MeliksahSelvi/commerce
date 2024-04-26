@@ -1,4 +1,4 @@
-package com.commerce.notification.service.notification.adapters.messaging.appender;
+package com.commerce.notification.service.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -6,7 +6,7 @@ import ch.qos.logback.core.read.ListAppender;
 
 /**
  * @Author mselvi
- * @Created 21.03.2024
+ * @Created 26.03.2024
  */
 
 public class MemoryApender extends ListAppender<ILoggingEvent> {

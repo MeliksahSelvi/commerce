@@ -1,5 +1,6 @@
-package com.commerce.notification.service.adapters.notification.jpa;
+package com.commerce.notification.service.notification.jpa;
 
+import com.commerce.notification.service.adapters.notification.jpa.OrderNotificationDataAdapter;
 import com.commerce.notification.service.adapters.notification.jpa.entity.OrderNotificationEntity;
 import com.commerce.notification.service.adapters.notification.jpa.repository.OrderNotificationEntityRepository;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
