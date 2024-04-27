@@ -158,7 +158,6 @@ class OrderNotificationKafkaListenerTest extends LoggerTest<OrderNotificationKaf
         }).toList();
     }
 
-
     private List<String> buildKeys() {
         List<String> keys = new ArrayList<>();
         keys.add("key1");
