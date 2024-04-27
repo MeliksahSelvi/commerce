@@ -24,6 +24,7 @@ This project will be the biggest project in my software adventure. This adventur
 <li>Event Publishing with Kafka Broker</li>
 <li>Saga Pattern with Choreography on Distributed Systems</li>
 <li>Outbox Pattern with Outbox Schedulers</li>
+<li>Command Query Responsibility Segregation(CQRS) Pattern</li>
 <li>Cache Mechanism With Redis</li>
 <li>Externalizing Configuration with Spring Cloud</li>
 <li>Authentication with Jwt Token</li>
@@ -35,7 +36,6 @@ This project will be the biggest project in my software adventure. This adventur
 ## These Features and Patterns be going to add on future times.
 
 <ul>
-<li>Command Query Responsibility Segregation(CQRS) Pattern</li>
 <li>Adding Java and Spring Boot version features</li>
 </ul>
 
