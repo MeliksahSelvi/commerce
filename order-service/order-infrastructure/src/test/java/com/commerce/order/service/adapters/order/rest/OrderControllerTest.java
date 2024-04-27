@@ -1,6 +1,9 @@
 package com.commerce.order.service.adapters.order.rest;
 
-import com.commerce.order.service.adapters.order.rest.dto.*;
+import com.commerce.order.service.adapters.order.rest.dto.AddressDto;
+import com.commerce.order.service.adapters.order.rest.dto.OrderCreateCommand;
+import com.commerce.order.service.adapters.order.rest.dto.OrderCreateResponse;
+import com.commerce.order.service.adapters.order.rest.dto.OrderItemDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -24,7 +27,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -51,19 +55,6 @@ class OrderControllerTest {
     void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-    }
-
-    @Test
-    void should_trackOrder() throws Exception {
-        Long id = 100L;
-        var findMvc = mockMvc.perform(
-                get(BASE_PATH + "/" + id).content(id.toString()).contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk()).andReturn();
-
-        var trackResponse = readResponse(findMvc, TrackOrderResponse.class);
-
-        assertEquals(findMvc.getResponse().getStatus(), HttpStatus.OK.value());
-        assertEquals(trackResponse.orderId(), id);
     }
 
     @Test
@@ -95,7 +86,7 @@ class OrderControllerTest {
         var trackResponse = patchMvc.getResponse().getContentAsString();
 
         assertEquals(patchMvc.getResponse().getStatus(), HttpStatus.OK.value());
-        assertEquals(trackResponse, "Order cancel action has been starting");
+        assertEquals("Order cancel action has been starting", trackResponse);
     }
 
     private <T> T readResponse(MvcResult mvcResult, Class<T> outputType) throws JsonProcessingException, UnsupportedEncodingException {

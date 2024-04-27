@@ -3,6 +3,7 @@ package com.commerce.order.service.saga;
 import ch.qos.logback.classic.Level;
 import com.commerce.order.service.adapter.FakeJsonAdapter;
 import com.commerce.order.service.adapter.FakeOrderNotificationMessagePublisherAdapter;
+import com.commerce.order.service.adapter.FakeOrderQueryMessagePublisher;
 import com.commerce.order.service.adapter.helper.FakeSagaHelper;
 import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
 import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
@@ -41,9 +42,8 @@ class InventoryUpdatingHelperTest extends LoggerTest<InventoryUpdatingHelper> {
 
     @BeforeEach
     void setUp() {
-        inventoryUpdatingHelper = new InventoryUpdatingHelper(new FakeOrderNotificationMessagePublisherAdapter(),
-                new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(),
-                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+        inventoryUpdatingHelper = new InventoryUpdatingHelper(new FakeOrderNotificationMessagePublisherAdapter(), new FakeOrderQueryMessagePublisher(),
+                new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
 
     }
 

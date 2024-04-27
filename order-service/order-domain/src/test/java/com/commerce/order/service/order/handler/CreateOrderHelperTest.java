@@ -1,6 +1,7 @@
 package com.commerce.order.service.order.handler;
 
 import com.commerce.order.service.adapter.FakeJsonAdapter;
+import com.commerce.order.service.adapter.FakeOrderQueryMessagePublisher;
 import com.commerce.order.service.adapter.helper.FakeSagaHelper;
 import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
 import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
@@ -25,8 +26,8 @@ class CreateOrderHelperTest {
 
     @BeforeEach
     void setUp() {
-        createOrderHelper = new CreateOrderHelper(new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(),
-                new FakeSagaHelper(), new FakeJsonAdapter());
+        createOrderHelper = new CreateOrderHelper(new FakeOrderQueryMessagePublisher(), new FakeInventoryOutboxDataAdapter(),
+                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
 
         createOrderCommonData = new CreateOrderCommonData();
     }

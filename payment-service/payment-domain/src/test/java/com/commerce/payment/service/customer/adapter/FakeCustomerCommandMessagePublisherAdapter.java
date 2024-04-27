@@ -1,7 +1,7 @@
 package com.commerce.payment.service.customer.adapter;
 
 import com.commerce.payment.service.customer.usecase.CustomerInfo;
-import com.commerce.payment.service.payment.port.messaging.output.CustomerCommandMessagePublisher;
+import com.commerce.payment.service.customer.port.messaging.output.CustomerCommandMessagePublisher;
 
 /**
  * @Author mselvi

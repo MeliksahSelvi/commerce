@@ -1,6 +1,7 @@
 package com.commerce.order.service.saga;
 
 import ch.qos.logback.classic.Level;
+import com.commerce.order.service.adapter.FakeOrderQueryMessagePublisher;
 import com.commerce.order.service.adapter.helper.FakeSagaHelper;
 import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
 import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
@@ -38,8 +39,8 @@ class InventoryCheckingRollbackHelperTest extends LoggerTest<InventoryCheckingRo
 
     @BeforeEach
     void setUp() {
-        inventoryCheckingRollbackHelper =
-                new InventoryCheckingRollbackHelper(new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper());
+        inventoryCheckingRollbackHelper = new InventoryCheckingRollbackHelper(new FakeOrderQueryMessagePublisher(),
+                new FakeInventoryOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper());
 
     }
 

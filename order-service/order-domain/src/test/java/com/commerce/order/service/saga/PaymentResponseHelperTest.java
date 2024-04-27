@@ -2,6 +2,7 @@ package com.commerce.order.service.saga;
 
 import ch.qos.logback.classic.Level;
 import com.commerce.order.service.adapter.FakeJsonAdapter;
+import com.commerce.order.service.adapter.FakeOrderQueryMessagePublisher;
 import com.commerce.order.service.adapter.helper.FakeSagaHelper;
 import com.commerce.order.service.adapter.order.FakeOrderDataAdapter;
 import com.commerce.order.service.adapter.outbox.FakeInventoryOutboxDataAdapter;
@@ -41,8 +42,8 @@ class PaymentResponseHelperTest extends LoggerTest<PaymentResponseHelper> {
 
     @BeforeEach
     void setUp() {
-        paymentResponseHelper = new PaymentResponseHelper(new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(),
-                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+        paymentResponseHelper = new PaymentResponseHelper(new FakeOrderQueryMessagePublisher(), new FakeInventoryOutboxDataAdapter(),
+                new FakePaymentOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
     }
 
     @AfterEach

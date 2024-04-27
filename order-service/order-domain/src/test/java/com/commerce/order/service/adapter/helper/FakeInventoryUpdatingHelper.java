@@ -13,7 +13,7 @@ import com.commerce.order.service.saga.helper.InventoryUpdatingHelper;
 
 public class FakeInventoryUpdatingHelper extends InventoryUpdatingHelper {
     public FakeInventoryUpdatingHelper() {
-        super(new FakeOrderNotificationMessagePublisherAdapter(), new FakeInventoryOutboxDataAdapter(), new FakePaymentOutboxDataAdapter(),
-                new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
+        super(new FakeOrderNotificationMessagePublisherAdapter(), new FakeOrderQueryMessagePublisher(), new FakeInventoryOutboxDataAdapter(),
+                new FakePaymentOutboxDataAdapter(), new FakeOrderDataAdapter(), new FakeSagaHelper(), new FakeJsonAdapter());
     }
 }
