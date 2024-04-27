@@ -7,7 +7,9 @@ import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.json.JsonPort;
+import com.commerce.order.service.order.port.messaging.output.OrderQueryMessagePublisher;
 import com.commerce.order.service.order.usecase.CreateOrder;
+import com.commerce.order.service.order.usecase.OrderQuery;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @Author mselvi
@@ -27,13 +30,15 @@ import java.util.UUID;
 public class CreateOrderHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(CreateOrderHelper.class);
+    private final OrderQueryMessagePublisher orderQueryMessagePublisher;
     private final InventoryOutboxDataPort inventoryOutboxDataPort;
     private final OrderDataPort orderDataPort;
     private final SagaHelper sagaHelper;
     private final JsonPort jsonPort;
 
-    public CreateOrderHelper(InventoryOutboxDataPort inventoryOutboxDataPort, OrderDataPort orderDataPort,
-                             SagaHelper sagaHelper, JsonPort jsonPort) {
+    public CreateOrderHelper(OrderQueryMessagePublisher orderQueryMessagePublisher, InventoryOutboxDataPort inventoryOutboxDataPort,
+                             OrderDataPort orderDataPort, SagaHelper sagaHelper, JsonPort jsonPort) {
+        this.orderQueryMessagePublisher = orderQueryMessagePublisher;
         this.inventoryOutboxDataPort = inventoryOutboxDataPort;
         this.orderDataPort = orderDataPort;
         this.sagaHelper = sagaHelper;
@@ -50,6 +55,9 @@ public class CreateOrderHelper {
 
         inventoryOutboxDataPort.save(inventoryOutbox);
         logger.info("InventoryOutbox persisted with sagaId: {}", inventoryOutbox.getSagaId());
+
+        sentQueryOrderToQueue(savedOrder);
+        logger.info("OrderQuery sent to kafka queue by id: {}", savedOrder.getId());
         return savedOrder;
     }
 
@@ -76,5 +84,11 @@ public class CreateOrderHelper {
                 .outboxStatus(OutboxStatus.STARTED)
                 .sagaStatus(sagaHelper.orderStatusToSagaStatus(orderStatus))
                 .build();
+    }
+
+    private void sentQueryOrderToQueue(Order savedOrder) {
+        CompletableFuture.runAsync(
+                () -> orderQueryMessagePublisher.publish(new OrderQuery(savedOrder.getId(), savedOrder.getOrderStatus()))
+        );
     }
 }

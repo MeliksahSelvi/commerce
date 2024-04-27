@@ -10,8 +10,10 @@ import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.messaging.output.OrderNotificationMessagePublisher;
+import com.commerce.order.service.order.port.messaging.output.OrderQueryMessagePublisher;
 import com.commerce.order.service.order.usecase.InventoryResponse;
 import com.commerce.order.service.order.usecase.OrderNotificationMessage;
+import com.commerce.order.service.order.usecase.OrderQuery;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
 import org.slf4j.Logger;
@@ -31,14 +33,17 @@ public class InventoryUpdatingRollbackHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryUpdatingRollbackHelper.class);
     private final OrderNotificationMessagePublisher orderNotificationMessagePublisher;
+    private final OrderQueryMessagePublisher orderQueryMessagePublisher;
     private final InventoryOutboxDataPort inventoryOutboxDataPort;
     private final OrderDataPort orderDataPort;
     private final SagaHelper sagaHelper;
 
     public InventoryUpdatingRollbackHelper(OrderNotificationMessagePublisher orderNotificationMessagePublisher,
+                                           OrderQueryMessagePublisher orderQueryMessagePublisher,
                                            InventoryOutboxDataPort inventoryOutboxDataPort,
                                            OrderDataPort orderDataPort, SagaHelper sagaHelper) {
         this.orderNotificationMessagePublisher = orderNotificationMessagePublisher;
+        this.orderQueryMessagePublisher = orderQueryMessagePublisher;
         this.inventoryOutboxDataPort = inventoryOutboxDataPort;
         this.orderDataPort = orderDataPort;
         this.sagaHelper = sagaHelper;
@@ -67,6 +72,9 @@ public class InventoryUpdatingRollbackHelper {
         Order savedOrder = orderDataPort.save(order);
         logger.info("Order updated by id: {}", orderId);
 
+        sentQueryOrderToQueue(savedOrder);
+        logger.info("OrderQuery sent to kafka queue by id: {}", savedOrder.getId());
+
         OrderStatus orderStatus = savedOrder.getOrderStatus();
         SagaStatus sagaStatus = sagaHelper.orderStatusToSagaStatus(orderStatus);
 
@@ -78,14 +86,20 @@ public class InventoryUpdatingRollbackHelper {
         return savedOrder;
     }
 
+    private Order findOrder(Long orderId) {
+        return orderDataPort.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(String.format("Order could not found with id: %d", orderId)));
+    }
+
     private InventoryOutbox getInventoryOutboxBySagaId(UUID sagaId) {
         return inventoryOutboxDataPort.findBySagaIdAndSagaStatusAndOrderInventoryStatus(sagaId, SagaStatus.CANCELLING, OrderInventoryStatus.UPDATING_ROLLBACK)
                 .orElseThrow(() -> new InventoryOutboxNotFoundException(String.format("InventoryOutbox could not found with sagaId: %s", sagaId)));
     }
 
-    private Order findOrder(Long orderId) {
-        return orderDataPort.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(String.format("Order could not found with id: %d", orderId)));
+    private void sentQueryOrderToQueue(Order savedOrder) {
+        CompletableFuture.runAsync(
+                () -> orderQueryMessagePublisher.publish(new OrderQuery(savedOrder.getId(), savedOrder.getOrderStatus()))
+        );
     }
 
     private void sendOrderCancelledNotification(Order order) {

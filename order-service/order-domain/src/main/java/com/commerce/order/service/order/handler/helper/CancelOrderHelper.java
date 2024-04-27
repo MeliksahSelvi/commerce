@@ -10,7 +10,9 @@ import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.order.entity.Order;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import com.commerce.order.service.order.port.json.JsonPort;
+import com.commerce.order.service.order.port.messaging.output.OrderQueryMessagePublisher;
 import com.commerce.order.service.order.usecase.CancelOrder;
+import com.commerce.order.service.order.usecase.OrderQuery;
 import com.commerce.order.service.outbox.entity.InventoryOutbox;
 import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
 import com.commerce.order.service.outbox.entity.PaymentOutbox;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @Author mselvi
@@ -34,14 +37,17 @@ import java.util.UUID;
 public class CancelOrderHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(CancelOrderHelper.class);
+    private final OrderQueryMessagePublisher orderQueryMessagePublisher;
     private final InventoryOutboxDataPort inventoryOutboxDataPort;
     private final PaymentOutboxDataPort paymentOutboxDataPort;
     private final OrderDataPort orderDataPort;
     private final SagaHelper sagaHelper;
     private final JsonPort jsonPort;
 
-    public CancelOrderHelper(InventoryOutboxDataPort inventoryOutboxDataPort, PaymentOutboxDataPort paymentOutboxDataPort,
-                             OrderDataPort orderDataPort, SagaHelper sagaHelper, JsonPort jsonPort) {
+    public CancelOrderHelper(OrderQueryMessagePublisher orderQueryMessagePublisher, InventoryOutboxDataPort inventoryOutboxDataPort,
+                             PaymentOutboxDataPort paymentOutboxDataPort, OrderDataPort orderDataPort,
+                             SagaHelper sagaHelper, JsonPort jsonPort) {
+        this.orderQueryMessagePublisher = orderQueryMessagePublisher;
         this.inventoryOutboxDataPort = inventoryOutboxDataPort;
         this.paymentOutboxDataPort = paymentOutboxDataPort;
         this.orderDataPort = orderDataPort;
@@ -63,6 +69,9 @@ public class CancelOrderHelper {
         Order savedOrder = orderDataPort.save(order);
         logger.info("Order is saved with id:{} ", orderId);
 
+        sentQueryOrderToQueue(savedOrder);
+        logger.info("OrderQuery sent to kafka queue by id: {}", savedOrder.getId());
+
         UUID sagaId = UUID.randomUUID();
         OrderStatus orderStatus = savedOrder.getOrderStatus();
         SagaStatus sagaStatus = sagaHelper.orderStatusToSagaStatus(orderStatus);
@@ -80,6 +89,12 @@ public class CancelOrderHelper {
         return orderDataPort.findById(orderId).orElseThrow(() -> {
             throw new OrderNotFoundException(String.format("Could not find order with id: %d", orderId));
         });
+    }
+
+    private void sentQueryOrderToQueue(Order savedOrder) {
+        CompletableFuture.runAsync(
+                () -> orderQueryMessagePublisher.publish(new OrderQuery(savedOrder.getId(), savedOrder.getOrderStatus()))
+        );
     }
 
     private PaymentOutbox buildPaymentOutbox(Order order, UUID sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {

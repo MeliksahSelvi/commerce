@@ -27,7 +27,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static List<String> openApiEndpoints = List.of("/api/v1/auth/login", "/api/v1/auth/register", "/swagger-ui/**",
+    private static List<String> openApiEndpoints = List.of("/api/v1/auth/login", "/api/v1/auth/register","/api/v1/roles", "/swagger-ui/**",
             "/swagger-ui.html", "/v3/api-docs/**");
 
     private final CustomAuthenticationFilter authenticationFilter;

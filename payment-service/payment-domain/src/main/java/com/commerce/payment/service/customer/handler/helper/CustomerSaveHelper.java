@@ -7,7 +7,7 @@ import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.payment.service.customer.port.security.EncryptingPort;
 import com.commerce.payment.service.customer.usecase.CustomerInfo;
 import com.commerce.payment.service.customer.usecase.CustomerSave;
-import com.commerce.payment.service.payment.port.messaging.output.CustomerCommandMessagePublisher;
+import com.commerce.payment.service.customer.port.messaging.output.CustomerCommandMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;

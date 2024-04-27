@@ -4,7 +4,7 @@ import com.commerce.payment.service.common.messaging.kafka.model.CustomerCommand
 import com.commerce.payment.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.payment.service.customer.usecase.CustomerInfo;
 import com.commerce.payment.service.payment.port.json.JsonPort;
-import com.commerce.payment.service.payment.port.messaging.output.CustomerCommandMessagePublisher;
+import com.commerce.payment.service.customer.port.messaging.output.CustomerCommandMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

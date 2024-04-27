@@ -1,4 +1,4 @@
-package com.commerce.payment.service.payment.port.messaging.output;
+package com.commerce.payment.service.customer.port.messaging.output;
 
 import com.commerce.payment.service.customer.usecase.CustomerInfo;
 

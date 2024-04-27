@@ -33,7 +33,7 @@ import java.util.List;
 @Component
 public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final List<String> openApiEndpoints = List.of("/api/v1/auth/login", "/api/v1/auth/register", "/swagger-ui/**",
+    private static final List<String> openApiEndpoints = List.of("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/roles","/swagger-ui/**",
             "/swagger-ui.html", "/v3/api-docs/**");
 
     private final TokenProvider tokenProvider;
