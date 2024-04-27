@@ -3,7 +3,7 @@ package com.commerce.shipping.service.adapters.shipping.rest;
 import com.commerce.shipping.service.adapters.shipping.rest.dto.ForwardProcessCommand;
 import com.commerce.shipping.service.adapters.shipping.rest.dto.ForwardProcessResponse;
 import com.commerce.shipping.service.common.handler.UseCaseHandler;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.usecase.ForwardProcess;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

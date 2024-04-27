@@ -5,7 +5,7 @@ import com.commerce.user.service.adapters.user.rest.dto.UserLoginCommand;
 import com.commerce.user.service.adapters.user.rest.dto.UserRegisterCommand;
 import com.commerce.user.service.adapters.user.rest.dto.UserResponse;
 import com.commerce.user.service.common.handler.UseCaseHandler;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.usecase.JwtToken;
 import com.commerce.user.service.user.usecase.UserLogin;
 import com.commerce.user.service.user.usecase.UserRegister;

@@ -3,7 +3,7 @@ package com.commerce.payment.service.outbox.scheduler;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.outbox.OutboxScheduler;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
-import com.commerce.payment.service.outbox.entity.OrderOutbox;
+import com.commerce.payment.service.outbox.model.OrderOutbox;
 import com.commerce.payment.service.outbox.port.jpa.OrderOutboxDataPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

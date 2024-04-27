@@ -4,7 +4,7 @@ import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
 import com.commerce.payment.service.common.outbox.OutboxScheduler;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
-import com.commerce.payment.service.outbox.entity.OrderOutbox;
+import com.commerce.payment.service.outbox.model.OrderOutbox;
 import com.commerce.payment.service.outbox.port.jpa.OrderOutboxDataPort;
 import com.commerce.payment.service.payment.port.messaging.output.PaymentResponseMessagePublisher;
 import org.slf4j.Logger;

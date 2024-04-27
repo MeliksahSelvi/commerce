@@ -4,9 +4,9 @@ import com.commerce.order.service.adapters.order.jpa.entity.AddressEntity;
 import com.commerce.order.service.adapters.order.jpa.entity.OrderEntity;
 import com.commerce.order.service.adapters.order.jpa.entity.OrderItemEntity;
 import com.commerce.order.service.adapters.order.jpa.repository.OrderEntityRepository;
-import com.commerce.order.service.order.entity.Address;
-import com.commerce.order.service.order.entity.Order;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.Address;
+import com.commerce.order.service.order.model.Order;
+import com.commerce.order.service.order.model.OrderItem;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 import org.springframework.stereotype.Service;
 

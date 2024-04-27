@@ -5,9 +5,9 @@ import com.commerce.shipping.service.adapters.shipping.jpa.repository.ShippingEn
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.common.valueobject.Money;
 import com.commerce.shipping.service.common.valueobject.Quantity;
-import com.commerce.shipping.service.shipping.entity.Address;
-import com.commerce.shipping.service.shipping.entity.OrderItem;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Address;
+import com.commerce.shipping.service.shipping.model.OrderItem;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

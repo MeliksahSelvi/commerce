@@ -2,9 +2,9 @@ package com.commerce.shipping.service.shipping.usecase;
 
 import com.commerce.shipping.service.common.model.UseCase;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
-import com.commerce.shipping.service.shipping.entity.Address;
-import com.commerce.shipping.service.shipping.entity.OrderItem;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Address;
+import com.commerce.shipping.service.shipping.model.OrderItem;
+import com.commerce.shipping.service.shipping.model.Shipping;
 
 import java.util.List;
 

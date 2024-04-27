@@ -5,9 +5,9 @@ import com.commerce.order.service.adapters.order.jpa.repository.OrderEntityRepos
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.common.valueobject.Quantity;
-import com.commerce.order.service.order.entity.Address;
-import com.commerce.order.service.order.entity.Order;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.Address;
+import com.commerce.order.service.order.model.Order;
+import com.commerce.order.service.order.model.OrderItem;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

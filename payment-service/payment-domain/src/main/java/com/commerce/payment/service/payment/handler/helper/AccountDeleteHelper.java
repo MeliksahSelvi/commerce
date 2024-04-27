@@ -2,7 +2,7 @@ package com.commerce.payment.service.payment.handler.helper;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.AccountNotFoundException;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
 import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;

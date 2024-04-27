@@ -4,7 +4,7 @@ import com.commerce.payment.service.adapters.payment.jpa.entity.AccountActivityE
 import com.commerce.payment.service.adapters.payment.jpa.repository.AccountActivityEntityRepository;
 import com.commerce.payment.service.common.valueobject.ActivityType;
 import com.commerce.payment.service.common.valueobject.Money;
-import com.commerce.payment.service.payment.entity.AccountActivity;
+import com.commerce.payment.service.payment.model.AccountActivity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

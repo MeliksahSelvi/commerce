@@ -3,7 +3,7 @@ package com.commerce.inventory.service.outbox.scheduler;
 import com.commerce.inventory.service.common.DomainComponent;
 import com.commerce.inventory.service.common.outbox.OutboxScheduler;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
 import com.commerce.inventory.service.outbox.port.jpa.OrderOutboxDataPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

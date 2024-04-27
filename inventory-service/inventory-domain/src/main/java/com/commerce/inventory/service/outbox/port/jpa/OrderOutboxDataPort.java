@@ -1,12 +1,10 @@
 package com.commerce.inventory.service.outbox.port.jpa;
 
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @Author mselvi

@@ -2,7 +2,7 @@ package com.commerce.order.service.adapters.order.rest.dto;
 
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.Quantity;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.OrderItem;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

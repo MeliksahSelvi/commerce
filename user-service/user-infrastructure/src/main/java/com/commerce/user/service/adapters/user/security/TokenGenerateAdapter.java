@@ -2,7 +2,7 @@ package com.commerce.user.service.adapters.user.security;
 
 import com.commerce.user.service.common.exception.UserDomainException;
 import com.commerce.user.service.common.security.principal.UserPrincipal;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.port.security.TokenGeneratePort;
 import com.commerce.user.service.user.usecase.JwtToken;
 import com.fasterxml.jackson.core.JsonProcessingException;

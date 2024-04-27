@@ -2,7 +2,7 @@ package com.commerce.payment.service.adapters.payment.jpa;
 
 import com.commerce.payment.service.adapters.payment.jpa.entity.PaymentEntity;
 import com.commerce.payment.service.adapters.payment.jpa.repository.PaymentEntityRepository;
-import com.commerce.payment.service.payment.entity.Payment;
+import com.commerce.payment.service.payment.model.Payment;
 import com.commerce.payment.service.payment.port.jpa.PaymentDataPort;
 import org.springframework.stereotype.Service;
 

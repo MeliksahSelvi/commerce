@@ -1,9 +1,9 @@
 package com.commerce.shipping.service.adapters.shipping.jpa.entity;
 
-import com.commerce.shipping.service.common.model.AbstractEntity;
+import com.commerce.shipping.service.common.model.BaseEntity;
 import com.commerce.shipping.service.common.valueobject.Money;
 import com.commerce.shipping.service.common.valueobject.Quantity;
-import com.commerce.shipping.service.shipping.entity.OrderItem;
+import com.commerce.shipping.service.shipping.model.OrderItem;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ORDER_ITEM")
-public class OrderItemEntity extends AbstractEntity {
+public class OrderItemEntity extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "SHIPPING_ID",nullable = false)

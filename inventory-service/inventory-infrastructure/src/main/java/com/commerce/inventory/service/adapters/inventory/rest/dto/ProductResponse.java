@@ -1,6 +1,6 @@
 package com.commerce.inventory.service.adapters.inventory.rest.dto;
 
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 
 import java.math.BigDecimal;
 

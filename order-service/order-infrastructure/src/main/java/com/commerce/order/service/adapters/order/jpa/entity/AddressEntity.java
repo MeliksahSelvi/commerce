@@ -1,7 +1,7 @@
 package com.commerce.order.service.adapters.order.jpa.entity;
 
-import com.commerce.order.service.common.model.AbstractEntity;
-import com.commerce.order.service.order.entity.Address;
+import com.commerce.order.service.common.model.BaseEntity;
+import com.commerce.order.service.order.model.Address;
 import jakarta.persistence.*;
 
 /**
@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ADDRESS")
-public class AddressEntity extends AbstractEntity {
+public class AddressEntity extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID",nullable = false,unique = true)

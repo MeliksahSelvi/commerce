@@ -2,7 +2,7 @@ package com.commerce.inventory.service.adapters.inventory.jpa;
 
 import com.commerce.inventory.service.adapters.inventory.jpa.entity.ProductEntity;
 import com.commerce.inventory.service.adapters.inventory.jpa.repository.ProductEntityRepository;
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
 import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;

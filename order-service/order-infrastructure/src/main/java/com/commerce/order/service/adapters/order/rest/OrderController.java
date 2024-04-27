@@ -4,7 +4,7 @@ import com.commerce.order.service.adapters.order.rest.dto.OrderCreateCommand;
 import com.commerce.order.service.adapters.order.rest.dto.OrderCreateResponse;
 import com.commerce.order.service.common.handler.UseCaseHandler;
 import com.commerce.order.service.common.handler.VoidUseCaseHandler;
-import com.commerce.order.service.order.entity.Order;
+import com.commerce.order.service.order.model.Order;
 import com.commerce.order.service.order.usecase.CancelOrder;
 import com.commerce.order.service.order.usecase.CreateOrder;
 import jakarta.validation.Valid;

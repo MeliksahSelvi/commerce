@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.usecase;
 
 import com.commerce.order.service.common.model.UseCase;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.OrderItem;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

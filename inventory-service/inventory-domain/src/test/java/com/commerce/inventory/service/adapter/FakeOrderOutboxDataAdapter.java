@@ -1,7 +1,7 @@
 package com.commerce.inventory.service.adapter;
 
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
 import com.commerce.inventory.service.outbox.port.jpa.OrderOutboxDataPort;
 
 import java.util.List;

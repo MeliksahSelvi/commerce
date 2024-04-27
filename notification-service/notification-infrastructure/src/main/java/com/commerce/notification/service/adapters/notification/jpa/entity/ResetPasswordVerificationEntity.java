@@ -1,7 +1,7 @@
 package com.commerce.notification.service.adapters.notification.jpa.entity;
 
-import com.commerce.notification.service.common.model.AbstractEntity;
-import com.commerce.notification.service.notification.entity.ResetPasswordVerification;
+import com.commerce.notification.service.common.model.BaseEntity;
+import com.commerce.notification.service.notification.model.ResetPasswordVerification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "RESET_PASSWORD_VERIFICATION")
-public class ResetPasswordVerificationEntity extends AbstractEntity {
+public class ResetPasswordVerificationEntity extends BaseEntity {
 
     @Column(name = "USER_ID",nullable = false)
     private Long userId;

@@ -2,7 +2,7 @@ package com.commerce.payment.service.payment.adapter;
 
 import com.commerce.payment.service.common.outbox.OutboxStatus;
 import com.commerce.payment.service.common.valueobject.PaymentStatus;
-import com.commerce.payment.service.outbox.entity.OrderOutbox;
+import com.commerce.payment.service.outbox.model.OrderOutbox;
 import com.commerce.payment.service.outbox.port.jpa.OrderOutboxDataPort;
 
 import java.util.List;

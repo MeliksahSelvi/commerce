@@ -1,10 +1,10 @@
 package com.commerce.order.service.order.usecase;
 
 import com.commerce.order.service.common.model.UseCase;
-import com.commerce.order.service.order.entity.Address;
+import com.commerce.order.service.order.model.Address;
 import com.commerce.order.service.common.valueobject.Money;
-import com.commerce.order.service.order.entity.Order;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.Order;
+import com.commerce.order.service.order.model.OrderItem;
 
 import java.util.List;
 

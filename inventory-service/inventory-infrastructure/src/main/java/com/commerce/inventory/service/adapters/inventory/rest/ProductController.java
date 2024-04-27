@@ -4,7 +4,7 @@ import com.commerce.inventory.service.adapters.inventory.rest.dto.ProductRespons
 import com.commerce.inventory.service.adapters.inventory.rest.dto.ProductSaveCommand;
 import com.commerce.inventory.service.common.handler.UseCaseHandler;
 import com.commerce.inventory.service.common.handler.VoidUseCaseHandler;
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;

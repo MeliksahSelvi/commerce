@@ -1,7 +1,7 @@
 package com.commerce.user.service.role.handler.adapter;
 
 import com.commerce.user.service.common.valueobject.RoleType;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import com.commerce.user.service.role.port.RoleDataPort;
 import com.commerce.user.service.role.usecase.RoleDelete;
 import com.commerce.user.service.role.usecase.RoleRetrieve;

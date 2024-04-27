@@ -1,6 +1,6 @@
 package com.commerce.payment.service.payment.port.jpa;
 
-import com.commerce.payment.service.payment.entity.Payment;
+import com.commerce.payment.service.payment.model.Payment;
 
 import java.util.Optional;
 

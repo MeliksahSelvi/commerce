@@ -2,7 +2,7 @@ package com.commerce.user.service.adapters.user.jpa;
 
 import com.commerce.user.service.adapters.user.jpa.entity.UserEntity;
 import com.commerce.user.service.adapters.user.jpa.repository.UserEntityRepository;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.usecase.UserDelete;
 import com.commerce.user.service.user.usecase.UserRetrieve;
 import org.junit.jupiter.api.Test;

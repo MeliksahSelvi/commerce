@@ -4,8 +4,8 @@ import com.commerce.order.service.common.messaging.kafka.model.NotificationReque
 import com.commerce.order.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.NotificationType;
-import com.commerce.order.service.order.entity.Address;
-import com.commerce.order.service.order.entity.Order;
+import com.commerce.order.service.order.model.Address;
+import com.commerce.order.service.order.model.Order;
 import com.commerce.order.service.order.port.json.JsonPort;
 import com.commerce.order.service.order.usecase.OrderNotificationMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;

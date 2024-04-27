@@ -6,7 +6,7 @@ import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutbox;
+import com.commerce.order.service.outbox.model.InventoryOutbox;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

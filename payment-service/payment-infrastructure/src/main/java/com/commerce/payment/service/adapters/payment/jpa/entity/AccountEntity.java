@@ -1,9 +1,9 @@
 package com.commerce.payment.service.adapters.payment.jpa.entity;
 
-import com.commerce.payment.service.common.model.AbstractEntity;
+import com.commerce.payment.service.common.model.BaseEntity;
 import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ACCOUNT")
-public class AccountEntity extends AbstractEntity {
+public class AccountEntity extends BaseEntity {
 
     @Column(name = "CUSTOMER_ID",nullable = false)
     private Long customerId;

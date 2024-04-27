@@ -1,14 +1,11 @@
 package com.commerce.order.service.adapters.outbox.jpa;
 
-import com.commerce.order.service.adapters.outbox.jpa.entity.InventoryOutboxEntity;
 import com.commerce.order.service.adapters.outbox.jpa.entity.PaymentOutboxEntity;
 import com.commerce.order.service.adapters.outbox.jpa.repository.PaymentOutboxEntityRepository;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
-import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
 import com.commerce.order.service.common.valueobject.OrderStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutbox;
-import com.commerce.order.service.outbox.entity.PaymentOutbox;
+import com.commerce.order.service.outbox.model.PaymentOutbox;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

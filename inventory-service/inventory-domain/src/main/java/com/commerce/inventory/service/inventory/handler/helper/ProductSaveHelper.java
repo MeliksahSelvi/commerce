@@ -1,7 +1,7 @@
 package com.commerce.inventory.service.inventory.handler.helper;
 
 import com.commerce.inventory.service.common.DomainComponent;
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
 import com.commerce.inventory.service.inventory.usecase.ProductSave;
 import org.slf4j.Logger;

@@ -3,7 +3,7 @@ package com.commerce.notification.service.adapters.notification.jpa;
 import com.commerce.notification.service.adapters.notification.jpa.entity.OrderNotificationEntity;
 import com.commerce.notification.service.adapters.notification.jpa.repository.OrderNotificationEntityRepository;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
-import com.commerce.notification.service.notification.entity.OrderNotification;
+import com.commerce.notification.service.notification.model.OrderNotification;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
 import org.springframework.stereotype.Service;
 

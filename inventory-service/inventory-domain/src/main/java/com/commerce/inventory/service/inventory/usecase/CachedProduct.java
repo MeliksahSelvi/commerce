@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @Created 11.03.2024
  */
 
+//todo maybe convert record
 public class CachedProduct implements UseCase, Serializable {
     private final Long productId;
     private int baseQuantity;

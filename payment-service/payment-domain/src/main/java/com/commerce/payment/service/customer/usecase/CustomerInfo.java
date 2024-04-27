@@ -1,7 +1,7 @@
 package com.commerce.payment.service.customer.usecase;
 
 import com.commerce.payment.service.common.model.UseCase;
-import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.model.Customer;
 
 /**
  * @Author mselvi

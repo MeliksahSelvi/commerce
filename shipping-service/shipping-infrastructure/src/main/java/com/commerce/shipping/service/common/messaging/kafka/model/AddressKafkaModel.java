@@ -1,6 +1,6 @@
 package com.commerce.shipping.service.common.messaging.kafka.model;
 
-import com.commerce.shipping.service.shipping.entity.Address;
+import com.commerce.shipping.service.shipping.model.Address;
 
 /**
  * @Author mselvi

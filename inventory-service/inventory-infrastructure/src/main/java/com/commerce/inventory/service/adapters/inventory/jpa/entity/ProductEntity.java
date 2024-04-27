@@ -1,10 +1,10 @@
 package com.commerce.inventory.service.adapters.inventory.jpa.entity;
 
-import com.commerce.inventory.service.common.model.AbstractEntity;
+import com.commerce.inventory.service.common.model.BaseEntity;
 import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.Quantity;
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "PRODUCT")
-public class ProductEntity extends AbstractEntity {
+public class ProductEntity extends BaseEntity {
 
     @Column(name = "NAME",nullable = false)
     private String name;

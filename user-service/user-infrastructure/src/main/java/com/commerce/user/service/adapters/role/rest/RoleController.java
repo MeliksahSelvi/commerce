@@ -5,7 +5,7 @@ import com.commerce.user.service.adapters.role.rest.dto.RoleSaveCommand;
 import com.commerce.user.service.adapters.role.rest.dto.RoleSaveResponse;
 import com.commerce.user.service.common.handler.UseCaseHandler;
 import com.commerce.user.service.common.handler.VoidUseCaseHandler;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import com.commerce.user.service.role.usecase.RoleDelete;
 import com.commerce.user.service.role.usecase.RoleRetrieve;
 import com.commerce.user.service.role.usecase.RoleSave;

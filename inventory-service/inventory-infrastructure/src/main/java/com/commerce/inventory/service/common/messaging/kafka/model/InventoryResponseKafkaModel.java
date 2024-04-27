@@ -2,7 +2,7 @@ package com.commerce.inventory.service.common.messaging.kafka.model;
 
 import com.commerce.inventory.service.common.valueobject.InventoryStatus;
 import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
+import com.commerce.inventory.service.outbox.model.OrderOutboxPayload;
 
 import java.util.List;
 import java.util.UUID;

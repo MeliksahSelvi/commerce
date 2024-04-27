@@ -1,6 +1,6 @@
 package com.commerce.notification.service.customer.adapters.messaging.adapter;
 
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 import com.commerce.notification.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.notification.service.customer.usecase.CustomerRetrieve;
 

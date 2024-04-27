@@ -1,7 +1,7 @@
 package com.commerce.notification.service.notification.adapters.messaging.adapter;
 
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
-import com.commerce.notification.service.notification.entity.OrderNotification;
+import com.commerce.notification.service.notification.model.OrderNotification;
 import com.commerce.notification.service.notification.port.jpa.OrderNotificationDataPort;
 
 import java.util.Optional;

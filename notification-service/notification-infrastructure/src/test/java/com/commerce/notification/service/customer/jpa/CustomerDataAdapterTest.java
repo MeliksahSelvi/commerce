@@ -3,7 +3,7 @@ package com.commerce.notification.service.customer.jpa;
 import com.commerce.notification.service.adapters.customer.jpa.CustomerDataAdapter;
 import com.commerce.notification.service.adapters.customer.jpa.entity.CustomerEntity;
 import com.commerce.notification.service.adapters.customer.jpa.repository.CustomerEntityRepository;
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 import com.commerce.notification.service.customer.usecase.CustomerRetrieve;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

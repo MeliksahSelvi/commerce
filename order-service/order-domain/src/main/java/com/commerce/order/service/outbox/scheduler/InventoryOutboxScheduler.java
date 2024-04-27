@@ -4,7 +4,7 @@ import com.commerce.order.service.common.DomainComponent;
 import com.commerce.order.service.common.outbox.OutboxScheduler;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutbox;
+import com.commerce.order.service.outbox.model.InventoryOutbox;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
 import com.commerce.order.service.order.port.messaging.output.InventoryRequestMessagePublisher;
 import org.slf4j.Logger;

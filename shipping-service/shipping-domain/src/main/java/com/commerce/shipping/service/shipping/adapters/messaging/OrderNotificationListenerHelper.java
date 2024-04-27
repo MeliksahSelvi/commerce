@@ -3,7 +3,7 @@ package com.commerce.shipping.service.shipping.adapters.messaging;
 import com.commerce.shipping.service.common.DomainComponent;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.port.jpa.ShippingDataPort;
 import com.commerce.shipping.service.shipping.usecase.OrderNotificationMessage;
 import org.slf4j.Logger;

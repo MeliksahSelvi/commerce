@@ -2,7 +2,7 @@ package com.commerce.notification.service.notification.usecase;
 
 import com.commerce.notification.service.common.model.UseCase;
 import com.commerce.notification.service.common.valueobject.NotificationType;
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 
 /**
  * @Author mselvi

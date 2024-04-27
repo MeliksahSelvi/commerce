@@ -1,7 +1,7 @@
 package com.commerce.user.service.adapters.user.jpa.entity;
 
-import com.commerce.user.service.common.model.AbstractEntity;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.common.model.BaseEntity;
+import com.commerce.user.service.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "\"user\"")
-public class UserEntity extends AbstractEntity {
+public class UserEntity extends BaseEntity {
 
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;

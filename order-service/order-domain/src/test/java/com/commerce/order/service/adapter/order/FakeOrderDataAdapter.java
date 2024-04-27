@@ -3,9 +3,9 @@ package com.commerce.order.service.adapter.order;
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.OrderStatus;
 import com.commerce.order.service.common.valueobject.Quantity;
-import com.commerce.order.service.order.entity.Address;
-import com.commerce.order.service.order.entity.Order;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.Address;
+import com.commerce.order.service.order.model.Order;
+import com.commerce.order.service.order.model.OrderItem;
 import com.commerce.order.service.order.port.jpa.OrderDataPort;
 
 import java.math.BigDecimal;

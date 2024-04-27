@@ -3,7 +3,7 @@ package com.commerce.inventory.service.adapter;
 import com.commerce.inventory.service.common.valueobject.Availability;
 import com.commerce.inventory.service.common.valueobject.Money;
 import com.commerce.inventory.service.common.valueobject.Quantity;
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import com.commerce.inventory.service.inventory.port.jpa.ProductDataPort;
 import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;

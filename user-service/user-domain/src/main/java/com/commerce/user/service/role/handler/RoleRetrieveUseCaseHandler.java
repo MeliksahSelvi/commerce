@@ -3,7 +3,7 @@ package com.commerce.user.service.role.handler;
 import com.commerce.user.service.common.DomainComponent;
 import com.commerce.user.service.common.exception.RoleNotFoundException;
 import com.commerce.user.service.common.handler.UseCaseHandler;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import com.commerce.user.service.role.port.RoleDataPort;
 import com.commerce.user.service.role.usecase.RoleRetrieve;
 import org.slf4j.Logger;

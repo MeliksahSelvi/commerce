@@ -1,7 +1,7 @@
 package com.commerce.order.service.order.port.messaging.output;
 
 import com.commerce.order.service.common.outbox.OutboxStatus;
-import com.commerce.order.service.outbox.entity.PaymentOutbox;
+import com.commerce.order.service.outbox.model.PaymentOutbox;
 
 import java.util.function.BiConsumer;
 

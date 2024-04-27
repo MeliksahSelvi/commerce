@@ -2,7 +2,7 @@ package com.commerce.user.service.role.handler;
 
 import com.commerce.user.service.common.DomainComponent;
 import com.commerce.user.service.common.handler.UseCaseHandler;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import com.commerce.user.service.role.handler.helper.RoleSaveHelper;
 import com.commerce.user.service.role.usecase.RoleSave;
 import org.slf4j.Logger;

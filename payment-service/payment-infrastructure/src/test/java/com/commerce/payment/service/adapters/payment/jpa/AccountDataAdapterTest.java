@@ -4,7 +4,7 @@ import com.commerce.payment.service.adapters.payment.jpa.entity.AccountEntity;
 import com.commerce.payment.service.adapters.payment.jpa.repository.AccountEntityRepository;
 import com.commerce.payment.service.common.valueobject.CurrencyType;
 import com.commerce.payment.service.common.valueobject.Money;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;

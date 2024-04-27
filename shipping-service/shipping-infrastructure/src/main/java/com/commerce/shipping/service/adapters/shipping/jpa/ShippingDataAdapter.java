@@ -5,9 +5,9 @@ import com.commerce.shipping.service.adapters.shipping.jpa.entity.OrderItemEntit
 import com.commerce.shipping.service.adapters.shipping.jpa.entity.ShippingEntity;
 import com.commerce.shipping.service.adapters.shipping.jpa.repository.ShippingEntityRepository;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.entity.Address;
-import com.commerce.shipping.service.shipping.entity.OrderItem;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Address;
+import com.commerce.shipping.service.shipping.model.OrderItem;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.port.jpa.ShippingDataPort;
 import org.springframework.stereotype.Service;
 

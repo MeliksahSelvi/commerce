@@ -2,7 +2,7 @@ package com.commerce.payment.service.payment.adapter;
 
 import com.commerce.payment.service.common.valueobject.Money;
 import com.commerce.payment.service.common.valueobject.PaymentStatus;
-import com.commerce.payment.service.payment.entity.Payment;
+import com.commerce.payment.service.payment.model.Payment;
 import com.commerce.payment.service.payment.port.jpa.PaymentDataPort;
 
 import java.math.BigDecimal;

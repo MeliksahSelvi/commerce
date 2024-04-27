@@ -1,6 +1,6 @@
 package com.commerce.inventory.service.inventory.port.jpa;
 
-import com.commerce.inventory.service.inventory.entity.Product;
+import com.commerce.inventory.service.inventory.model.Product;
 import com.commerce.inventory.service.inventory.usecase.ProductDelete;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieve;
 import com.commerce.inventory.service.inventory.usecase.ProductRetrieveAll;

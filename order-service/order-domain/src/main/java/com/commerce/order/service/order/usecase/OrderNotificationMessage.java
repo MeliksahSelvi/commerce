@@ -2,7 +2,7 @@ package com.commerce.order.service.order.usecase;
 
 import com.commerce.order.service.common.model.UseCase;
 import com.commerce.order.service.common.valueobject.NotificationType;
-import com.commerce.order.service.order.entity.Order;
+import com.commerce.order.service.order.model.Order;
 
 /**
  * @Author mselvi

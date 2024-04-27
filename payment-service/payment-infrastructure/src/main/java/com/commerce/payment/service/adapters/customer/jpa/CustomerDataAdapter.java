@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.jpa;
 
-import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.model.Customer;
 import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.payment.service.customer.usecase.CustomerDelete;
 import com.commerce.payment.service.customer.usecase.CustomerRetrieve;

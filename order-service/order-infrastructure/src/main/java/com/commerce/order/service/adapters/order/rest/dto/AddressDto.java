@@ -1,6 +1,6 @@
 package com.commerce.order.service.adapters.order.rest.dto;
 
-import com.commerce.order.service.order.entity.Address;
+import com.commerce.order.service.order.model.Address;
 import jakarta.validation.constraints.NotEmpty;
 
 /**

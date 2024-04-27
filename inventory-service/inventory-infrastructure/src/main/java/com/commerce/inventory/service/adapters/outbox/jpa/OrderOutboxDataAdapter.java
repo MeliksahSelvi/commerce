@@ -3,7 +3,7 @@ package com.commerce.inventory.service.adapters.outbox.jpa;
 import com.commerce.inventory.service.adapters.outbox.jpa.entity.OrderOutboxEntity;
 import com.commerce.inventory.service.adapters.outbox.jpa.repository.OrderOutboxEntityRepository;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
 import com.commerce.inventory.service.outbox.port.jpa.OrderOutboxDataPort;
 import org.springframework.stereotype.Service;
 

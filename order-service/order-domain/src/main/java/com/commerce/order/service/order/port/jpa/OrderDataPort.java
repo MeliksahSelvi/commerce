@@ -1,6 +1,6 @@
 package com.commerce.order.service.order.port.jpa;
 
-import com.commerce.order.service.order.entity.Order;
+import com.commerce.order.service.order.model.Order;
 
 import java.util.Optional;
 

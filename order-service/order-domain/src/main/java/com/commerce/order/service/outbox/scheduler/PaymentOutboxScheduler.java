@@ -4,7 +4,7 @@ import com.commerce.order.service.common.DomainComponent;
 import com.commerce.order.service.common.outbox.OutboxScheduler;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
-import com.commerce.order.service.outbox.entity.PaymentOutbox;
+import com.commerce.order.service.outbox.model.PaymentOutbox;
 import com.commerce.order.service.outbox.port.jpa.PaymentOutboxDataPort;
 import com.commerce.order.service.order.port.messaging.output.PaymentRequestMessagePublisher;
 import org.slf4j.Logger;

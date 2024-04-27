@@ -1,7 +1,7 @@
 package com.commerce.order.service.common.messaging.kafka.model;
 
 import com.commerce.order.service.common.valueobject.OrderPaymentStatus;
-import com.commerce.order.service.outbox.entity.PaymentOutboxPayload;
+import com.commerce.order.service.outbox.model.PaymentOutboxPayload;
 
 import java.math.BigDecimal;
 

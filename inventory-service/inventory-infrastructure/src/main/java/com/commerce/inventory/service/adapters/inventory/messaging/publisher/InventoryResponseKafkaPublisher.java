@@ -6,8 +6,8 @@ import com.commerce.inventory.service.common.messaging.kafka.producer.KafkaProdu
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
 import com.commerce.inventory.service.inventory.port.json.JsonPort;
 import com.commerce.inventory.service.inventory.port.messaging.output.InventoryResponseMessagePublisher;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
-import com.commerce.inventory.service.outbox.entity.OrderOutboxPayload;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutboxPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

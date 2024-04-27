@@ -5,7 +5,7 @@ import com.commerce.order.service.common.outbox.OutboxScheduler;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutbox;
+import com.commerce.order.service.outbox.model.InventoryOutbox;
 import com.commerce.order.service.outbox.port.jpa.InventoryOutboxDataPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

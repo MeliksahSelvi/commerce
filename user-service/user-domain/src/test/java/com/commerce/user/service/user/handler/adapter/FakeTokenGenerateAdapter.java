@@ -1,6 +1,6 @@
 package com.commerce.user.service.user.handler.adapter;
 
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.port.security.TokenGeneratePort;
 import com.commerce.user.service.user.usecase.JwtToken;
 import org.springframework.beans.factory.annotation.Value;

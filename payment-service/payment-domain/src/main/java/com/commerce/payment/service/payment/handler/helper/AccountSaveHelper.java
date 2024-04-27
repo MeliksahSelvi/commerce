@@ -1,11 +1,11 @@
 package com.commerce.payment.service.payment.handler.helper;
 
-import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.model.Customer;
 import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.payment.service.customer.usecase.CustomerRetrieve;
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.CustomerNotFoundException;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import com.commerce.payment.service.payment.port.generate.RandomGeneratePort;
 import com.commerce.payment.service.payment.port.jpa.AccountDataPort;
 import com.commerce.payment.service.payment.usecase.AccountSave;

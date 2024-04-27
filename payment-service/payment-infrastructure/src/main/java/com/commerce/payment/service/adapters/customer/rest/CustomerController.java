@@ -1,6 +1,6 @@
 package com.commerce.payment.service.adapters.customer.rest;
 
-import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.model.Customer;
 import com.commerce.payment.service.customer.usecase.CustomerDelete;
 import com.commerce.payment.service.customer.usecase.CustomerRetrieve;
 import com.commerce.payment.service.customer.usecase.CustomerRetrieveAll;

@@ -1,6 +1,6 @@
 package com.commerce.shipping.service.common.messaging.kafka.model;
 
-import com.commerce.shipping.service.shipping.entity.OrderItem;
+import com.commerce.shipping.service.shipping.model.OrderItem;
 
 import java.math.BigDecimal;
 

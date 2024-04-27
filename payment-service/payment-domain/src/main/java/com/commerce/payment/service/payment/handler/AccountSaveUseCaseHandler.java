@@ -2,7 +2,7 @@ package com.commerce.payment.service.payment.handler;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.handler.UseCaseHandler;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import com.commerce.payment.service.payment.handler.helper.AccountSaveHelper;
 import com.commerce.payment.service.payment.usecase.AccountSave;
 import org.slf4j.Logger;

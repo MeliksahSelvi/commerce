@@ -5,8 +5,8 @@ import com.commerce.payment.service.common.messaging.kafka.model.PaymentResponse
 import com.commerce.payment.service.common.messaging.kafka.producer.KafkaProducer;
 import com.commerce.payment.service.common.outbox.OutboxStatus;
 import com.commerce.payment.service.common.valueobject.PaymentStatus;
-import com.commerce.payment.service.outbox.entity.OrderOutbox;
-import com.commerce.payment.service.outbox.entity.OrderOutboxPayload;
+import com.commerce.payment.service.outbox.model.OrderOutbox;
+import com.commerce.payment.service.outbox.model.OrderOutboxPayload;
 import com.commerce.payment.service.payment.port.json.JsonPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

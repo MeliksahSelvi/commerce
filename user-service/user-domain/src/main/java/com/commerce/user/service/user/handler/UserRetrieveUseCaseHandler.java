@@ -3,7 +3,7 @@ package com.commerce.user.service.user.handler;
 import com.commerce.user.service.common.DomainComponent;
 import com.commerce.user.service.common.exception.UserNotFoundException;
 import com.commerce.user.service.common.handler.UseCaseHandler;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.port.jpa.UserDataPort;
 import com.commerce.user.service.user.usecase.UserRetrieve;
 import org.slf4j.Logger;

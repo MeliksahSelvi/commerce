@@ -2,7 +2,7 @@ package com.commerce.notification.service.adapters.customer.jpa;
 
 import com.commerce.notification.service.adapters.customer.jpa.entity.CustomerEntity;
 import com.commerce.notification.service.adapters.customer.jpa.repository.CustomerEntityRepository;
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 import com.commerce.notification.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.notification.service.customer.usecase.CustomerRetrieve;
 import org.springframework.stereotype.Service;

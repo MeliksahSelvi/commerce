@@ -4,7 +4,7 @@ import com.commerce.order.service.adapters.outbox.jpa.entity.PaymentOutboxEntity
 import com.commerce.order.service.adapters.outbox.jpa.repository.PaymentOutboxEntityRepository;
 import com.commerce.order.service.common.outbox.OutboxStatus;
 import com.commerce.order.service.common.saga.SagaStatus;
-import com.commerce.order.service.outbox.entity.PaymentOutbox;
+import com.commerce.order.service.outbox.model.PaymentOutbox;
 import com.commerce.order.service.outbox.port.jpa.PaymentOutboxDataPort;
 import org.springframework.stereotype.Service;
 

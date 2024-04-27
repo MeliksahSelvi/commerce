@@ -1,10 +1,8 @@
 package com.commerce.inventory.service.adapters.outbox.jpa.entity;
 
-import com.commerce.inventory.service.common.model.AbstractEntity;
+import com.commerce.inventory.service.common.model.BaseEntity;
 import com.commerce.inventory.service.common.outbox.OutboxStatus;
-import com.commerce.inventory.service.common.valueobject.InventoryStatus;
-import com.commerce.inventory.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.inventory.service.outbox.entity.OrderOutbox;
+import com.commerce.inventory.service.outbox.model.OrderOutbox;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -16,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "ORDER_OUTBOX")
-public class OrderOutboxEntity extends AbstractEntity {
+public class OrderOutboxEntity extends BaseEntity {
 
     @Column(name = "SAGA_ID",nullable = false)
     private UUID sagaId;

@@ -1,7 +1,7 @@
 package com.commerce.shipping.service.adapters.shipping.rest.dto;
 
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 
 /**
  * @Author mselvi

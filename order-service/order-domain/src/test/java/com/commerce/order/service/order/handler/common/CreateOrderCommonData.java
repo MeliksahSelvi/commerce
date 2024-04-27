@@ -2,8 +2,8 @@ package com.commerce.order.service.order.handler.common;
 
 import com.commerce.order.service.common.valueobject.Money;
 import com.commerce.order.service.common.valueobject.Quantity;
-import com.commerce.order.service.order.entity.Address;
-import com.commerce.order.service.order.entity.OrderItem;
+import com.commerce.order.service.order.model.Address;
+import com.commerce.order.service.order.model.OrderItem;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.commerce.notification.service.adapters.notification.jpa.entity;
 
-import com.commerce.notification.service.common.model.AbstractEntity;
+import com.commerce.notification.service.common.model.BaseEntity;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
-import com.commerce.notification.service.notification.entity.OrderNotification;
+import com.commerce.notification.service.notification.model.OrderNotification;
 import jakarta.persistence.*;
 
 /**
@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ORDER_NOTIFICATION")
-public class OrderNotificationEntity extends AbstractEntity {
+public class OrderNotificationEntity extends BaseEntity {
 
     @Column(name = "ORDER_ID",unique = true,nullable = false)
     private Long orderId;

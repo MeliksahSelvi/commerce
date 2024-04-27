@@ -1,7 +1,7 @@
 package com.commerce.payment.service.adapters.customer.jpa.entity;
 
-import com.commerce.payment.service.customer.entity.Customer;
-import com.commerce.payment.service.common.model.AbstractEntity;
+import com.commerce.payment.service.customer.model.Customer;
+import com.commerce.payment.service.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CUSTOMER")
-public class CustomerEntity extends AbstractEntity {
+public class CustomerEntity extends BaseEntity {
 
     @Column(name = "FIRST_NAME", length = 100, nullable = false)
     private String firstName;

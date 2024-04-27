@@ -1,6 +1,6 @@
 package com.commerce.payment.service.payment.port.jpa;
 
-import com.commerce.payment.service.payment.entity.AccountActivity;
+import com.commerce.payment.service.payment.model.AccountActivity;
 
 /**
  * @Author mselvi

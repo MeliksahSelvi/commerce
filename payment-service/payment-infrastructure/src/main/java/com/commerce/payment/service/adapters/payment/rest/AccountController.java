@@ -4,7 +4,7 @@ import com.commerce.payment.service.adapters.payment.rest.dto.AccountResponse;
 import com.commerce.payment.service.adapters.payment.rest.dto.AccountSaveCommand;
 import com.commerce.payment.service.common.handler.UseCaseHandler;
 import com.commerce.payment.service.common.handler.VoidUseCaseHandler;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 import com.commerce.payment.service.payment.usecase.AccountDelete;
 import com.commerce.payment.service.payment.usecase.AccountRetrieve;
 import com.commerce.payment.service.payment.usecase.AccountRetrieveAll;

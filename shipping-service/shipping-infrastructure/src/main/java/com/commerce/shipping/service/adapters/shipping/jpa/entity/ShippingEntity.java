@@ -1,8 +1,8 @@
 package com.commerce.shipping.service.adapters.shipping.jpa.entity;
 
-import com.commerce.shipping.service.common.model.AbstractEntity;
+import com.commerce.shipping.service.common.model.BaseEntity;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "SHIPPING")
-public class ShippingEntity extends AbstractEntity {
+public class ShippingEntity extends BaseEntity {
 
     @Column(name = "ORDER_ID",nullable = false)
     private Long orderId;

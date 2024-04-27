@@ -2,7 +2,7 @@ package com.commerce.notification.service.notification.mail;
 
 import com.commerce.notification.service.adapters.notification.mail.SpringMailAdapter;
 import com.commerce.notification.service.common.valueobject.NotificationType;
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 import com.commerce.notification.service.notification.usecase.MailContent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.commerce.order.service.adapters.order.rest.dto;
 
 import com.commerce.order.service.common.valueobject.OrderStatus;
-import com.commerce.order.service.order.entity.Order;
+import com.commerce.order.service.order.model.Order;
 
 /**
  * @Author mselvi

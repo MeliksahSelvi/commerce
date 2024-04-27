@@ -3,7 +3,7 @@ package com.commerce.user.service.adapters.role.jpa;
 import com.commerce.user.service.adapters.role.jpa.entity.RoleEntity;
 import com.commerce.user.service.adapters.role.jpa.repository.RoleEntityRepository;
 import com.commerce.user.service.common.valueobject.RoleType;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import com.commerce.user.service.role.usecase.RoleDelete;
 import com.commerce.user.service.role.usecase.RoleRetrieve;
 import org.junit.jupiter.api.Test;

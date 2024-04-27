@@ -1,7 +1,7 @@
 package com.commerce.order.service.common.messaging.kafka.model;
 
 import com.commerce.order.service.common.valueobject.OrderInventoryStatus;
-import com.commerce.order.service.outbox.entity.InventoryOutboxPayload;
+import com.commerce.order.service.outbox.model.InventoryOutboxPayload;
 
 import java.math.BigDecimal;
 import java.util.List;

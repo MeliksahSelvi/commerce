@@ -4,7 +4,7 @@ import com.commerce.shipping.service.common.DomainComponent;
 import com.commerce.shipping.service.common.exception.ShippingNotFoundException;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.port.jpa.ShippingDataPort;
 import com.commerce.shipping.service.shipping.port.messaging.output.OrderNotificationMessagePublisher;
 import com.commerce.shipping.service.shipping.usecase.ForwardProcess;

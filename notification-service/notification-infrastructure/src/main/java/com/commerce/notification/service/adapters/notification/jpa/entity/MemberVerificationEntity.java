@@ -1,7 +1,7 @@
 package com.commerce.notification.service.adapters.notification.jpa.entity;
 
-import com.commerce.notification.service.common.model.AbstractEntity;
-import com.commerce.notification.service.notification.entity.MemberVerification;
+import com.commerce.notification.service.common.model.BaseEntity;
+import com.commerce.notification.service.notification.model.MemberVerification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "MEMBER_VERIFICATION")
-public class MemberVerificationEntity extends AbstractEntity {
+public class MemberVerificationEntity extends BaseEntity {
 
     @Column(name = "USER_ID",nullable = false)
     private Long userId;

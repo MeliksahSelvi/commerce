@@ -4,8 +4,8 @@ import com.commerce.shipping.service.common.messaging.kafka.model.NotificationRe
 import com.commerce.shipping.service.common.messaging.kafka.producer.KafkaProducerWithoutCallback;
 import com.commerce.shipping.service.common.valueobject.DeliveryStatus;
 import com.commerce.shipping.service.common.valueobject.NotificationType;
-import com.commerce.shipping.service.shipping.entity.Address;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Address;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.usecase.OrderNotificationMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

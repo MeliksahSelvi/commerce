@@ -2,7 +2,7 @@ package com.commerce.shipping.service.shipping.handler;
 
 import com.commerce.shipping.service.common.DomainComponent;
 import com.commerce.shipping.service.common.handler.UseCaseHandler;
-import com.commerce.shipping.service.shipping.entity.Shipping;
+import com.commerce.shipping.service.shipping.model.Shipping;
 import com.commerce.shipping.service.shipping.handler.helper.ForwardProcessHelper;
 import com.commerce.shipping.service.shipping.usecase.ForwardProcess;
 import org.slf4j.Logger;

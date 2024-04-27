@@ -1,7 +1,7 @@
 package com.commerce.notification.service.customer.adapters.messaging.helper;
 
 import com.commerce.notification.service.common.DomainComponent;
-import com.commerce.notification.service.customer.entity.Customer;
+import com.commerce.notification.service.customer.model.Customer;
 import com.commerce.notification.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.notification.service.customer.usecase.CustomerInfo;
 import org.slf4j.Logger;

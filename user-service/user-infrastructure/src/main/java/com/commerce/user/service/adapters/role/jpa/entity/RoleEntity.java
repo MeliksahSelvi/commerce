@@ -1,8 +1,8 @@
 package com.commerce.user.service.adapters.role.jpa.entity;
 
-import com.commerce.user.service.common.model.AbstractEntity;
+import com.commerce.user.service.common.model.BaseEntity;
 import com.commerce.user.service.common.valueobject.RoleType;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 import jakarta.persistence.*;
 
 /**
@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ROLE")
-public class RoleEntity extends AbstractEntity {
+public class RoleEntity extends BaseEntity {
 
     @Column(name = "ROLE_TYPE",nullable = false,unique = true)
     @Enumerated(EnumType.STRING)

@@ -2,7 +2,7 @@ package com.commerce.user.service.user.handler.helper;
 
 import com.commerce.user.service.common.DomainComponent;
 import com.commerce.user.service.common.exception.UserNotFoundException;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.port.jpa.UserDataPort;
 import com.commerce.user.service.user.usecase.UserDelete;
 import com.commerce.user.service.user.usecase.UserRetrieve;

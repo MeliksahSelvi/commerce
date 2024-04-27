@@ -1,7 +1,7 @@
 package com.commerce.user.service.adapters.role.rest.dto;
 
 import com.commerce.user.service.common.valueobject.RoleType;
-import com.commerce.user.service.role.entity.Role;
+import com.commerce.user.service.role.model.Role;
 
 /**
  * @Author mselvi

@@ -4,7 +4,7 @@ import com.commerce.notification.service.adapters.notification.jpa.OrderNotifica
 import com.commerce.notification.service.adapters.notification.jpa.entity.OrderNotificationEntity;
 import com.commerce.notification.service.adapters.notification.jpa.repository.OrderNotificationEntityRepository;
 import com.commerce.notification.service.common.valueobject.NotificationStatus;
-import com.commerce.notification.service.notification.entity.OrderNotification;
+import com.commerce.notification.service.notification.model.OrderNotification;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

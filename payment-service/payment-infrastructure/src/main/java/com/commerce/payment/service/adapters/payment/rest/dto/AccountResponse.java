@@ -1,7 +1,7 @@
 package com.commerce.payment.service.adapters.payment.rest.dto;
 
 import com.commerce.payment.service.common.valueobject.CurrencyType;
-import com.commerce.payment.service.payment.entity.Account;
+import com.commerce.payment.service.payment.model.Account;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

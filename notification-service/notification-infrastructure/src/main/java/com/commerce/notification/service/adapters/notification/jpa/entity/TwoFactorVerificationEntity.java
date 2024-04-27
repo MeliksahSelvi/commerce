@@ -1,8 +1,8 @@
 package com.commerce.notification.service.adapters.notification.jpa.entity;
 
-import com.commerce.notification.service.common.model.AbstractEntity;
+import com.commerce.notification.service.common.model.BaseEntity;
 import com.commerce.notification.service.common.valueobject.VerificationCode;
-import com.commerce.notification.service.notification.entity.TwoFactorVerification;
+import com.commerce.notification.service.notification.model.TwoFactorVerification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TWO_FACTOR_VERIFICATION")
-public class TwoFactorVerificationEntity extends AbstractEntity {
+public class TwoFactorVerificationEntity extends BaseEntity {
 
     @Column(name = "USER_ID",nullable = false)
     private Long userId;

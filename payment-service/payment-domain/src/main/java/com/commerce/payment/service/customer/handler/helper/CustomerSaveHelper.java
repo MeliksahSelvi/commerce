@@ -2,7 +2,7 @@ package com.commerce.payment.service.customer.handler.helper;
 
 import com.commerce.payment.service.common.DomainComponent;
 import com.commerce.payment.service.common.exception.PaymentDomainException;
-import com.commerce.payment.service.customer.entity.Customer;
+import com.commerce.payment.service.customer.model.Customer;
 import com.commerce.payment.service.customer.port.jpa.CustomerDataPort;
 import com.commerce.payment.service.customer.port.security.EncryptingPort;
 import com.commerce.payment.service.customer.usecase.CustomerInfo;

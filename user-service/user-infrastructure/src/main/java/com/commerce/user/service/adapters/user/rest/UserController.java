@@ -3,7 +3,7 @@ package com.commerce.user.service.adapters.user.rest;
 import com.commerce.user.service.adapters.user.rest.dto.UserResponse;
 import com.commerce.user.service.common.handler.UseCaseHandler;
 import com.commerce.user.service.common.handler.VoidUseCaseHandler;
-import com.commerce.user.service.user.entity.User;
+import com.commerce.user.service.user.model.User;
 import com.commerce.user.service.user.usecase.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
