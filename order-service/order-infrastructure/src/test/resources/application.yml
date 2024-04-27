@@ -5,6 +5,7 @@ eureka:
 
 
 order-service:
+  order-query-topic-name: order-query
   inventory-request-topic-name: inventory-request
   inventory-response-topic-name: inventory-response
   payment-request-topic-name: payment-request
