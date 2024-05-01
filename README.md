@@ -14,6 +14,7 @@ This project will be the biggest project in my software adventure. This adventur
 <li>Spring Boot 3.2.3</li>
 <li>Spring Cloud 4.1.0</li>
 <li>Kafka 7.0.1</li>
+<li>Elasticsearch 7.17.4</li>  
 <li>Redis</li>
 </ul>
 
