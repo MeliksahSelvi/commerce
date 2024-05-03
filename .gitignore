@@ -4,6 +4,27 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### COMMERCE ###
+/config-server-repository/
+/docker-compose/
+api-gateway/src/main/resources/
+config-server/src/main/resources/
+discovery-server/src/main/resources/
+inventory-service/inventory-infrastructure/src/main/resources/
+inventory-service/inventory-infrastructure/src/test/resources/
+notification-service/notification-infrastructure/src/main/resources/
+notification-service/notification-infrastructure/src/test/resources/
+order-query-service/order-query-infrastructure/src/main/resources/
+order-query-service/order-query-infrastructure/src/test/resources/
+order-service/order-infrastructure/src/main/resources/
+order-service/order-infrastructure/src/test/resources/
+payment-service/payment-infrastructure/src/main/resources/
+payment-service/payment-infrastructure/src/test/resources/
+shipping-service/shipping-infrastructure/src/main/resources/
+shipping-service/shipping-infrastructure/src/test/resources/
+user-service/user-infrastructure/src/main/resources/
+user-service/user-infrastructure/src/test/resources/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,5 +52,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/config-server-repository/
-/docker-compose/
+
